@@ -46,7 +46,17 @@ export class AuthService {
     return observable;
   }
 
+  register(name: String, email: String, password: String ): Observable<any> {
+    
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
 
+    const observable = this.http.post(Util_Constants.API_URL + 'user/register ', {name, email, password}, headers);
+    return observable;
+  }
 
   logOut() {
     sessionStorage.removeItem('token');

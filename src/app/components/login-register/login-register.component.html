@@ -14,13 +14,13 @@
         </div>
         
         <div class="form-container sign-up-container">
-            <form action="#">
+            <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
                 <h2>Create Account</h2>
                 <span>complete the bellow fields</span>
-                <input type="text" placeholder="Name" />
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
-                <button>Sign Up</button>
+                <input type="text" placeholder="Name" formControlName="register_name"/>
+                <input type="email" placeholder="Email" formControlName="register_email"/>
+                <input type="password" placeholder="Password" formControlName="register_password"/>
+                <button type="submit">Sign Up</button>
             </form>
         </div>
         
