@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/auth/auth.service';
 import { LoginUser } from 'src/app/models/login-user';
 import { User } from 'src/app/models/user';
@@ -33,7 +34,8 @@ export class LoginRegisterComponent implements OnInit {
 
   constructor(private authService: AuthService, 
               private router: Router,
-              private render: Renderer2) { }
+              private render: Renderer2,
+              private toast: NgToastService) { }
 
   ngOnInit(): void {
     const signUpButton = document.getElementById("signUp");
@@ -71,9 +73,14 @@ export class LoginRegisterComponent implements OnInit {
         else
           this.router.navigateByUrl('/user/login');
       }
+      this.toast.success({ detail: "LOGIN SUCCESS", 
+                           summary: "It's good to see you here.", 
+                           position: 'br', duration: 6000 })
     },
-    (error) => {
-      console.log('LOGIN ERROR: ' + error);
+    (apiError) => {
+      this.toast.error({ detail: apiError.error.message, 
+                         summary: apiError.error.errors[0],
+                         position: 'br', duration: 6000 })
     });
   }
 
@@ -84,9 +91,14 @@ export class LoginRegisterComponent implements OnInit {
 
     //calling again to login method telling that the user is new
     this.loginUser(false);
+    this.toast.success({ detail: "REGISTER SUCCESS",
+                         summary: "Welcome to the jungle.",
+                         position: 'br', duration: 6000 })
     },
-    (error) => {
-      console.log('REGISTER ERROR: ' + error);
+    (apiError) => {
+      this.toast.error({ detail: apiError.error.message,
+                         summary: apiError.error.errors[0],
+                         position: 'br', duration: 6000 })
     });
   }
   
