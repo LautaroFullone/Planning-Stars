@@ -65,7 +65,6 @@ export class LoginRegisterComponent implements OnInit {
 
       if(this.authService.token) {
         this.userLogged = this.authService.getUser();
-        //this.router.navigateByUrl('/products');
         let redirectUrl = this.authService.getRedirectUrl();
 
         if (redirectUrl != '')
