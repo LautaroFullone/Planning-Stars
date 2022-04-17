@@ -1,26 +1,26 @@
-<div class="body">
+<div class="body" >
     <div class="container" id="container">
         
         <div class="form-container sign-in-container">
-            <form action="#">
+            <form [formGroup]="loginForm" (ngSubmit)="loginUser()" >
                 <h2>Sign in</h2>
                 
                 <span>complete the bellow fields</span>
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
+                <input type="email" placeholder="Email" formControlName="login_email"/>
+                <input type="password" placeholder="Password" formControlName="login_password"/>
                 <a href="#">Forgot your password?</a>
-                <button>Sign In</button>
+                <button class="submit" type="submit" >Sign In</button>
             </form>
         </div>
         
         <div class="form-container sign-up-container">
-            <form action="#">
+            <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
                 <h2>Create Account</h2>
                 <span>complete the bellow fields</span>
-                <input type="text" placeholder="Name" />
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
-                <button>Sign Up</button>
+                <input type="text" placeholder="Name" formControlName="register_name"/>
+                <input type="email" placeholder="Email" formControlName="register_email"/>
+                <input type="password" placeholder="Password" formControlName="register_password"/>
+                <button class="submit" type="submit">Sign Up</button>
             </form>
         </div>
         
@@ -29,16 +29,15 @@
                 <div class="overlay-panel overlay-left">
                     <h2>Welcome Back!</h2>
                     <p>To start planning please enter your personal info!</p>
-                    <button class="ghost" id="signIn">Sign In</button>
+                    <button class="ghost" id="signIn">Sign In</button> <!--TRANSITION BUTTON--> 
                 </div>
                 <div class="overlay-panel overlay-right">
                     <h2>Hello, Friend!</h2>
                     <p>Enter your personal details and continue planning!</p>
-                    <button class="ghost" id="signUp">Sign Up</button>
+                    <button class="ghost" id="signUp">Sign Up</button> <!--TRANSITION BUTTON-->
                 </div>
             </div>
         </div>
     </div>
     
 </div>
-
