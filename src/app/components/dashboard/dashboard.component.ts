@@ -14,11 +14,11 @@ export class DashboardComponent implements OnInit {
   constructor(private testingService: TestingServiceService) { }
 
   ngOnInit(): void {
-    this.testingService.getUsers().subscribe((response) => {
+    /*this.testingService.getUsers().subscribe((response) => {
       console.log('---RESPONSE---');
       console.log(response);
       this.usersList = response;
-    });
+    });*/
 
   }
 

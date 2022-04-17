@@ -8,8 +8,8 @@ import { NavBarComponent } from '../components/nav-bar/nav-bar.component';
 const routes: Routes = [
   { path: 'login', component: LoginRegisterComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
-  { path: '**', redirectTo: '', pathMatch: 'full'}
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+  { path: '**', redirectTo: '/dashboard', pathMatch: 'full'}
   
 ];
 
