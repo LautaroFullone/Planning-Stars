@@ -2,10 +2,55 @@
     <a [routerLink]="['/dashboard']" routerLinkActive="active" class="logo">PLANNING-STARS</a>
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Join Party</a></li>
-            <li><a href="#">Create Party</a></li>
+            <li><a data-bs-toggle="modal" data-bs-target="#joinPartyModal">Join Party</a></li>
+            <li><a data-bs-toggle="modal" data-bs-target="#createPartyModal">Create Party</a></li>
             <li><a href="#">About</a></li>
         </ul>
     </nav>
-    <a href="#" class="cta"><button>Config</button></a>
+    <button class="myButton">Config</button>
 </header>
+
+
+<!-- Join Party Modal -->
+<div class="modal fade" id="joinPartyModal" tabindex="-1" role="dialog" aria-labelledby="joinPartyModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Join Party</h5>
+        <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </a>
+      </div>
+      <div class="modal-body">
+        ...sdfsdfsdf
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Party Modal -->
+<div class="modal fade" id="createPartyModal" tabindex="-1" role="dialog" aria-labelledby="createPartyModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Create Party</h5>
+        <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </a>
+      </div>
+      <div class="modal-body">
+        ...sdfsdfsdf
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
