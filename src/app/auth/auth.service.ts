@@ -34,6 +34,7 @@ export class AuthService {
             this.user = response['userDetails'];
 
             sessionStorage.setItem('token', this.token);
+            sessionStorage.setItem('username', this.user.name);
 
             this.redirectUrl = '/dashboard';
 
@@ -59,7 +60,9 @@ export class AuthService {
 
     logOut() {
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('username');
         this.token = null;
+        this.user = null;
 
         this.router.navigateByUrl("/login");
     }
@@ -75,7 +78,7 @@ export class AuthService {
         else {
             //TODO-> LLAMADA A GET BY ID
             let calluser = new User();
-            calluser.name = 'juan';
+            calluser.name = sessionStorage.getItem('username');
 
             this.user = calluser;
             return calluser;
