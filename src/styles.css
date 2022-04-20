@@ -28,11 +28,20 @@
 .primary-button:focus {
 	outline: none;
 }
+.primary-button:disabled {
+	color: #FFFFFF;
+    background-color: #ff4b2b77;
+    border-color: #ff4b2b00;
+}
+
 .ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
-
+.ghost:hover {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
 
 .dropdown-toggle::after {
     font-size: 15px;

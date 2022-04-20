@@ -9,8 +9,7 @@
 	align-items: center;
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
-	height: 92vh;
-	/*margin: -20px 0 50px;*/
+	height: 100vh;
 }
 
 h2 {
@@ -132,7 +131,7 @@ input {
 }
 
 .overlay {
-	     background: #8A2387;  
+	background: #8A2387;  
     background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);  
     background: linear-gradient(to right, #F27121, #E94057, #8A2387); 
 	background-repeat: no-repeat;
@@ -221,4 +220,17 @@ footer i {
 footer a {
     color: #3c97bf;
     text-decoration: none;
+}
+
+small i{
+	color: red;
+}
+
+.alert{
+	padding:0%;
+	margin: 0%;
+}
+
+hr:not([size]) {
+    height: 1px;
 }

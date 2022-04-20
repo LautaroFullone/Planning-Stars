@@ -17,15 +17,15 @@ export class LoginRegisterComponent implements OnInit {
     userLogged = new User(); //usuario que se logueo
 
     loginForm = new FormGroup({
-        login_email: new FormControl('', Validators.required),
+        login_email: new FormControl('', [Validators.required, Validators.email]),
         login_password: new FormControl('', [Validators.required, Validators.minLength(3)]),
     });
     get login_email() { return this.loginForm.get('login_email').value; }
     get login_password() { return this.loginForm.get('login_password').value; }
 
     registerForm = new FormGroup({
-        register_name: new FormControl('', Validators.required),
-        register_email: new FormControl('', Validators.required),
+        register_name: new FormControl('', [Validators.required, Validators.maxLength(15)]),
+        register_email: new FormControl('', [Validators.required, Validators.email]),
         register_password: new FormControl('', [Validators.required, Validators.minLength(3)]),
     });
     get register_name() { return this.registerForm.get('register_name').value; }
@@ -108,6 +108,5 @@ export class LoginRegisterComponent implements OnInit {
                     })
                 });
     }
-
 
 }
