@@ -10,6 +10,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { InterceptorService } from './auth/interceptor.service';
+import { PartyModalsComponent } from './components/party-modals/party-modals.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { InterceptorService } from './auth/interceptor.service';
     AppComponent,
     LoginRegisterComponent,
     DashboardComponent,
-    NavBarComponent
+    NavBarComponent,
+    PartyModalsComponent
   ],
   imports: [
     BrowserModule,

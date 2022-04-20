@@ -1,13 +1,5 @@
 
 
-li, a, .myButton{
-    font-family:'Montserrat', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    color: #EDF0F1;
-    text-decoration: none;
-    cursor: pointer;
-}
 
 header{
     display: flex;
@@ -16,6 +8,7 @@ header{
     padding: 15px 7%;
     background-color: #24252A;
 }
+
 ul{
     margin: 0;
 }
@@ -23,6 +16,14 @@ ul{
 .logo{
     cursor: pointer;
     font-weight: bolder;
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 16px;
+    color: #EDF0F1;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-links{
@@ -42,28 +43,4 @@ ul{
     color: #FF4B2B;
 }
 
-.myButton{
-    padding: 9px 25px;
-    background-color: #FF4B2B;;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
 
-.myButton:hover{
-    background-color: #bd3820;
-}
-
-.closeButton{
-    float: right;
-    font-size: 30px;
-    font-weight: 500;
-    line-height: 1;
-    color: #808080;
-    text-shadow: 0 1px 0 #fff;
-}
-
-.closeButton:hover{
-    color: rgb(0, 0, 0);
-}
