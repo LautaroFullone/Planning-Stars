@@ -1,6 +1,7 @@
 <div class="body" >
     <div class="container" id="container">
         
+        <!-- LOGIN FORM START-->
         <div class="form-container sign-in-container">
             <form [formGroup]="loginForm" (ngSubmit)="loginUser()" >
                 <h2>Sign in</h2> 
@@ -8,10 +9,32 @@
                 <input type="email" placeholder="Email" formControlName="login_email"/>
                 <input type="password" placeholder="Password" formControlName="login_password"/>
                 <a href="#">Forgot your password?</a>
-                <button class="primary-button" type="submit" >Sign In</button>
+                <button class="primary-button" type="submit" [disabled]="!loginForm.valid" >Sign In</button>
+
+                <div *ngIf="loginForm.controls"> <hr> </div>
+                
+                <div *ngIf="loginForm.controls['login_email'].invalid && (loginForm.controls['login_email'].dirty || loginForm.controls['login_email'].touched)" class="alert">
+                    <div *ngIf="loginForm.controls['login_email'].errors['required']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide an email!</small>
+                    </div>
+                    <div *ngIf="loginForm.controls['login_email'].errors['email']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter valid email format!</small>
+                    </div>
+                </div>
+
+                <div *ngIf="loginForm.controls['login_password'].invalid && (loginForm.controls['login_password'].dirty || loginForm.controls['login_password'].touched)" class="alert">
+                    <div *ngIf="loginForm.controls['login_password'].errors['required']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a password!</small>
+                    </div>
+                    <div *ngIf="loginForm.controls['login_password'].errors['minlength']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter a password longer than {{loginForm.controls['login_password'].errors['minlength'].requiredLength}} characters!</small>
+                    </div>
+                </div>
             </form>
         </div>
+        <!-- LOGIN FORM END-->
         
+        <!-- REGISTER FORM START-->
         <div class="form-container sign-up-container">
             <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
                 <h2>Create Account</h2>
@@ -19,19 +42,49 @@
                 <input type="text" placeholder="Name" formControlName="register_name"/>
                 <input type="email" placeholder="Email" formControlName="register_email"/>
                 <input type="password" placeholder="Password" formControlName="register_password"/>
-                <button class="primary-button" type="submit">Sign Up</button>
+                <button type="submit" class="primary-button" [disabled]="!registerForm.valid">Sign Up</button>
+                
+                <div *ngIf="registerForm.controls"> <hr></div>
+
+                <div *ngIf="registerForm.controls['register_name'].invalid && (registerForm.controls['register_name'].dirty || registerForm.controls['register_name'].touched)" class="alert">
+                    <div *ngIf="registerForm.controls['register_name'].errors['required']">
+                        <small class ="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a user name!</small>
+                    </div>
+                    <div *ngIf="registerForm.controls['register_name'].errors['maxlength']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a name fewer than {{registerForm.controls['register_name'].errors['maxlength'].requiredLength}} characters!</small>
+                    </div>
+                </div>
+
+                <div *ngIf="registerForm.controls['register_email'].invalid && (registerForm.controls['register_email'].dirty || registerForm.controls['register_email'].touched)" class="alert">
+                    <div *ngIf="registerForm.controls['register_email'].errors['required']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide an email!</small>
+                    </div>
+                    <div *ngIf="registerForm.controls['register_email'].errors['email']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter valid email format!</small>
+                    </div>
+                </div>
+
+                <div *ngIf="registerForm.controls['register_password'].invalid && (registerForm.controls['register_password'].dirty || registerForm.controls['register_password'].touched)" class="alert">
+                    <div *ngIf="registerForm.controls['register_password'].errors['required']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a password!</small>
+                    </div>
+                    <div *ngIf="registerForm.controls['register_password'].errors['minlength']">
+                        <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a password longer than {{registerForm.controls['register_password'].errors['minlength'].requiredLength}} characters!</small>
+                    </div>
+                </div>
             </form>
         </div>
+        <!-- REGISTER FORM END-->
         
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
-                    <h2>Welcome Back!</h2>
+                    <h2>Hello, Friend!</h2>
                     <p>To start planning please enter your personal info!</p>
                     <button class="primary-button ghost" id="signIn">Sign In</button> <!--TRANSITION BUTTON--> 
                 </div>
                 <div class="overlay-panel overlay-right">
-                    <h2>Hello, Friend!</h2>
+                    <h2>Welcome Back!</h2>
                     <p>Enter your personal details and continue planning!</p>
                     <button class="primary-button ghost" id="signUp">Sign Up</button> <!--TRANSITION BUTTON-->
                 </div>
