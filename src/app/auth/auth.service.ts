@@ -7,77 +7,84 @@ import { User } from '../models/user';
 import { Util_Constants } from '../util/util-constants';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
 
-  token = null;
-  user: User;
+    token = null;
+    user: User;
 
-  redirectUrl: string = '';
+    redirectUrl: string = '';
 
-  constructor(private http: HttpClient,
-              private router: Router) { }
+    constructor(private http: HttpClient,
+        private router: Router) { }
 
-  login(userLoginInfo: LoginUser): Observable<any> {
+    login(userLoginInfo: LoginUser): Observable<any> {
 
-    const headers = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+        const headers = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
 
-    const observable = this.http.post(Util_Constants.API_URL + 'user/login ', userLoginInfo, headers);
+        const observable = this.http.post(Util_Constants.API_URL + 'user/login ', userLoginInfo, headers);
 
-    observable.subscribe((response) => {
-      this.token = response['token'];
-      this.user = response['userDetails'];
+        observable.subscribe((response) => {
+            this.token = response['token'];
+            this.user = response['userDetails'];
 
-      console.log(this.user);
-      sessionStorage.setItem('token', this.token);
+            sessionStorage.setItem('token', this.token);
 
-      this.redirectUrl = '/dashboard';
+            this.redirectUrl = '/dashboard';
 
-    },
-    (error) => {
-      console.log('LOGIN ERROR: '+error);
-    });
+        },
+            (error) => {
+                console.log('LOGIN ERROR: ' + error);
+            });
 
-    return observable;
-  }
+        return observable;
+    }
 
-  register(name: String, email: String, password: String ): Observable<any> {
-    
-    const headers = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+    register(name: String, email: String, password: String): Observable<any> {
 
-    const observable = this.http.post(Util_Constants.API_URL + 'user/register ', {name, email, password}, headers);
-    return observable;
-  }
+        const headers = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json'
+            })
+        };
 
-  logOut() {
-    sessionStorage.removeItem('token');
-    this.token = null;
+        const observable = this.http.post(Util_Constants.API_URL + 'user/register ', { name, email, password }, headers);
+        return observable;
+    }
 
-    console.log("logouted");
-    this.router.navigate(['/user/login'])
-  }
+    logOut() {
+        sessionStorage.removeItem('token');
+        this.token = null;
 
-  getToken() {
-    this.token = sessionStorage.getItem('token');
-    return this.token;
-  }
+        this.router.navigateByUrl("/login");
+    }
 
-  getUser() {
-    return this.user;
-  }
+    getToken() {
+        this.token = sessionStorage.getItem('token');
+        return this.token;
+    }
 
-  getRedirectUrl() {
-    return this.redirectUrl;
-  }
+    getUser() {
+        if (this.user)
+            return this.user;
+        else {
+            //TODO-> LLAMADA A GET BY ID
+            let calluser = new User();
+            calluser.name = 'juan';
+
+            this.user = calluser;
+            return calluser;
+        }
+    }
+
+    getRedirectUrl() {
+        return this.redirectUrl;
+    }
 
 
 }
