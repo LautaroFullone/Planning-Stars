@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PartyAdminViewComponent implements OnInit {
 
+  isItemSelected: Boolean = true;
+
   constructor() { }
 
   ngOnInit(): void {

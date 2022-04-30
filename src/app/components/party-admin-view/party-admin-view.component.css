@@ -1,0 +1,261 @@
+body {
+    background-color: #f6f5f7;
+}
+
+.ps-container {
+    margin: 0 auto;
+    width: 98%;
+    height: 60%;
+    padding-top: 20px;
+}
+
+.main-grid {
+    display: grid;
+    grid-gap: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+
+    grid-template-columns: minmax(200px,1fr) minmax(200px, 1fr) minmax(200px, 1fr);
+    grid-template-rows: repeat(2, minmax(400px, 422px));
+
+    grid-template-areas: "stories-list  actual-story    players "
+                         "actions         actual-story    players";
+}
+
+
+
+.stories-list >.card,
+.actual-story > .card,
+.actions > .card,
+.players > .card {
+    position: inherit;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main-grid .stories-list {
+    grid-area: stories-list;
+    padding: 0;
+    height: 100%;
+}
+
+.main-grid .actual-story {
+    grid-area: actual-story;
+}
+
+.main-grid .actions {
+    grid-area: actions;
+}
+
+.main-grid .players {
+    grid-area: players;
+}
+
+a.link {
+    background-image: linear-gradient(to right, #F27121, #E94057 50%, #8A2387 50%, #000 50%);
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+a.link:before {
+    content: '';
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+a.link:hover {
+    background-position: 0;
+}
+
+a.link:hover::before {
+    width: 100%;
+}
+
+.list-container{
+    overflow: auto;
+    max-height: 250px;
+}
+
+li.list-group-item:hover{
+    background-color: #f4202092;
+    border: 0;
+}
+li.list-group-item {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+li.list-group-item.active {
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
+    border: 1px red;
+    font-weight: 100;
+}
+li.list-group-item.disabled {
+    background-color: unset;
+    color: gray;
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+.text-align-center{
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.card-header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.card-title{
+    margin-bottom: 15px;
+}
+div.card-body.y-scroll{
+    overflow-y: auto;
+}
+.text-container {
+    height: 500px;
+    overflow: auto;
+}
+div.card-footer{
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+}
+div.my-card-footer{
+    padding: 1rem 0;
+}
+
+li.item-link{
+    white-space: nowrap;
+}
+
+p.marging-sm {
+    margin-bottom: 5px;
+}
+
+.details-container{
+    overflow: hidden;
+}
+.details-container ul li > b{
+    font-size: 17px;
+}
+
+div.actions-grid{
+    display: grid;
+    width: 80%;
+    margin: auto;
+    height: 100%;
+    gap: 5px;
+    align-content: center;
+  
+    grid-template-columns: repeat(2,auto);
+    grid-template-rows: repeat(2, auto);
+    
+    grid-template-areas: "update  delete"
+                         "startt  startt";
+}
+
+div.update-section{
+    grid-area: update;
+}
+div.delete-section {
+    grid-area: delete;
+}
+div.start-section {
+    grid-area: startt;
+}
+
+div.waiting-body{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    background-color: #00000008;
+}
+
+div.players-grid {
+    display: grid;
+    gap: 5px;
+    align-items: center;
+
+    grid-template-columns: minmax(200px, 2fr) minmax(200px, 1fr);
+    grid-auto-rows: minmax(50px, auto);
+
+}
+
+.player-name{
+    font-size: 18px;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+
+.player-name > .text-muted{
+    font-weight: normal;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+div.player-status{
+    justify-self: center;
+}
+
+div.completed{
+    color: #F27121;
+}
+
+div.incompleted {
+    color: #8A2387;
+}
+
+
+@media screen and (max-width: 1450px) {
+    .main-grid {
+        grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
+        grid-template-rows: repeat(3, minmax(400px, 422px));
+
+        grid-template-areas: "stories-list  actual-story"
+            "actions       actual-story"
+            "players       players";
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .main-grid {
+        grid-template-columns: minmax(200px, 1fr);
+        grid-template-rows: repeat(2, minmax(600px, 422px)) minmax(100px, 200px) minmax(600px, 422px);
+
+        grid-template-areas: "stories-list"
+            "actual-story"
+            "actions"
+            "players";
+    }
+
+    .text-container {
+        max-height: 250px;
+    }
+
+    .list-container {
+        max-height: 450px;
+        overflow: auto;
+    }
+
+}
