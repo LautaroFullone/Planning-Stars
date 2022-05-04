@@ -1,0 +1,35 @@
+<div class="modal fade" id="createPartyModal" tabindex="-1" role="dialog" aria-labelledby="createPartyModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Create Party</h5>
+                <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <small class="font-weight-light">Please complete the bellow info in order to create your party.</small>
+                <form>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" id="party_name" placeholder="Party Name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" id="party_id" placeholder="Party Id" value="" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" id="party_size" placeholder="Party Size">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <small class="form-text text-muted">Once it's create, you can copy the ID!</small>
+                <button type="button" class="primary-button">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

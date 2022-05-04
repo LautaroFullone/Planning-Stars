@@ -14,6 +14,8 @@ import { PartyModalsComponent } from './components/party-modals/party-modals.com
 import { PartySwitchComponent } from './components/party-switch/party-switch.component';
 import { PartyPlayerViewComponent } from './components/party-player-view/party-player-view.component';
 import { PartyAdminViewComponent } from './components/party-admin-view/party-admin-view.component';
+import { PartyJoinModalComponent } from './components/party-join-modal/party-join-modal.component';
+import { PartyCreateModalComponent } from './components/party-create-modal/party-create-modal.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { PartyAdminViewComponent } from './components/party-admin-view/party-adm
     PartyModalsComponent,
     PartySwitchComponent,
     PartyPlayerViewComponent,
-    PartyAdminViewComponent
+    PartyAdminViewComponent,
+    PartyJoinModalComponent,
+    PartyCreateModalComponent
   ],
   imports: [
     BrowserModule,

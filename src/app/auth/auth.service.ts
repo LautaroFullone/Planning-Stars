@@ -27,7 +27,7 @@ export class AuthService {
             })
         };
 
-        const observable = this.http.post(Util_Constants.API_URL + 'user/login ', userLoginInfo, headers);
+        const observable = this.http.post(Util_Constants.API_URL + '/user/login ', userLoginInfo, headers);
 
         observable.subscribe((response) => {
             this.token = response['token'];
@@ -54,7 +54,7 @@ export class AuthService {
             })
         };
 
-        const observable = this.http.post(Util_Constants.API_URL + 'user/register ', { name, email, password }, headers);
+        const observable = this.http.post(Util_Constants.API_URL + '/user/register ', { name, email, password }, headers);
         return observable;
     }
 
