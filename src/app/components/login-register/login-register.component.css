@@ -230,7 +230,3 @@ small i{
 	padding:0%;
 	margin: 0%;
 }
-
-hr:not([size]) {
-    height: 1px;
-}

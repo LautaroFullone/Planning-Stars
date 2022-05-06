@@ -4,16 +4,14 @@ import { AuthNotGuard } from '../auth/auth-not.guard';
 import { AuthGuard } from '../auth/auth.guard';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { LoginRegisterComponent } from '../components/login-register/login-register.component';
-import { NavBarComponent } from '../components/nav-bar/nav-bar.component';
 import { PartySwitchComponent } from '../components/party-switch/party-switch.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginRegisterComponent, canActivate: [AuthNotGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'party', component: PartySwitchComponent/*, canActivate: [AuthGuard]*/ }, //add id
+  { path: 'party/:id', component: PartySwitchComponent, canActivate: [AuthGuard] }, 
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   { path: '**', redirectTo: '/dashboard', pathMatch: 'full'}
-  
 ];
 
 @NgModule({

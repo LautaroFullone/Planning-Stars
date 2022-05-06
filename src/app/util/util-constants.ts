@@ -1,4 +1,4 @@
 export class Util_Constants {
 
-    public static API_URL: String = 'http://localhost:8080/';
+    public static API_URL: string = 'http://localhost:8080';
 }

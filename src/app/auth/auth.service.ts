@@ -27,7 +27,7 @@ export class AuthService {
             })
         };
 
-        const observable = this.http.post(Util_Constants.API_URL + 'user/login ', userLoginInfo, headers);
+        const observable = this.http.post(Util_Constants.API_URL + '/user/login ', userLoginInfo, headers);
 
         observable.subscribe((response) => {
             this.token = response['token'];
@@ -54,7 +54,7 @@ export class AuthService {
             })
         };
 
-        const observable = this.http.post(Util_Constants.API_URL + 'user/register ', { name, email, password }, headers);
+        const observable = this.http.post(Util_Constants.API_URL + '/user/register ', { name, email, password }, headers);
         return observable;
     }
 
@@ -76,7 +76,7 @@ export class AuthService {
         if (this.user)
             return this.user;
         else {
-            //TODO-> LLAMADA A GET BY ID
+            //we are analysing if it's convenient to make a request here in order to get the  logged user           
             let calluser = new User();
             calluser.name = sessionStorage.getItem('username');
 
