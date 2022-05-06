@@ -75,11 +75,9 @@ export class AuthService {
     getUser() {
         if (this.user)
             return this.user;
-        else {
-            //we are analysing if it's convenient to make a request here in order to get the  logged user           
+        else { //we are analysing if it's convenient to make a request here in order to get the  logged user                  
             let calluser = new User();
             calluser.name = sessionStorage.getItem('username');
-
             this.user = calluser;
             return calluser;
         }
