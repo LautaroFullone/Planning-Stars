@@ -16,11 +16,10 @@ export class PartyService {
 
     const headers = {
       headers: new HttpHeaders({
-        'Content-Type': 'application / json'
+        'Content-Type': 'application/json'
       })
     };
-
-    return this.http.post<Party>(Util_Constants.API_URL+'/party', party, headers);
+    return this.http.post<any>(Util_Constants.API_URL+'/party', party, headers);
   }
 
 }

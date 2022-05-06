@@ -3,7 +3,9 @@
 <div *ngIf="isAdmin; then admin_view else player_view"></div>
 
 <ng-template #admin_view>
-    <app-party-admin-view></app-party-admin-view>
+    <app-party-admin-view
+        [partyID]="partyParamID">
+    </app-party-admin-view>
 </ng-template>
 
 <ng-template #player_view>

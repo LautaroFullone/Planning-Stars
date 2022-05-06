@@ -40,3 +40,25 @@ input {
 div.modal-footer {
     justify-content: space-between;
 }
+
+
+input.nonSelection:hover{
+    cursor: pointer;
+}
+
+input.nonSelection::selection {
+    background: none;
+}
+
+input.nonSelection:focus{
+    background-color: #5fbd208a;
+}
+
+small i {
+    color: red;
+}
+
+.alert {
+    padding: 0%;
+    margin: 0%;
+}

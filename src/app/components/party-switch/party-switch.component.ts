@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-party-switch',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PartySwitchComponent implements OnInit {
 
-  isAdmin: Boolean = true;
-  constructor() { }
+  isAdmin: boolean = true;
+  partyParamID: string;
+
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
 }
