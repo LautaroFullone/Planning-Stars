@@ -1,2 +1,117 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+button.primary-button,
+a.primary-button {
+	border-radius: 20px;
+	border: 1px solid #FF4B2B;
+	background-color: #FF4B2B;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+button.primary-button:hover,
+a.primary-button:hover {
+	color: #FFFFFF;
+	transition: all 0.3s ease 0s;
+	background-color: #bd3820;
+	border-color: #bd3820;
+}
+button.primary-button:active,
+a.primary-button:active {
+	transform: scale(0.95);
+}
+button.primary-button:focus
+a.primary-button:focus {
+	outline: none;
+}
+button.primary-button:disabled,
+a.primary-button:disabled {
+	color: #FFFFFF;
+    background-color: #ff4b2b77;
+    border-color: unset;
+}
+a.primary-button{
+	text-decoration: none;
+}
+
+button.ghost,
+a.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+button.ghost:hover,
+a.ghost:hover {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+
+.dropdown-toggle::after {
+    font-size: 15px;
+		background-image: linear-gradient(to right, #F27121, #E94057 50%, #8A2387 50%, #000 50%);
+}
+
+button.btn-outline-primary{
+	color: #F27121;
+	background-color: transparent;
+	border-color: #F27121;
+}
+button.btn-outline-primary:hover {
+	color: #fff;
+	background-color: #F27121;
+	border-color: #F27121;
+}
+button.btn-outline-primary:focus {
+	box-shadow: 0px 3px 15px #F27121 !important;
+}
+
+
+button.btn-outline-secondary {
+	color: #E94057;
+	background-color: transparent;
+	border-color: #E94057;
+}
+button.btn-outline-secondary:hover {
+	color: #fff;
+	background-color: #E94057;
+	border-color: #E94057;
+}
+button.btn-outline-secondary:focus {
+	box-shadow: 0px 3px 15px #E94057 !important;
+}
+
+button.btn-outline-tertiary {
+	color: #8A2387;
+	background-color: transparent;
+	border-color: #8A2387;
+}
+button.btn-outline-tertiary:hover {
+	color: #fff;
+	background-color: #8A2387;
+	border-color: #8A2387;
+}
+button.btn-outline-tertiary:focus {
+	box-shadow: 0px 3px 15px #8A2387 !important;
+}
+
+button.btn-outline-danger {
+	color: #f10b0b;
+	background-color: transparent;
+	border-color: #f10b0b;
+}
+button.btn-outline-danger:hover {
+	color: #fff;
+	background-color: #f10b0b;
+	border-color: #f10b0b;
+}
+button.btn-outline-danger:focus {
+	box-shadow: 0px 3px 15px #f10b0b !important;
+}

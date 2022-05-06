@@ -1,11 +1,24 @@
 <header>
-    <a [routerLink]="['/dashboard']" routerLinkActive="active" class="logo">PLANNING-STARS</a>
+    <a [routerLink]="['/dashboard']" routerLinkActive="active" class="nav-link logo"><b>PLANNING-STARS</b></a>
+    
     <nav>
         <ul class="nav-links">
-            <li><a href="#">Join Party</a></li>
-            <li><a href="#">Create Party</a></li>
-            <li><a href="#">About</a></li>
+            <li><a class="nav-link" data-bs-toggle="modal" data-bs-target="#joinPartyModal">Join Party</a></li>
+            <li><a class="nav-link" data-bs-toggle="modal" data-bs-target="#createPartyModal">Create Party</a></li>
+            <li><a class="nav-link" href="#">How to play</a></li>
         </ul>
     </nav>
-    <a href="#" class="cta"><button>Config</button></a>
+
+    <button class="primary-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Options </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item disabled" href="#">Hello {{username}}!</a></li>
+        <li><a class="dropdown-item" href="#">Rename Account</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" (click)="logOut()"> Logout <i class="fa-solid fa-arrow-right-from-bracket logoutIcon"></i></a></li>
+  </ul>
+
 </header>
+
+<app-party-modals></app-party-modals>
+
