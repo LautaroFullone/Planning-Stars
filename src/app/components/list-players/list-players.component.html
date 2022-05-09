@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header text-align-center">
+        <i class="fa-solid fa-users"></i> - Planning Player
+    </div>
+    <div class="card-body y-scroll">
+        <ol>
+            <div class="players-grid" *ngFor="let player of playersList">
+
+                <li>
+                    <div class="player-name">
+                        {{player.name}} <br>
+                        <p class="text-muted">{{player.email}}</p>
+                    </div>
+                </li>
+
+                <div class="player-status incompleted">
+                    <i class="fa-solid fa-xmark"></i> INCOMPLETED
+                </div>
+
+            </div>
+        </ol>
+    </div>
+</div>

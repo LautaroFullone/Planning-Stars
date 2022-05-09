@@ -9,17 +9,25 @@ import { Util_Constants } from '../util/util-constants';
 })
 export class PartyService {
 
+  private headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+  };
+
   constructor(private http: HttpClient) { }
 
 
   createParty(party: Party): Observable<any> {
+    return this.http.post<any>(Util_Constants.API_URL+'/party', party, this.headers);
+  }
 
-    const headers = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<any>(Util_Constants.API_URL+'/party', party, headers);
+  getPartyUserStories(partyID: string): Observable<any> {
+    return this.http.get<any>(`${Util_Constants.API_URL}/party/${partyID}/userstories`, this.headers);
+  }
+
+  getPartyPlayers(partyID: string): Observable<any>{
+    return this.http.get<any>(`${Util_Constants.API_URL}/party/${partyID}/players`, this.headers);
   }
 
 }
