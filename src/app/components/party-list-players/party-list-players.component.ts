@@ -3,8 +3,8 @@ import { NgToastService } from 'ng-angular-popup';
 import { PartyService } from 'src/app/services/party.service';
 
 @Component({
-  selector: 'app-list-players',
-  templateUrl: './list-players.component.html',
+  selector: 'app-party-list-players',
+  templateUrl: './party-list-players.component.html',
   styleUrls: ['../party-admin-view/party-admin-view.component.css']
 })
 export class ListPlayersComponent implements OnInit {

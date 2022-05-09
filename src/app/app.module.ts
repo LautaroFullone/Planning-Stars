@@ -16,11 +16,12 @@ import { PartyPlayerViewComponent } from './components/party-player-view/party-p
 import { PartyAdminViewComponent } from './components/party-admin-view/party-admin-view.component';
 import { PartyJoinModalComponent } from './components/party-join-modal/party-join-modal.component';
 import { PartyCreateModalComponent } from './components/party-create-modal/party-create-modal.component';
-import { UserStoriesListComponent } from './components/user-stories-list/user-stories-list.component';
-import { ActualUserStoryComponent } from './components/actual-user-story/actual-user-story.component';
-import { ListPlayersComponent } from './components/list-players/list-players.component';
-import { QuickActionsComponent } from './components/quick-actions/quick-actions.component';
-
+import { UserStoriesListComponent } from './components/party-user-stories-list/party-user-stories-list.component';
+import { ActualUserStoryComponent } from './components/party-actual-user-story/party-actual-user-story.component';
+import { ListPlayersComponent } from './components/party-list-players/party-list-players.component';
+import { QuickActionsComponent } from './components/party-quick-actions/party-quick-actions.component';
+import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-modal/party-add-edit-us-modal.component';
+ 
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { QuickActionsComponent } from './components/quick-actions/quick-actions.
     UserStoriesListComponent,
     ActualUserStoryComponent,
     ListPlayersComponent,
-    QuickActionsComponent
+    QuickActionsComponent,
+    PartyAddEditUsModalComponent
   ],
   imports: [
     BrowserModule,
