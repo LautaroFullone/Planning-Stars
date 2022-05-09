@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header text-align-center">
+        <i class="fa-solid fa-toolbox"></i> - Actions
+    </div>
+    <div *ngIf="true; then isSelected else isNotSelected"></div>
+
+    <ng-template #isSelected>
+        <div class="card-body">
+            <div class="actions-grid">
+
+                <div class="update-section">
+                    <button type="button" class="btn btn-outline-primary" style="width: 100%;">Update Item</button>
+                </div>
+                <div class="delete-section">
+                    <button type="button" class="btn btn-outline-danger" style="width: 100%;">Delete Item</button>
+                </div>
+                <div class="start-section">
+                    <button type="button" class="btn btn-outline-tertiary" style="width: 100%;">Start Planning</button>
+                </div>
+
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #isNotSelected>
+        <div class="card-body p-0">
+            <div class="waiting-body text-muted">
+                Please select and item from the list...
+            </div>
+        </div>
+    </ng-template>
+</div>

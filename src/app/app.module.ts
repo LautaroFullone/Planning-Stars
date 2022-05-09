@@ -16,6 +16,10 @@ import { PartyPlayerViewComponent } from './components/party-player-view/party-p
 import { PartyAdminViewComponent } from './components/party-admin-view/party-admin-view.component';
 import { PartyJoinModalComponent } from './components/party-join-modal/party-join-modal.component';
 import { PartyCreateModalComponent } from './components/party-create-modal/party-create-modal.component';
+import { UserStoriesListComponent } from './components/user-stories-list/user-stories-list.component';
+import { ActualUserStoryComponent } from './components/actual-user-story/actual-user-story.component';
+import { ListPlayersComponent } from './components/list-players/list-players.component';
+import { QuickActionsComponent } from './components/quick-actions/quick-actions.component';
 
 
 @NgModule({
@@ -29,7 +33,11 @@ import { PartyCreateModalComponent } from './components/party-create-modal/party
     PartyPlayerViewComponent,
     PartyAdminViewComponent,
     PartyJoinModalComponent,
-    PartyCreateModalComponent
+    PartyCreateModalComponent,
+    UserStoriesListComponent,
+    ActualUserStoryComponent,
+    ListPlayersComponent,
+    QuickActionsComponent
   ],
   imports: [
     BrowserModule,

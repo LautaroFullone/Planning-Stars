@@ -13,8 +13,7 @@ import { User } from 'src/app/models/user';
 })
 export class LoginRegisterComponent implements OnInit {
 
-    userToLogIn = new LoginUser(); //usuario que intenta loguearsae
-    userLogged = new User(); //usuario que se logueo
+    userToLogIn = new LoginUser(); 
 
     loginForm = new FormGroup({
         login_email: new FormControl('', [Validators.required, Validators.email]),
@@ -64,13 +63,7 @@ export class LoginRegisterComponent implements OnInit {
         this.authService.login(this.userToLogIn).subscribe((response) => {
 
             if (this.authService.token) {
-                this.userLogged = this.authService.getUser();
-                let redirectUrl = this.authService.getRedirectUrl();
-
-                if (redirectUrl != '')
-                    this.router.navigateByUrl(redirectUrl);
-                else
-                    this.router.navigateByUrl('/dashboard');
+                this.router.navigateByUrl('/dashboard');
             }
             this.toast.success({
                 detail: "LOGIN SUCCESS",

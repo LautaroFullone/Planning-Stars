@@ -49,7 +49,7 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         let partyData = new Party;
         partyData.name = this.partyName;
         partyData.maxPlayer = this.partySize;
-        partyData.createdBy = this.authService.getUser().name;
+        partyData.createdBy = this.authService.getUserName();
 
         this.partyService.createParty(partyData).subscribe(response => {
 
