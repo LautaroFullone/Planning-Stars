@@ -10,7 +10,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { InterceptorService } from './auth/interceptor.service';
-import { PartyModalsComponent } from './components/party-modals/party-modals.component';
 import { PartySwitchComponent } from './components/party-switch/party-switch.component';
 import { PartyPlayerViewComponent } from './components/party-player-view/party-player-view.component';
 import { PartyAdminViewComponent } from './components/party-admin-view/party-admin-view.component';
@@ -29,7 +28,6 @@ import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-mod
     LoginRegisterComponent,
     DashboardComponent,
     NavBarComponent,
-    PartyModalsComponent,
     PartySwitchComponent,
     PartyPlayerViewComponent,
     PartyAdminViewComponent,

@@ -61,4 +61,7 @@ export class UserStoriesListComponent implements OnInit,AfterViewInit {
         this.selectedUserStory.emit(us);
         
     }
+    handleAddedUs(newUS){
+        this.userStoriesList.push(newUS);
+    }
 }
