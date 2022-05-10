@@ -15,4 +15,7 @@ export class QuickActionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  deleteUserStory(){
+    console.log(this.selectedUS);
+  }
 }
