@@ -15,9 +15,9 @@ export class PartyAddEditUsModalComponent implements OnInit {
     @Output() addedUserStory = new EventEmitter<UserStory>();
 
     userStoryForm = new FormGroup({
-        tag: new FormControl('', [Validators.required, Validators.maxLength(7)]),
-        name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
-        sprint: new FormControl('', [Validators.required, Validators.maxLength(15)]),
+        tag: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+        name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+        sprint: new FormControl('', [Validators.required, Validators.maxLength(20)]),
         description: new FormControl('', [Validators.required]),
         workArea: new FormControl('', [Validators.required, Validators.maxLength(60)]),
         storyWritter: new FormControl('', [Validators.required, Validators.maxLength(60)]),
