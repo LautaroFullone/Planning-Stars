@@ -23,6 +23,14 @@
         
     </div>
     <div class="card-footer">
-        <button type="button" class="btn btn-outline-secondary">Add Item</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
+            Add Item
+        </button>
     </div>
 </div>
+
+<app-party-add-edit-us-modal
+    [partyID]="partyID"
+    (addedUserStory)="handleAddedUs($event)">
+
+</app-party-add-edit-us-modal>

@@ -4,8 +4,8 @@ import { UserStory } from 'src/app/models/user-story';
 import { PartyService } from 'src/app/services/party.service';
 
 @Component({
-    selector: 'app-user-stories-list',
-    templateUrl: './user-stories-list.component.html',
+    selector: 'app-party-user-stories-list',
+    templateUrl: './party-user-stories-list.component.html',
     styleUrls: ['../party-admin-view/party-admin-view.component.css']
 })
 export class UserStoriesListComponent implements OnInit,AfterViewInit {
@@ -60,5 +60,8 @@ export class UserStoriesListComponent implements OnInit,AfterViewInit {
         
         this.selectedUserStory.emit(us);
         
+    }
+    handleAddedUs(newUS){
+        this.userStoriesList.push(newUS);
     }
 }

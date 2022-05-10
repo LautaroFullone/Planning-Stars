@@ -4,30 +4,30 @@
         <div class="main-grid">
 
             <div class="stories-list">
-                <app-user-stories-list
+                <app-party-user-stories-list
                     [partyID]="partyID"
                     (selectedUserStory)="handleSelectedUS($event)">
-                </app-user-stories-list>
+                </app-party-user-stories-list>
             </div>
             
 
             <div class="actual-story">
-                <app-actual-user-story
+                <app-party-actual-user-story
                     [selectedUS] ="selectedUS">
-                </app-actual-user-story>
+                </app-party-actual-user-story>
             </div>
 
             <div class="actions">
 
-                <app-quick-actions
+                <app-party-quick-actions
                     [selectedUS] ="selectedUS">
-                </app-quick-actions>
+                </app-party-quick-actions>
             </div>
 
             <div class="players">
-                <app-list-players
+                <app-party-list-players
                     [partyID]="partyID">
-                </app-list-players>
+                </app-party-list-players>
 
             </div>
         </div>

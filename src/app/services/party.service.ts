@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Party } from '../models/party';
+import { UserStory } from '../models/user-story';
 import { Util_Constants } from '../util/util-constants';
 
 @Injectable({
@@ -24,6 +25,12 @@ export class PartyService {
 
   getPartyUserStories(partyID: string): Observable<any> {
     return this.http.get<any>(`${Util_Constants.API_URL}/party/${partyID}/userstories`, this.headers);
+  }
+  createUserStory(userstory: UserStory): Observable<any> {
+    return this.http.post<any>(`${Util_Constants.API_URL}/userStory`, userstory, this.headers);
+  }
+  addUserStoryToParty(partyID: String, usID: String): Observable<any> {
+    return this.http.put<any>(`${Util_Constants.API_URL}/party/${partyID}/userstory/${usID}`,this.headers);
   }
 
   getPartyPlayers(partyID: string): Observable<any>{

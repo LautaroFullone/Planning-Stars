@@ -1,0 +1,61 @@
+<div class="modal fade" id="createUpdateUsModal" tabindex="-1" role="dialog" aria-labelledby="createUpdateUsModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Create User Story</h5>
+                <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <form [formGroup]="userStoryForm" (ngSubmit)="ngSubmit()">
+                <div class="modal-body">
+                    <small class="font-weight-light">Please complete the bellow info in order to create your user story.</small>
+                    
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" placeholder="Tag" formControlName="tag">
+                        </div>
+                        <div class="col">
+                            <input type="text" placeholder="Sprint"  formControlName="sprint">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="name" placeholder="Name"  formControlName="name">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <textarea placeholder="Description" max="10" cols="50" formControlName="description"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" placeholder="Work Area" formControlName="workArea">
+                        </div>
+                        <div class="col">
+                            <input type="text" placeholder="Story Writter" formControlName="storyWritter">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="url" placeholder="File link" formControlName="fileLink">
+                        </div>
+                    </div>
+           
+                </div>
+
+                <div class="modal-footer">
+                    <small class="form-text text-muted"></small>
+                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="!userStoryForm.valid" >Create</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
