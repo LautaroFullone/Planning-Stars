@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgToastService } from 'ng-angular-popup';
+import { Player } from 'src/app/models/player';
+import { User } from 'src/app/models/user';
+import { UserStory } from 'src/app/models/user-story';
+import { PartyService } from 'src/app/services/party.service';
 
 @Component({
   selector: 'app-party-admin-view',
@@ -7,11 +12,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PartyAdminViewComponent implements OnInit {
 
-  isItemSelected: Boolean = true;
+  @Input() partyID: string;
+  
+  selectedUS: UserStory;
+  deletedUserStoryId: number;
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  handleSelectedUS(event){
+    this.selectedUS = event;
+    console.log('PartyAdminViewComponent US: ');
+    console.log(this.selectedUS);
+  }
+
+  handleDeletedUS(event){
+    console.log('handleDeletedUS');
+    this.deletedUserStoryId = event;
   }
 
 }

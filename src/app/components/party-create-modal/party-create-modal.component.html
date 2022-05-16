@@ -1,0 +1,82 @@
+<div class="modal fade" id="createPartyModal" tabindex="-1" role="dialog" aria-labelledby="createPartyModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Create Party</h5>
+                <a class="closeButton" data-bs-dismiss="modal" (click)="resetForm()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <form [formGroup]="createForm" (ngSubmit)="ngSubmit()">
+                <div class="modal-body">
+                    <small class="font-weight-light">Please complete the bellow info in order to create your party.</small>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" placeholder="Party Name" formControlName="name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input #partyID type="text" placeholder="Party Id" (click)="copyToClipboard()" formControlName="id" readonly>
+                            </div>
+                            <div class="col">
+                                <input type="number" placeholder="Party Size" formControlName="size">
+                            </div>
+                        </div>
+
+                    <div style="text-align: center;">  
+                        <div *ngIf="createForm.controls['name'].invalid && (createForm.controls['name'].dirty || createForm.controls['name'].touched)"
+                            class="alert">
+                            <div *ngIf="createForm.controls['name'].errors['required']">
+                                <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a name!</small>
+                            </div>
+                            <div *ngIf="createForm.controls['name'].errors['maxlength']">
+                                <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter a name no longer than
+                                    {{createForm.controls['name'].errors['maxlength'].requiredLength}} characters!</small>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="createForm.controls['size'].invalid && (createForm.controls['size'].dirty || createForm.controls['size'].touched)"
+                            class="alert">
+                            <div *ngIf="createForm.controls['size'].errors['required']">
+                                <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a size!</small>
+                            </div>
+                            <div *ngIf="createForm.controls['size'].errors['min']">
+                                <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter a size bigger than
+                                    {{createForm.controls['size'].errors['min'].min}}!</small>
+                            </div>
+                            <div *ngIf="createForm.controls['size'].errors['max']">
+                                <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter a size smaller than
+                                    {{createForm.controls['size'].errors['max'].max}}!</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+
+                </div>
+                
+                <div *ngIf="isPartyCreated then enterParty else createParty"></div>
+                
+                <ng-template #createParty>
+                    <div class="modal-footer">
+                        <small class="form-text text-muted">Once it's create, you can copy the ID!</small>
+                        <button type="submit" class="primary-button" [disabled]="!createForm.valid" >Create</button>
+                    </div>
+                </ng-template>
+
+            </form>
+
+            <ng-template #enterParty>
+                <div class="modal-footer">
+                    <small class="form-text text-muted">Go ahead, copy the ID!</small>
+                    <a class="primary-button" (click)="joinParty()" [routerLink]="['../party/', partyID_value]" 
+                       data-bs-dismiss="modal">Enter</a>
+                </div>
+            </ng-template>
+            
+        </div>
+    </div>
+</div>

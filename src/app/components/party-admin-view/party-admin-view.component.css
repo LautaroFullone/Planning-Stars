@@ -22,12 +22,7 @@ body {
                          "actions         actual-story    players";
 }
 
-
-
-.stories-list >.card,
-.actual-story > .card,
-.actions > .card,
-.players > .card {
+.card {
     position: inherit;
     width: 100%;
     height: 100%;
@@ -91,6 +86,7 @@ a.link:hover::before {
 li.list-group-item:hover{
     background-color: #f4202092;
     border: 0;
+    cursor: pointer;
 }
 li.list-group-item {
     font-size: 14px;
@@ -181,6 +177,10 @@ div.start-section {
     grid-area: startt;
 }
 
+div.actions-grid > div > button {
+    width: 100%;
+}
+
 div.waiting-body{
     width: 100%;
     height: 100%;
@@ -225,7 +225,6 @@ div.completed{
 div.incompleted {
     color: #8A2387;
 }
-
 
 @media screen and (max-width: 1450px) {
     .main-grid {

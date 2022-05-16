@@ -11,8 +11,6 @@
                 <a href="#">Forgot your password?</a>
                 <button class="primary-button" type="submit" [disabled]="!loginForm.valid" >Sign In</button>
 
-                <div *ngIf="loginForm.controls"> <hr> </div>
-                
                 <div *ngIf="loginForm.controls['login_email'].invalid && (loginForm.controls['login_email'].dirty || loginForm.controls['login_email'].touched)" class="alert">
                     <div *ngIf="loginForm.controls['login_email'].errors['required']">
                         <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide an email!</small>

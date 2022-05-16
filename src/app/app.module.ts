@@ -10,11 +10,18 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { InterceptorService } from './auth/interceptor.service';
-import { PartyModalsComponent } from './components/party-modals/party-modals.component';
 import { PartySwitchComponent } from './components/party-switch/party-switch.component';
 import { PartyPlayerViewComponent } from './components/party-player-view/party-player-view.component';
 import { PartyAdminViewComponent } from './components/party-admin-view/party-admin-view.component';
-
+import { PartyJoinModalComponent } from './components/party-join-modal/party-join-modal.component';
+import { PartyCreateModalComponent } from './components/party-create-modal/party-create-modal.component';
+import { UserStoriesListComponent } from './components/party-user-stories-list/party-user-stories-list.component';
+import { ActualUserStoryComponent } from './components/party-actual-user-story/party-actual-user-story.component';
+import { ListPlayersComponent } from './components/party-list-players/party-list-players.component';
+import { QuickActionsComponent } from './components/party-quick-actions/party-quick-actions.component';
+import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-modal/party-add-edit-us-modal.component';
+import { PartyDeleteUsConfComponent } from './components/party-delete-us-conf/party-delete-us-conf.component';
+ 
 
 @NgModule({
   declarations: [
@@ -22,10 +29,17 @@ import { PartyAdminViewComponent } from './components/party-admin-view/party-adm
     LoginRegisterComponent,
     DashboardComponent,
     NavBarComponent,
-    PartyModalsComponent,
     PartySwitchComponent,
     PartyPlayerViewComponent,
-    PartyAdminViewComponent
+    PartyAdminViewComponent,
+    PartyJoinModalComponent,
+    PartyCreateModalComponent,
+    UserStoriesListComponent,
+    ActualUserStoryComponent,
+    ListPlayersComponent,
+    QuickActionsComponent,
+    PartyAddEditUsModalComponent,
+    PartyDeleteUsConfComponent
   ],
   imports: [
     BrowserModule,
