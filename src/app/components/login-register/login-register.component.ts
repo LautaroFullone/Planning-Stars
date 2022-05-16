@@ -62,9 +62,9 @@ export class LoginRegisterComponent implements OnInit {
 
         this.authService.login(this.userToLogIn).subscribe((response) => {
 
-            if (this.authService.token) {
+            if (this.authService.token) 
                 this.router.navigateByUrl('/dashboard');
-            }
+            
             this.toast.success({
                 detail: "LOGIN SUCCESS",
                 summary: "It's good to see you here.",

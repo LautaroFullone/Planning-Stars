@@ -1,0 +1,40 @@
+.closeButton{
+    float: right;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1;
+    color: #808080;
+    text-shadow: 0 1px 0 #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.closeButton:hover{
+    color: rgb(0, 0, 0);
+}
+
+.dropdown-item:hover, .dropdown-item:active{
+    color: #fff;
+    background-color: #bd3820;
+}
+
+.logoutIcon{
+    margin-left: 50px;
+}
+
+div.col{
+    display: flex; align-items: center;
+}
+
+input {
+	background-color: #eee;
+	border: none;
+	padding: 11px 15px;
+	margin: 8px 0;
+	width: 100%;
+	font-size: revert;
+}
+
+div.modal-footer{
+    justify-content: space-between;
+}
