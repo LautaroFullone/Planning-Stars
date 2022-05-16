@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Renderer2, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Renderer2, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
 import { PartyService } from 'src/app/services/party.service';
@@ -8,9 +8,10 @@ import { PartyService } from 'src/app/services/party.service';
     templateUrl: './party-user-stories-list.component.html',
     styleUrls: ['../party-admin-view/party-admin-view.component.css']
 })
-export class UserStoriesListComponent implements OnInit,AfterViewInit {
+export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input() partyID: string;
+    @Input() deletedUserStoryId: number;
     @Output() selectedUserStory = new EventEmitter<UserStory>();
 
     userStoriesList = new Array<any>();
@@ -23,8 +24,17 @@ export class UserStoriesListComponent implements OnInit,AfterViewInit {
     ngOnInit(): void {
         this.getPartyUserStories();
     }
+
     ngAfterViewInit(): void {
         this.asingClasses();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log(changes);
+        if (!changes['deletedUserStoryId'].firstChange){
+            let usIDtoDelete = changes['deletedUserStoryId'].currentValue;
+            this.deleteUSFromList(usIDtoDelete);
+        }
     }
 
     asingClasses(){
@@ -61,7 +71,16 @@ export class UserStoriesListComponent implements OnInit,AfterViewInit {
         this.selectedUserStory.emit(us);
         
     }
+
     handleAddedUs(newUS){
         this.userStoriesList.push(newUS);
+    }
+
+    deleteUSFromList(usID: number) {
+        this.userStoriesList.forEach((item, index) => {
+            if (item.id === usID) {
+                this.userStoriesList.splice(index, 1);
+            }
+        });
     }
 }

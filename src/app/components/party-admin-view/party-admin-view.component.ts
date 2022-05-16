@@ -15,16 +15,21 @@ export class PartyAdminViewComponent implements OnInit {
   @Input() partyID: string;
   
   selectedUS: UserStory;
-
+  deletedUserStoryId: number;
 
   constructor() { }
 
   ngOnInit(): void { }
 
   handleSelectedUS(event){
-    console.log("ADMIN-> "+event);
     this.selectedUS = event;
+    console.log('PartyAdminViewComponent US: ');
+    console.log(this.selectedUS);
+  }
 
+  handleDeletedUS(event){
+    console.log('handleDeletedUS');
+    this.deletedUserStoryId = event;
   }
 
 }
