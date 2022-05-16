@@ -5,8 +5,9 @@
 
             <div class="stories-list">
                 <app-party-user-stories-list
-                    [partyID]="partyID"
-                    (selectedUserStory)="handleSelectedUS($event)">
+                    [partyID]= "partyID"
+                    [deletedUserStoryId] = "deletedUserStoryId"
+                    (selectedUserStory)= "handleSelectedUS($event)">
                 </app-party-user-stories-list>
             </div>
             
@@ -18,17 +19,17 @@
             </div>
 
             <div class="actions">
-
                 <app-party-quick-actions
-                    [selectedUS] ="selectedUS">
+                    [partyID]= "partyID"
+                    [selectedUS] ="selectedUS"
+                    (deletedUserStory)= "handleDeletedUS($event)">
                 </app-party-quick-actions>
             </div>
 
             <div class="players">
                 <app-party-list-players
-                    [partyID]="partyID">
+                    [partyID]= "partyID">
                 </app-party-list-players>
-
             </div>
         </div>
     </div>

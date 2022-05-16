@@ -20,6 +20,7 @@ import { ActualUserStoryComponent } from './components/party-actual-user-story/p
 import { ListPlayersComponent } from './components/party-list-players/party-list-players.component';
 import { QuickActionsComponent } from './components/party-quick-actions/party-quick-actions.component';
 import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-modal/party-add-edit-us-modal.component';
+import { PartyDeleteUsConfComponent } from './components/party-delete-us-conf/party-delete-us-conf.component';
  
 
 @NgModule({
@@ -37,7 +38,8 @@ import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-mod
     ActualUserStoryComponent,
     ListPlayersComponent,
     QuickActionsComponent,
-    PartyAddEditUsModalComponent
+    PartyAddEditUsModalComponent,
+    PartyDeleteUsConfComponent
   ],
   imports: [
     BrowserModule,

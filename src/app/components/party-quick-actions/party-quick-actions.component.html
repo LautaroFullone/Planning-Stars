@@ -1,18 +1,22 @@
-<div class="card">
+<div class="card" (click)="showUS()">
     <div class="card-header text-align-center">
         <i class="fa-solid fa-toolbox"></i> - Actions
     </div>
-    <div *ngIf="true; then isSelected else isNotSelected"></div>
+    <div *ngIf="selectedUS.id; then isSelected else isNotSelected"></div>
 
     <ng-template #isSelected>
         <div class="card-body">
             <div class="actions-grid">
 
                 <div class="update-section">
-                    <button type="button" class="btn btn-outline-primary" >Update Item</button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
+                        Update Item
+                    </button>
                 </div>
                 <div class="delete-section">
-                    <button type="button" class="btn btn-outline-danger" >Delete Item</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">
+                        Delete Item
+                    </button>
                 </div>
                 <div class="start-section">
                     <button type="button" class="btn btn-outline-tertiary" >Start Planning</button>
@@ -30,3 +34,15 @@
         </div>
     </ng-template>
 </div>
+
+<app-party-add-edit-us-modal 
+    [partyID]= "partyID"
+    [selectedUS]= "selectedUS"
+    formAction= 'Update'>
+
+</app-party-add-edit-us-modal>
+
+<app-party-delete-us-conf
+    [usTag] = "selectedUS.tag"
+    (confirmation) = "handleConfirmation()">
+</app-party-delete-us-conf>

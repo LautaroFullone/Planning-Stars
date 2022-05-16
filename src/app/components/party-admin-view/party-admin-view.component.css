@@ -226,7 +226,6 @@ div.incompleted {
     color: #8A2387;
 }
 
-
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
