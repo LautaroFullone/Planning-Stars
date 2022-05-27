@@ -22,7 +22,7 @@ export class InterceptorService implements HttpInterceptor {
                 }
             })
         }
-        console.log(request);
+        //console.log('REQUEST',request);
 
         return next.handle(request).pipe(
             catchError((err: HttpErrorResponse) => {
