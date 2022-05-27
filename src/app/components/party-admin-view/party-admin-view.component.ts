@@ -57,7 +57,7 @@ export class PartyAdminViewComponent implements OnInit {
 
                 this.deletedUserStoryId = event;
 
-                this.toast.success({
+                this.toast.info({
                     detail: "USER STORY DELETED",
                     summary: `US #${this.selectedUS.tag} was successfully deleted`,
                     position: 'br', duration: 6000
