@@ -128,9 +128,6 @@ div.card-body.y-scroll{
     height: 500px;
     overflow: auto;
 }
-div.card-footer{
-   
-}
 div.my-card-footer{
     padding: 1rem 0;
 }
