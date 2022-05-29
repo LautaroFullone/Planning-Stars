@@ -2,7 +2,8 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 7%;
+    padding: 0 7%;
+    height: 7vh;
     background-color: #24252A;
     position: sticky;
     top: 0;

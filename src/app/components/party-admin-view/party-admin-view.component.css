@@ -128,11 +128,6 @@ div.card-body.y-scroll{
     height: 500px;
     overflow: auto;
 }
-div.card-footer{
-        position: sticky;
-        bottom: 0;
-        z-index: 10;
-}
 div.my-card-footer{
     padding: 1rem 0;
 }
