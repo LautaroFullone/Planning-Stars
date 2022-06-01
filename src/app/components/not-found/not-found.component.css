@@ -1,51 +1,51 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-	background: #f6f5f7;
+html,body {
+    background: #f6f5f7;
     position: absolute;
     width: 100%;
-    height: 93vh;
+    height: 100vh;
     font-family: 'Montserrat', sans-serif;
-
 }
 
-nav{
+.myContainer {
+    width: 95%;
+    max-width: 1400px;
+    display: flex;
+    align-items: center;
+    margin: auto ;
+    padding-top: 14vh;
+    padding-bottom: 3vh;
+    justify-content: space-around;
+}
+
+nav {
     position: fixed;
     top: 20px;
     left: 20px;
 }
 
-nav a{
+nav a {
     color: #fff;
     text-decoration: none;
     display: inline-block;
 }
 
-header{
-    background: #8A2387;  
-    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);  
-    background: linear-gradient(to right, #F27121, #E94057, #8A2387); 
-	background-repeat: no-repeat;
-	background-size: cover;
-    height: auto;
-    padding: 48px;
+header {
+    background: #E94057;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0 48px ;
     width: 100%;
 }
 
-.myContainer{
-    width: 95%;
-    max-width: 1400px;
-    display: flex;
-    align-items: center;
-    margin: auto;
-    justify-content: space-around;
-}
 
-img{
+
+img {
     display: block;
     height: 600px;
     object-fit: cover;
@@ -53,20 +53,20 @@ img{
 
 }
 
-.text{
+.text {
     width: 50%;
     color: #fff;
 }
 
-.text h1{
+.text h1 {
     font-size: 80px;
 }
 
-.text h2{
+.text h2 {
     font-size: 30px;
 }
 
-.text a{
+.text a {
     display: inline-block;
     color: #fff;
     font-weight: 300;
@@ -79,14 +79,12 @@ img{
     padding: 10px 0;
 }
 
-.wave{
+.wave {
     height: 100px;
     width: 100%;
-    background: #8A2387;  
-    background: -webkit-linear-gradient(to right, #F27121, #E94057, #8A2387);  
-    background: linear-gradient(to right, #F27121, #E94057, #8A2387); 
+    background: #E94057;
 }
 
-button.dash-button{
+button.dash-button {
     margin-top: 20px;
 }

@@ -1,22 +1,22 @@
-body {
+html, body {
     background-color: #f6f5f7;
+    height: 93vh;
 }
 
 .ps-container {
     margin: 0 auto;
     width: 98%;
-    height: 60%;
-    padding-top: 20px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
 }
 
 .main-grid {
     display: grid;
-    grid-gap: 20px;
-    padding-bottom: 20px;
+    grid-gap: 2vh;
     width: 100%;
 
     grid-template-columns: minmax(200px,1fr) minmax(200px, 1fr) minmax(200px, 1fr);
-    grid-template-rows: repeat(2, minmax(400px, 422px));
+    grid-template-rows: repeat(2, minmax(400px,43.5vh));
 
     grid-template-areas: "stories-list  actual-story    players "
                          "actions         actual-story    players";
@@ -28,7 +28,9 @@ body {
     height: 100%;
     overflow: hidden;
 }
-
+div.title-box {
+    height: 50px;
+}
 .main-grid .stories-list {
     grid-area: stories-list;
     padding: 0;
@@ -80,7 +82,7 @@ a.link:hover::before {
 
 .list-container{
     overflow: auto;
-    max-height: 250px;
+    max-height: 80%;
 }
 
 li.list-group-item:hover{

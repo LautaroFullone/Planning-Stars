@@ -7,11 +7,13 @@
 
     <ng-template #thenBlock>
         <div class="card-body">
-                            
-            <h5 class="card-title text-align-center"> 
-                <a href="https://{{selectedUS.fileLink}}" class="link">User Story #{{selectedUS.tag}}: </a>
-                {{selectedUS.name}}
-            </h5>
+
+            <div class="title-box">
+                <h5 class="card-title text-align-center"> 
+                    <a href="https://{{selectedUS.fileLink}}" class="link">User Story #{{selectedUS.tag}}: </a>
+                    {{selectedUS.name}}
+                </h5>
+            </div>
             
             <div class="text-container">
                 <p class="card-text">

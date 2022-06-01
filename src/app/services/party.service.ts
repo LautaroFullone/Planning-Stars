@@ -19,6 +19,10 @@ export class PartyService {
     constructor(private http: HttpClient) { }
 
 
+    getPartyByID(partyID: string): Observable<any> {
+        return this.http.get<any>(`${environment.apiURL}/party/${partyID}`, this.headers);
+    }
+
     createParty(party: Party): Observable<any> {
         return this.http.post<any>(`${environment.apiURL}/party`, party, this.headers);
     }
@@ -26,7 +30,7 @@ export class PartyService {
     getPartyPlayers(partyID: string): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/party/${partyID}/players`, this.headers);
     }
-
+ 
     getPartyUserStories(partyID: string): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/party/${partyID}/userstories`, this.headers);
     }
