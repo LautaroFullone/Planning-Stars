@@ -18,17 +18,11 @@ export class PartyExistsGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-        console.log('state', state);
-        console.log('state.url', state.url);
-        console.log('route', route);
-        console.log('route.params', route.params['id']);
-
         let partyID = route.params['id'];
     
         return this.partyService.getPartyByID(partyID).pipe(
             catchError( () => of(false)),               //of() method return an observable with parameter value 
             map(response => {
-                console.log('PartyExistsGuard', response);
                 if(!response){
                     this.router.navigateByUrl('/not-found');
 

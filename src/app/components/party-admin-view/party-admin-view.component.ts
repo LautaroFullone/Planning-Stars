@@ -45,14 +45,11 @@ export class PartyAdminViewComponent implements OnInit {
     }
 
     handleUpdatedUS() {  //when user has updated and US, ti's needed to charge the list of us in order to see the changes
-        console.log('handleUpdatedUS', 'handleUpdatedUS');
         this.userStoriesList_ChildComponent.getPartyUserStories();
     }
 
     handleDeletedUS(event) {
-        console.log('PartyAdminViewComponent', 'handleDeletedUS');
         if (this.selectedUS) {
-
             this.partyService.deleteUserStory(event).subscribe((response) => {
 
                 this.deletedUserStoryId = event;

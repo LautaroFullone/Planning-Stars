@@ -42,7 +42,6 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
 
    
     ngOnChanges(changes: SimpleChanges) {
-        console.log('ngOnChanges ', changes);
         this.formAction = (this.selectedUS) ? 'Update' : 'Create';
     }
 

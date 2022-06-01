@@ -34,7 +34,6 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        console.log('UserStoriesListComponent', changes);
         if ( changes['addedUserStory'] && (changes['addedUserStory'].previousValue != changes['addedUserStory'].currentValue) ) {
             this.userStoriesList.push(this.addedUserStory);
         }

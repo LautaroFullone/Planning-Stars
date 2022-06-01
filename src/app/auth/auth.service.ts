@@ -40,7 +40,7 @@ export class AuthService {
 
         },
             (error) => {
-                console.log('LOGIN ERROR: ' + error);
+                console.log('LOGIN ERROR', error);
             });
 
         return observable;
