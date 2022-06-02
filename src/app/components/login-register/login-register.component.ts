@@ -5,13 +5,14 @@ import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/auth/auth.service';
 import { LoginUser } from 'src/app/models/login-user';
 import { User } from 'src/app/models/user';
+import { ViewService } from 'src/app/services/view.service';
 
 @Component({
     selector: 'app-login-register',
     templateUrl: './login-register.component.html',
     styleUrls: ['./login-register.component.css']
 })
-export class LoginRegisterComponent implements OnInit {
+export class LoginRegisterComponent implements OnInit{
 
     userToLogIn = new LoginUser(); 
 
@@ -32,9 +33,12 @@ export class LoginRegisterComponent implements OnInit {
     get register_password() { return this.registerForm.get('register_password').value; }
 
     constructor(private authService: AuthService,
-        private router: Router,
-        private render: Renderer2,
-        private toast: NgToastService) { }
+                private router: Router,
+                private render: Renderer2,
+                private toast: NgToastService, private viewService: ViewService) {
+
+        this.viewService.setShowNarBar(false);
+    }
 
     ngOnInit(): void {
         const signUpButton = document.getElementById("signUp");

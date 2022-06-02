@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-party-player-view',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./party-player-view.component.css']
 })
 export class PartyPlayerViewComponent implements OnInit {
+
+  @Input() partyID: string;
 
   constructor() { }
 
