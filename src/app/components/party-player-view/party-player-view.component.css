@@ -23,6 +23,27 @@ body {
                          "cards  user-story";
 }
 
+@media screen and (max-width: 1100px) {
+    .main-grid {
+        grid-template-columns: repeat(2, minmax(450px, 1fr));
+        grid-template-rows: 0.5fr 1fr;
+        background-color: red;
+        grid-template-areas: "timer        cards"
+                             "user-story   user-story";
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main-grid {
+        grid-template-columns: minmax(600px, 1fr);
+        grid-template-rows: 200px 400px;
+
+        grid-template-areas: "timer"
+                             "cards"
+                             "user-story";
+    }
+}
+
 .card {
     position: inherit;
     width: 100%;
