@@ -2,6 +2,10 @@ p.marging-sm {
     margin-bottom: 5px;
 }
 
+div.card-body{
+    padding-bottom: 0;
+}
+
 div.button-container{
     display: flex;
     margin-top: 20px;
