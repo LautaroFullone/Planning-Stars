@@ -18,8 +18,8 @@ html,body {
     display: flex;
     align-items: center;
     margin: auto ;
-    padding-top: 14vh;
-    padding-bottom: 3vh;
+    padding-top: 12vh;
+    padding-bottom: 5vh;
     justify-content: space-around;
 }
 

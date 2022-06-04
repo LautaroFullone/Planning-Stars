@@ -22,6 +22,8 @@ import { QuickActionsComponent } from './components/party-quick-actions/party-qu
 import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-modal/party-add-edit-us-modal.component';
 import { PartyDeleteUsConfComponent } from './components/party-delete-us-conf/party-delete-us-conf.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PartyPlayerCardsComponent } from './components/party-player-cards/party-player-cards.component';
+import { PartyPlayerTimerComponent } from './components/party-player-timer/party-player-timer.component';
  
 
 @NgModule({
@@ -41,7 +43,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     QuickActionsComponent,
     PartyAddEditUsModalComponent,
     PartyDeleteUsConfComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PartyPlayerCardsComponent,
+    PartyPlayerTimerComponent
   ],
   imports: [
     BrowserModule,

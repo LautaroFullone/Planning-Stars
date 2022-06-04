@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
-import { PartyService } from 'src/app/services/party.service';
+import { UserStoryService } from 'src/app/services/user-story.service';
 import { PartyAddEditUsModalComponent } from '../party-add-edit-us-modal/party-add-edit-us-modal.component';
 import { UserStoriesListComponent } from '../party-user-stories-list/party-user-stories-list.component';
 
@@ -17,14 +17,12 @@ export class PartyAdminViewComponent implements OnInit {
     @ViewChild(PartyAddEditUsModalComponent) addEditUS_ChildComponent: PartyAddEditUsModalComponent;
     @ViewChild(UserStoriesListComponent) userStoriesList_ChildComponent: UserStoriesListComponent;
 
-
     selectedUS: UserStory;
     addedUS: UserStory;
     deletedUserStoryId: number;
-    updateUserStory: boolean;
 
-    constructor(private partyService: PartyService,
-        private toast: NgToastService) { }
+    constructor(private userStoryService: UserStoryService,
+                private toast: NgToastService) { }
 
     ngOnInit(): void { }
 
@@ -50,7 +48,7 @@ export class PartyAdminViewComponent implements OnInit {
 
     handleDeletedUS(event) {
         if (this.selectedUS) {
-            this.partyService.deleteUserStory(event).subscribe((response) => {
+            this.userStoryService.deleteUserStory(event).subscribe((response) => {
 
                 this.deletedUserStoryId = event;
 
@@ -59,7 +57,6 @@ export class PartyAdminViewComponent implements OnInit {
                     summary: `US #${this.selectedUS.tag} was successfully deleted`,
                     position: 'br', duration: 6000
                 })
-
             },
                 (apiError) => {
                     this.toast.error({

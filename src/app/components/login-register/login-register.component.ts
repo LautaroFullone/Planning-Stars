@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/auth/auth.service';
 import { LoginUser } from 'src/app/models/login-user';
-import { User } from 'src/app/models/user';
 import { ViewService } from 'src/app/services/view.service';
 
 @Component({
