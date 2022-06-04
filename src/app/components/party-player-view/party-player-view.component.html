@@ -1,1 +1,25 @@
-<p>party-player-view works!</p>
+<body>
+    <div class="ps-container">
+
+        <div class="main-grid">
+
+            <div class="timer">
+                <app-party-player-timer>
+                    
+                </app-party-player-timer>
+            </div>
+
+            <div class="ps-cards">
+                <app-party-player-cards>
+
+                </app-party-player-cards>
+            </div>
+
+            <div class="user-story">
+                <app-party-actual-user-story 
+                    [selectedUS]="userStory">
+                </app-party-actual-user-story>
+            </div>
+        </div>
+    </div>
+</body>

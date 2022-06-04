@@ -16,8 +16,12 @@ export class PartyService {
         })
     };
 
-    constructor(private http: HttpClient) { }
+    private cardsList = [   
+        { id: 1, value: '1' }, { id: 2, value: '2' }, { id: 3, value: '3' }, { id: 4, value: '5' }, { id: 9, value: '55' },
+        { id: 5, value: '8' }, { id: 6, value: '13' }, { id: 7, value: '21' }, { id: 8, value: '34' }, { id: 10, value: '89' }   
+    ];
 
+    constructor(private http: HttpClient) { }
 
     getPartyByID(partyID: string): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/party/${partyID}`, this.headers);
@@ -34,20 +38,8 @@ export class PartyService {
     getPartyUserStories(partyID: string): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/party/${partyID}/userstories`, this.headers);
     }
-    
-    createUserStory(userstory: UserStory): Observable<any> {
-        return this.http.post<any>(`${environment.apiURL}/userStory`, userstory, this.headers);
-    }
 
-    addUserStoryToParty(partyID: String, usID: String): Observable<any> {
-        return this.http.put<any>(`${environment.apiURL}/party/${partyID}/userstory/${usID}`, this.headers);
-    }
-
-    deleteUserStory(usID: number): Observable<any> {
-        return this.http.delete<any>(`${environment.apiURL}/userStory/${usID}`, this.headers);
-    }
-
-    updateUserStory(usID: number, newUS: UserStory): Observable<any> {
-        return this.http.put<any>(`${environment.apiURL}/userStory/${usID}`, newUS, this.headers);
+    getCardsList(){
+        return this.cardsList;
     }
 }

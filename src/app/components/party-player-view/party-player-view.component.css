@@ -1,0 +1,222 @@
+html,
+body {
+    background-color: #f6f5f7;
+    height: 93vh;
+}
+
+.ps-container {
+    margin: 0 auto;
+    width: 98%;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+.main-grid {
+    display: grid;
+    grid-gap: 2vh;
+    width: 100%;
+
+    grid-template-columns: repeat(2,minmax(200px, 1fr)) ;
+    grid-template-rows: repeat(2, minmax(400px, 43.5vh));
+
+    grid-template-areas: "timer  user-story"
+                         "cards  user-story";
+}
+
+@media screen and (max-width: 1100px) {
+    .main-grid {
+        grid-template-columns: repeat(2, minmax(450px, 1fr));
+        grid-template-rows: 0.5fr 1fr;
+        background-color: red;
+        grid-template-areas: "timer        cards"
+                             "user-story   user-story";
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main-grid {
+        grid-template-columns: minmax(600px, 1fr);
+        grid-template-rows: 200px 400px;
+
+        grid-template-areas: "timer"
+                             "cards"
+                             "user-story";
+    }
+}
+
+.card {
+    position: inherit;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main-grid .user-story {
+    grid-area: user-story;
+}
+
+.main-grid .timer {
+    grid-area: timer;
+}
+
+.main-grid .ps-cards {
+    grid-area: cards;
+}
+
+div.title-box {
+    height: 50px;
+}
+
+a.link {
+    background-image: linear-gradient(to right, #F27121, #E94057 50%, #8A2387 50%, #000 50%);
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+a.link:before {
+    content: '';
+    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+a.link:hover {
+    background-position: 0;
+}
+
+a.link:hover::before {
+    width: 100%;
+}
+
+.text-align-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.card-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.card-title {
+    margin-bottom: 15px;
+}
+
+div.card-body.y-scroll {
+    overflow-y: auto;
+}
+
+.text-container {
+    height: 500px;
+    overflow: auto;
+}
+
+div.my-card-footer {
+    padding: 1rem 0;
+}
+
+li.item-link {
+    white-space: nowrap;
+}
+
+p.marging-sm {
+    margin-bottom: 5px;
+}
+
+.details-container {
+    overflow: hidden;
+}
+
+.details-container ul li>b {
+    font-size: 17px;
+}
+
+
+div.waiting-body {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    background-color: #00000008;
+}
+
+div.players-grid {
+    display: grid;
+    gap: 5px;
+    align-items: center;
+
+    grid-template-columns: minmax(200px, 2fr) minmax(200px, 1fr);
+    grid-auto-rows: minmax(50px, auto);
+
+}
+
+.player-name {
+    font-size: 18px;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+
+.player-name>.text-muted {
+    font-weight: normal;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+div.player-status {
+    justify-self: center;
+}
+
+div.completed {
+    color: #F27121;
+}
+
+div.incompleted {
+    color: #8A2387;
+}
+
+/*@media screen and (max-width: 1450px) {
+    .main-grid {
+        grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
+        grid-template-rows: repeat(3, minmax(400px, 422px));
+
+        grid-template-areas: "stories-list  actual-story"
+            "actions       actual-story"
+            "players       players";
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .main-grid {
+        grid-template-columns: minmax(200px, 1fr);
+        grid-template-rows: repeat(2, minmax(600px, 422px)) minmax(100px, 200px) minmax(600px, 422px);
+
+        grid-template-areas: "stories-list"
+            "actual-story"
+            "actions"
+            "players";
+    }
+
+    .text-container {
+        max-height: 250px;
+    }
+
+    .list-container {
+        max-height: 450px;
+        overflow: auto;
+    }
+
+}*/

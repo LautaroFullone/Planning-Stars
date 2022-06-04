@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
-import { PartyService } from 'src/app/services/party.service';
+import { UserStoryService } from 'src/app/services/user-story.service';
 
 @Component({
     selector: 'app-party-add-edit-us-modal',
@@ -36,7 +36,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
     get usStoryWritter() { return this.userStoryForm.get('storyWritter').value; }
     get usFileLink() { return this.userStoryForm.get('fileLink').value; }
 
-    constructor(private partyService: PartyService,
+    constructor(private userStoryService: UserStoryService,
                 private toast: NgToastService,
                 private render: Renderer2) { }
 
@@ -82,7 +82,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         if(this.selectedUS){
             usData.id = this.selectedUS.id;
 
-            this.partyService.updateUserStory(this.selectedUS.id, usData).subscribe( response => {
+            this.userStoryService.updateUserStory(this.selectedUS.id, usData).subscribe( response => {
                 
                 this.updatedUserStory.emit();
 
@@ -102,9 +102,9 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
 
         }
         else{ 
-            this.partyService.createUserStory(usData).subscribe(usResponse => {
+            this.userStoryService.createUserStory(usData).subscribe(usResponse => {
 
-                this.partyService.addUserStoryToParty(this.partyID, usResponse.id).subscribe(response => {
+                this.userStoryService.addUserStoryToParty(this.partyID, usResponse.id).subscribe(response => {
 
                     this.addedUserStory.emit(usResponse);
 

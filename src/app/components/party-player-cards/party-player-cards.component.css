@@ -1,0 +1,46 @@
+p.marging-sm {
+    margin-bottom: 5px;
+}
+
+div.button-container{
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+div.cards-container{
+    display: flex;
+    flex-direction: row;
+
+    margin: 0 auto;
+    max-width: 90%;
+    overflow-x: auto;
+    padding: 5px 5px 0 5px;
+}
+
+button.my-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 10px;
+    text-decoration: none;
+
+    margin: 1vh 1vw;
+    height: 200px;
+    min-width: 140px;
+    font-size: 80px;
+    font-weight: bolder;
+
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #F27121, #E94057, #8A2387);
+    border: none;
+}
+
+button.my-card.active{
+    transition-duration: 0.5s;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    border: 2px #24252A solid;
+}
