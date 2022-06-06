@@ -17,8 +17,8 @@ export class PartyService {
     };
 
     private cardsList = [   
-        { id: 1, value: '1' }, { id: 2, value: '2' }, { id: 3, value: '3' }, { id: 4, value: '5' }, { id: 9, value: '55' },
-        { id: 5, value: '8' }, { id: 6, value: '13' }, { id: 7, value: '21' }, { id: 8, value: '34' }, { id: 10, value: '89' }   
+        { id: 1, value: '1' }, { id: 2, value: '2' }, { id: 3, value: '3' }, { id: 4, value: '5' }, { id: 5, value: '8' }, 
+        { id: 6, value: '13' }, { id: 7, value: '21' }, { id: 8, value: '34' }, { id: 10, value: '89' }   
     ];
 
     constructor(private http: HttpClient) { }
