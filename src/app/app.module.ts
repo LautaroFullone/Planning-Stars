@@ -24,7 +24,9 @@ import { PartyDeleteUsConfComponent } from './components/party-delete-us-conf/pa
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PartyPlayerCardsComponent } from './components/party-player-cards/party-player-cards.component';
 import { PartyPlayerTimerComponent } from './components/party-player-timer/party-player-timer.component';
- 
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }; 
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { PartyPlayerTimerComponent } from './components/party-player-timer/party
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgToastModule
+    NgToastModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     {
