@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Party } from '../models/party';
 import { UserStory } from '../models/user-story';
-import { Util_Constants } from '../util/util-constants';
 
 @Injectable({
     providedIn: 'root'
@@ -16,28 +16,30 @@ export class PartyService {
         })
     };
 
+    private cardsList = [   
+        { id: 1, value: '1' }, { id: 2, value: '2' }, { id: 3, value: '3' }, { id: 4, value: '5' }, { id: 5, value: '8' }, 
+        { id: 6, value: '13' }, { id: 7, value: '21' }, { id: 8, value: '34' }, { id: 10, value: '89' }   
+    ];
+
     constructor(private http: HttpClient) { }
 
+    getPartyByID(partyID: string): Observable<any> {
+        return this.http.get<any>(`${environment.apiURL}/party/${partyID}`, this.headers);
+    }
 
     createParty(party: Party): Observable<any> {
-        return this.http.post<any>(Util_Constants.API_URL + '/party', party, this.headers);
-    }
-
-    getPartyUserStories(partyID: string): Observable<any> {
-        return this.http.get<any>(`${Util_Constants.API_URL}/party/${partyID}/userstories`, this.headers);
-    }
-    createUserStory(userstory: UserStory): Observable<any> {
-        return this.http.post<any>(`${Util_Constants.API_URL}/userStory`, userstory, this.headers);
-    }
-    addUserStoryToParty(partyID: String, usID: String): Observable<any> {
-        return this.http.put<any>(`${Util_Constants.API_URL}/party/${partyID}/userstory/${usID}`, this.headers);
-    }
-    deleteUserStory(usID: number): Observable<any> {
-        return this.http.delete<any>(`${Util_Constants.API_URL}/userStory/${usID}`, this.headers);
+        return this.http.post<any>(`${environment.apiURL}/party`, party, this.headers);
     }
 
     getPartyPlayers(partyID: string): Observable<any> {
-        return this.http.get<any>(`${Util_Constants.API_URL}/party/${partyID}/players`, this.headers);
+        return this.http.get<any>(`${environment.apiURL}/party/${partyID}/players`, this.headers);
+    }
+ 
+    getPartyUserStories(partyID: string): Observable<any> {
+        return this.http.get<any>(`${environment.apiURL}/party/${partyID}/userstories`, this.headers);
     }
 
+    getCardsList(){
+        return this.cardsList;
+    }
 }

@@ -6,8 +6,10 @@
             <div class="stories-list">
                 <app-party-user-stories-list
                     [partyID]= "partyID"
+                    [addedUserStory] = "addedUS"
                     [deletedUserStoryId] = "deletedUserStoryId"
-                    (selectedUserStory)= "handleSelectedUS($event)">
+                    (selectedUserStory)= "handleSelectedUS($event)" 
+                    (resetSelectedUserStory)= "handleResetUS()">
                 </app-party-user-stories-list>
             </div>
             
@@ -19,9 +21,8 @@
 
             <div class="actions">
                 <app-party-quick-actions
-                    [partyID]= "partyID"
                     [selectedUS] ="selectedUS"
-                    (deletedUserStory)= "handleDeletedUS($event)">
+                    (updatingUserStory) = "handleUpdatingUS()">
                 </app-party-quick-actions>
             </div>
 
@@ -33,3 +34,15 @@
         </div>
     </div>
 </body>
+
+<app-party-add-edit-us-modal
+    [partyID]="partyID"
+    [selectedUS]= "selectedUS"
+    (addedUserStory)="handleAddedUs($event)"
+    (updatedUserStory) = "handleUpdatedUS()">
+</app-party-add-edit-us-modal>
+
+<app-party-delete-us-conf 
+    [userStory] = "selectedUS"
+    (confirmation)="handleDeletedUS($event)">
+</app-party-delete-us-conf>

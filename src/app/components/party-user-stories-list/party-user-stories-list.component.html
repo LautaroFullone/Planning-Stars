@@ -3,9 +3,9 @@
         <i class="fa-solid fa-list-check"></i> - User Stories List
     </div>
     <div class="card-body" style="overflow: hidden;">
-        <p class="card-text marging-sm">Here you can see the execution list of the items who are going
-            to be
-            estimated</p>
+        <p class="card-text marging-sm">
+            Here you can see the execution list of the items who are going to be estimated
+        </p>
 
         <div class="list-container">
 
@@ -22,16 +22,9 @@
         </div>
         
     </div>
-    <div class="card-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
+    <div class="card-footer text-align-center">
+        <button type="button" class="btn btn-outline-secondary" (click)="resetSelectedUS()" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
             Add Item
         </button>
     </div>
 </div>
-
-<app-party-add-edit-us-modal
-    [partyID]="partyID"
-    formAction= 'Create'
-    (addedUserStory)="handleAddedUs($event)">
-
-</app-party-add-edit-us-modal>

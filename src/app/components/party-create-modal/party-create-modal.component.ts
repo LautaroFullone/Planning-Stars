@@ -80,13 +80,9 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
     joinParty(){
         this.resetForm()
         this.isPartyCreated= false;
-
-        console.log('enter');
-        console.log(this.partyID_value);
     }
 
     copyToClipboard(): void {
-        console.log('tratando de copiar');
         if(this.isPartyCreated){
             this.partyID.nativeElement.select();
             document.execCommand("copy");

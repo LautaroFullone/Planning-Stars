@@ -8,4 +8,5 @@ export class UserStory {
     workArea: string;
     storyWritter: string;
     fileLink: string;
+    isActive: boolean;
 }

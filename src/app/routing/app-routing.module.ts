@@ -4,12 +4,15 @@ import { AuthNotGuard } from '../auth/auth-not.guard';
 import { AuthGuard } from '../auth/auth.guard';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { LoginRegisterComponent } from '../components/login-register/login-register.component';
+import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { PartySwitchComponent } from '../components/party-switch/party-switch.component';
+import { PartyExistsGuard } from '../guards/party-exists.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginRegisterComponent, canActivate: [AuthNotGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'party/:id', component: PartySwitchComponent, canActivate: [AuthGuard] }, 
+  { path: 'party/:id', component: PartySwitchComponent, canActivate: [AuthGuard, PartyExistsGuard] }, 
+  { path: 'not-found', component: NotFoundComponent},
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
   { path: '**', redirectTo: '/dashboard', pathMatch: 'full'}
 ];

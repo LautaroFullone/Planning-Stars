@@ -1,20 +1,22 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
-import { PartyService } from 'src/app/services/party.service';
+import { UserStoryService } from 'src/app/services/user-story.service';
 
 @Component({
     selector: 'app-party-add-edit-us-modal',
     templateUrl: './party-add-edit-us-modal.component.html',
     styleUrls: ['./party-add-edit-us-modal.component.css']
 })
-export class PartyAddEditUsModalComponent implements OnInit {
+export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
 
     @Input() partyID: string;
-    @Input() formAction: string;
     @Input() selectedUS: UserStory;
     @Output() addedUserStory = new EventEmitter<UserStory>();
+    @Output() updatedUserStory = new EventEmitter<any>();
+
+    formAction: string;
 
     userStoryForm = new FormGroup({
         tag: new FormControl('', [Validators.required, Validators.maxLength(10)]),
@@ -34,54 +36,39 @@ export class PartyAddEditUsModalComponent implements OnInit {
     get usStoryWritter() { return this.userStoryForm.get('storyWritter').value; }
     get usFileLink() { return this.userStoryForm.get('fileLink').value; }
 
-    constructor(private partyService: PartyService,
-                private toast: NgToastService) { }
+    constructor(private userStoryService: UserStoryService,
+                private toast: NgToastService,
+                private render: Renderer2) { }
 
    
     ngOnChanges(changes: SimpleChanges) {
-        console.log(' PartyAddEditUsModalComponent changesssssssssssssss');
-        console.log(changes);
-        if (changes['selectedUS'])
-            this.selectedUS = changes['selectedUS'].currentValue;
-    }	
+        this.formAction = (this.selectedUS) ? 'Update' : 'Create';
+    }
 
     ngOnInit(): void {
-       /* //console.log(this.selectedUS);
-        if(this.selectedUS){
-            console.log('populating');
-            //this.populateInputs();
-            this.userStoryForm.setValue({
-                tag: 'abc',
-                name: 'def',
-                sprint: 'abc',
-                description: 'def',
-                workArea: 'abc',
-                storyWritter: 'def',
-                fileLink: 'abc'
-            });
-        
-            this.userStoryForm.get('tag').setValue(2143);
-            console.log(this.userStoryForm.get('tag').status);
-            console.log('tag-> ' +this.usTag);
-            console.log('name-> ' + this.usName);
-            console.log('sprint-> ' + this.usSprint);
-            console.log('description-> ' + this.usDescription);
-            console.log('workArea-> ' + this.usWorkArea);
-            console.log('storyWritter-> ' + this.usStoryWritter);
-            console.log('fileLink-> ' + this.usFileLink);
-        }*/
+       this.render.listen(document, "keydown", (event) => {
+            if(event.key == 'Escape'){
+               this.cleanModal();
+            }
+        })
+    }
+
+    cleanModal() {
+        setTimeout(() => this.userStoryForm.reset(), 500)
     }
 
     populateInputs(){
-        this.usTag.value = this.selectedUS.tag;
-        this.usName.value = this.selectedUS.name;
-        this.usSprint.value = this.selectedUS.sprint;
-        this.usDescription.value = this.selectedUS.description;
-        this.usWorkArea.value = this.selectedUS.workArea;
-        this.usStoryWritter.value = this.selectedUS.storyWritter;
-        this.usFileLink.value = this.selectedUS.fileLink;
+        this.userStoryForm.setValue({
+            tag: this.selectedUS.tag,
+            name: this.selectedUS.name,
+            sprint: this.selectedUS.sprint,
+            description: this.selectedUS.description,
+            workArea: this.selectedUS.workArea,
+            storyWritter: this.selectedUS.storyWritter,
+            fileLink: this.selectedUS.fileLink
+        });
     }
-    
+
     ngSubmit() {
         let usData = new UserStory();
         usData.tag = this.usTag;
@@ -93,20 +80,31 @@ export class PartyAddEditUsModalComponent implements OnInit {
         usData.fileLink = this.usFileLink;
 
         if(this.selectedUS){
-            console.log('trying to update');
+            usData.id = this.selectedUS.id;
 
-            console.log('tag-> ' + this.usTag);
-            console.log('name-> ' + this.usName);
-            console.log('sprint-> ' + this.usSprint);
-            console.log('description-> ' + this.usDescription);
-            console.log('workArea-> ' + this.usWorkArea);
-            console.log('storyWritter-> ' + this.usStoryWritter);
-            console.log('fileLink-> ' + this.usFileLink);
+            this.userStoryService.updateUserStory(this.selectedUS.id, usData).subscribe( response => {
+                
+                this.updatedUserStory.emit();
+
+                this.toast.info({
+                    detail: "US UPDATED",
+                    summary: `${response.name} was successfully updated`,
+                    position: 'br', duration: 6000
+                }),
+                    (apiError) => {
+                        this.toast.error({
+                            detail: "US ERROR",
+                            summary: apiError,
+                            position: 'br', duration: 6000
+                        })
+                    }
+            })
+
         }
         else{ 
-            this.partyService.createUserStory(usData).subscribe(usResponse => {
+            this.userStoryService.createUserStory(usData).subscribe(usResponse => {
 
-                this.partyService.addUserStoryToParty(this.partyID, usResponse.id).subscribe(response => {
+                this.userStoryService.addUserStoryToParty(this.partyID, usResponse.id).subscribe(response => {
 
                     this.addedUserStory.emit(usResponse);
 
@@ -133,13 +131,5 @@ export class PartyAddEditUsModalComponent implements OnInit {
                 }
         }
         this.userStoryForm.reset();
-
     }
- showUs() {
-        console.log('PartyAddEditUsModalComponent US:');
-        console.log(this.selectedUS);
-        console.log('PartyAddEditUsModalComponent PARTY:');
-        console.log(this.partyID);
-    }
-
 }

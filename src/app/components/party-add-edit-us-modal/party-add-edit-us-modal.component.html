@@ -1,10 +1,10 @@
-<div class="modal fade" (click)="showUs()" id="createUpdateUsModal"  data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="createUpdateUsModalTitle"
+<div class="modal fade" id="createUpdateUsModal"  data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="createUpdateUsModalTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">{{formAction}} User Story</h5>
-                <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
+                <a class="closeButton" data-bs-dismiss="modal" aria-label="Close" (click)="cleanModal()">
                     <span aria-hidden="true">&times;</span>
                 </a>
             </div>
@@ -52,7 +52,7 @@
 
                 <div class="modal-footer">
                     <small class="form-text text-muted"></small>
-                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="!userStoryForm.valid" >Create</button>
+                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="!userStoryForm.valid">{{formAction}}</button>
                 </div>
 
             </form>
