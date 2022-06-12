@@ -11,7 +11,7 @@ import { ViewService } from 'src/app/services/view.service';
 })
 export class PartySwitchComponent implements OnInit, OnDestroy {
 
-    isAdmin: boolean = false;
+    isAdmin: boolean = true;
     partyParamID: string;
     
     constructor(private activatedRoute: ActivatedRoute,
@@ -36,7 +36,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
     listenServerEvents(){
         this.socketService._playerJoin.subscribe(username => {
-            this.toast.success({
+            this.toast.info({
                 detail: "Player Joined",
                 summary: `${username} has just arrived to the party`,
                 position: 'br', duration: 6000
@@ -44,9 +44,17 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
         })
 
         this.socketService._playerLeave.subscribe(username => {
-            this.toast.warning({
+            this.toast.info({
                 detail: "Player Leave",
                 summary: `${username} has leave the party`,
+                position: 'br', duration: 6000
+            })
+        })
+
+        this.socketService._actualPlayerJoin.subscribe( () => {
+            this.toast.success({
+                detail: "You are in!",
+                summary: `Welcome to the party`,
                 position: 'br', duration: 6000
             })
         })

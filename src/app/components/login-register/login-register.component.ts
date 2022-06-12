@@ -62,47 +62,51 @@ export class LoginRegisterComponent implements OnInit{
             this.userToLogIn.email = this.register_email;
             this.userToLogIn.password = this.register_password;
         }
+        
+        this.authService.login(this.userToLogIn).subscribe({
+            next: () => {
+                if (this.authService.token)
+                    this.router.navigateByUrl('/dashboard');
 
-        this.authService.login(this.userToLogIn).subscribe((response) => {
-
-            if (this.authService.token) 
-                this.router.navigateByUrl('/dashboard');
-            
-            this.toast.success({
-                detail: "LOGIN SUCCESS",
-                summary: "It's good to see you here.",
-                position: 'br', duration: 6000
-            })
-        },
-            (apiError) => {
+                if(isOldUser){
+                    this.toast.success({
+                        detail: "Login Success",
+                        summary: "It's good to see you here.",
+                        position: 'br', duration: 6000
+                    })
+                }
+            },
+            error: (apiError) => {
                 this.toast.error({
                     detail: apiError.error.message,
                     summary: apiError.error.errors[0],
                     position: 'br', duration: 6000
                 })
-            });
+            }
+        })
     }
 
     registerUser() {
-        this.authService.register(this.register_name,
-            this.register_email,
-            this.register_password).subscribe((response) => {
-
+        this.authService.register(this.register_name, this.register_email, this.register_password).subscribe({
+            next: () => {
                 //calling again to login method telling that the user is new
                 this.loginUser(false);
+                
                 this.toast.success({
-                    detail: "REGISTER SUCCESS",
+                    detail: "Register Success",
                     summary: "Welcome to the jungle.",
                     position: 'br', duration: 6000
                 })
             },
-                (apiError) => {
-                    this.toast.error({
-                        detail: apiError.error.message,
-                        summary: apiError.error.errors[0],
-                        position: 'br', duration: 6000
-                    })
-                });
+            error: (apiError) => {
+                this.toast.error({
+                    detail: apiError.error.message,
+                    summary: apiError.error.errors[0],
+                    position: 'br', duration: 6000
+                })
+            }
+        })
+
     }
 
 }

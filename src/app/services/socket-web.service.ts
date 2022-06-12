@@ -7,6 +7,7 @@ import { Socket } from 'ngx-socket-io';
 export class SocketWebService {
 
     _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
+    _actualPlayerJoin = this.socket.fromEvent<any>('actualPlayerJoin_socket');
     _playerLeave = this.socket.fromEvent<any>('playerLeave_socket');
 
     dummyUser = {
