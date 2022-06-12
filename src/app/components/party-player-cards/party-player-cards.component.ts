@@ -40,7 +40,7 @@ export class PartyPlayerCardsComponent implements OnInit {
                 position: 'br', duration: 6000
             })
         } else{
-            this.toast.info({
+            this.toast.warning({
                 detail: "INVALID ACTION",
                 summary: `Please select a card before vote`,
                 position: 'br', duration: 6000

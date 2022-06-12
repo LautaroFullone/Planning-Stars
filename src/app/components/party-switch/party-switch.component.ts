@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -9,12 +9,11 @@ import { ViewService } from 'src/app/services/view.service';
     templateUrl: './party-switch.component.html',
     styleUrls: ['./party-switch.component.css']
 })
-export class PartySwitchComponent implements OnInit {
+export class PartySwitchComponent implements OnInit, OnDestroy {
 
-    isAdmin: boolean = true;
+    isAdmin: boolean = false;
     partyParamID: string;
     
-
     constructor(private activatedRoute: ActivatedRoute,
                 private viewService: ViewService,
                 private toast: NgToastService,
@@ -23,30 +22,38 @@ export class PartySwitchComponent implements OnInit {
         this.viewService.setShowNarBar(true, false);
     }
 
+    ngOnDestroy(): void {
+        this.socketService.leaveParty(this.partyParamID);
+    }
+
     ngOnInit(): void {
         this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
         
-        sessionStorage.setItem('party', this.partyParamID);
-        console.log('party', this.partyParamID);
+        this.socketService.joinParty(this.partyParamID);
 
-        /*this.socketService.joinSocketParty();
+        this.listenServerEvents();
+    }
 
-        this.socketService._playerJoinned.subscribe(partyID => {
-            console.log('recibi algo');
+    listenServerEvents(){
+        this.socketService._playerJoin.subscribe(username => {
             this.toast.success({
                 detail: "Player Joined",
-                summary: `A player has joned into the party ${partyID}`,
+                summary: `${username} has just arrived to the party`,
                 position: 'br', duration: 6000
             })
-        })*/
-            
-            
-            
+        })
 
-
-
+        this.socketService._playerLeave.subscribe(username => {
+            this.toast.warning({
+                detail: "Player Leave",
+                summary: `${username} has leave the party`,
+                position: 'br', duration: 6000
+            })
+        })
 
     }
+
+    
 
 
 

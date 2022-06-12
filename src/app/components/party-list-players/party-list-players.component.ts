@@ -21,16 +21,16 @@ export class ListPlayersComponent implements OnInit {
     }
 
     getPartyPlayers() {
-        this.partyService.getPartyPlayers(this.partyID).subscribe((response) => {
-            this.playersList = response;
-        },
-            (apiError) => {
+        this.partyService.getPartyPlayers(this.partyID).subscribe({
+            next: (response) => { this.playersList = response; },
+            error: (apiError) => {
                 this.toast.error({
                     detail: apiError.error.message,
                     summary: apiError.error.errors[0],
                     position: 'br', duration: 6000
                 })
-            });
+            }
+        })
     }
 
 }

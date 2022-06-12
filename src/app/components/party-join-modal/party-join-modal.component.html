@@ -8,20 +8,23 @@
                     <span aria-hidden="true">&times;</span>
                 </a>
             </div>
-            <div class="modal-body">
-                <small class="font-weight-light">Please provide the Party ID that you are trying to enter.</small>
-                <form>
-                    <div class="row">
-                        <div class="col-8" style="margin: auto;">
-                            <input type="text" id="party_id" placeholder="Party Id">
+            <form [formGroup]="partyForm" (ngSubmit)="ngSubmit()">
+                <div class="modal-body">
+                    <small class="font-weight-light">Please provide the Party ID that you are trying to enter.</small>
+                    
+                        <div class="row">
+                            <div class="col-8" style="margin: auto;">
+                                <input type="text" id="party_id" formControlName="id" placeholder="Party Id">
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <small class="form-text text-muted">You'll be redirected!</small>
-                <button type="button" class="primary-button">Join</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <small class="form-text text-muted">You'll be redirected!</small>
+                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="!partyForm.valid">
+                        Join
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

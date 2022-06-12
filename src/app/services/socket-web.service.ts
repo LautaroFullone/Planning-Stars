@@ -2,19 +2,30 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SocketWebService {
 
-  _playerJoinned = this.socket.fromEvent<any>('playerJoined_socket');
+    _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
+    _playerLeave = this.socket.fromEvent<any>('playerLeave_socket');
 
-  @Output() outputEvent: EventEmitter<any> = new EventEmitter();
+    dummyUser = {
+        id: '001',
+        name: 'Danny Ocean',
+        email: 'dany.ocean@hotmail.com',
+    }
 
-  constructor(private socket: Socket) { }
+    @Output() outputEvent: EventEmitter<any> = new EventEmitter();
 
-  /*
-  joinSocketParty() {
-    this.socket.emit('joinParty', { partyID: sessionStorage.getItem('party'), user: });
-  }*/
+    constructor(private socket: Socket) { }
+
+    joinParty(partyID: string) {
+        this.socket.emit('joinParty', { party: partyID, user: this.dummyUser });
+    }
+
+    leaveParty(partyID: string) {
+        this.socket.emit('leaveParty', { party: partyID, user: this.dummyUser });
+        sessionStorage.removeItem('party');
+    }
 
 }
