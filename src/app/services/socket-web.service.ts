@@ -18,6 +18,7 @@ export class SocketWebService {
                 private authService: AuthService) {  }
 
     joinParty(partyID: string) {
+        this.socket.connect();
         this.authService.getUser().subscribe({
             next: (response) => { 
                 this.userLogged = response; 
@@ -30,7 +31,6 @@ export class SocketWebService {
         this.socket.emit('leaveParty', { party: partyID, user: this.userLogged });
         sessionStorage.removeItem('party');
         this.socket.disconnect();
-        
     }
 
 }
