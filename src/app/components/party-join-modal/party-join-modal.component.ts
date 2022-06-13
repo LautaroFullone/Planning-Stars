@@ -21,14 +21,16 @@ export class PartyJoinModalComponent implements OnInit {
                 private router: Router,
                 private toast: NgToastService) { }
 
-    ngOnInit(): void {
-        
-    }
+    ngOnInit(): void { }
 
     ngSubmit() {
         this.partyService.getPartyByID(this.id).subscribe({
-            next: () => {   this.router.navigateByUrl(`/party/${this.id}`)  },
+            next: () => {  
+                this.router.navigateByUrl(`/party/${this.id}`);
+                this.partyForm.reset();
+            },
             error: (apiError) => {
+                this.partyForm.reset(); 
                 this.toast.error({
                     detail: apiError.error.message,
                     summary: apiError.error.errors[0],

@@ -10,21 +10,23 @@ import { ViewService } from 'src/app/services/view.service';
 })
 export class NavBarComponent implements OnInit {
     showOptions: boolean;
-    username: String = '...';
+    username: String;
 
     constructor(private authService: AuthService,
                 private viewService: ViewService) { }
 
     ngOnInit(): void {
-        this.username = this.authService.getUserName();
+        this.viewService.getShowNavBarOptions().subscribe({
+            next: (response) => { this.showOptions = response }
+        })
 
-        this.viewService.getShowNavBarOptions().subscribe(value => {
-            this.showOptions = value
-        });
+        this.authService.getUser().subscribe({
+            next: (response) => { this.username = response.name }
+        })
     }
 
-    logOut() {
-        this.authService.logOut();
+    logout() {
+        this.authService.logout();
     }
 
 }
