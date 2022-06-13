@@ -21,7 +21,7 @@ export class PartyExistsGuard implements CanActivate {
         let partyID = route.params['id'];
     
         return this.partyService.getPartyByID(partyID).pipe(
-            catchError( () => of(false)),               //of() method return an observable with parameter value 
+            catchError( () => of(false)),   //of() method return an observable with parameter value 
             map(response => {
                 if(!response){
                     this.router.navigateByUrl('/not-found');
@@ -31,13 +31,11 @@ export class PartyExistsGuard implements CanActivate {
                         summary: `The party #${partyID} was not found`,
                         position: 'br', duration: 6000
                     })
-
                     return false;
                 }
                 return true;
             })
         );
     }
-
 
 }

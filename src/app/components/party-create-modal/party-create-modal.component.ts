@@ -30,13 +30,10 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
 
     constructor(private partyService: PartyService,
         private authService: AuthService,
-        private router: Router,
         private render: Renderer2,
         private toast: NgToastService) { }
 
-    ngOnInit(): void {
- 
-    }
+    ngOnInit(): void { }
 
     ngAfterViewInit(): void {
         this.render.listen(this.partyID.nativeElement, "focus", () => {
