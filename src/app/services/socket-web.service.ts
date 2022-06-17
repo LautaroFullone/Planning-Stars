@@ -7,10 +7,11 @@ import { User } from '../models/user';
     providedIn: 'root'
 })
 export class SocketWebService {
-
-    _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
+    
     _actualPlayerJoin = this.socket.fromEvent<any>('actualPlayerJoin_socket');
+    _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
     _playerLeave = this.socket.fromEvent<any>('playerLeave_socket');
+    _partyPlayers = this.socket.fromEvent<any>('partyPlayers_socket');
 
     private userLogged: User;
 
@@ -19,6 +20,7 @@ export class SocketWebService {
 
     joinParty(partyID: string) {
         this.socket.connect();
+        
         this.authService.getUser().subscribe({
             next: (response) => { 
                 this.userLogged = response; 
