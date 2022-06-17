@@ -1,4 +1,4 @@
-<div *ngIf="isAdmin; then admin_view else player_view"></div>
+<div *ngIf="isOwner; then admin_view else player_view"></div>
 
 <ng-template #admin_view>
     <app-party-admin-view

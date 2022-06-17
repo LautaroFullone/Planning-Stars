@@ -47,7 +47,8 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         partyData.name = this.partyName;
         partyData.maxPlayer = this.partySize;
         partyData.createdBy = this.authService.getUserName();
-
+        partyData.partyOwnerId = sessionStorage.getItem('user-id');
+        
         this.partyService.createParty(partyData).subscribe(response => {
 
             this.render.setProperty(this.partyID.nativeElement, 'value', '#'+response.id);

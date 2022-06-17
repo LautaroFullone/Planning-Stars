@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { PartyService } from 'src/app/services/party.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { ViewService } from 'src/app/services/view.service';
 
@@ -11,20 +12,32 @@ import { ViewService } from 'src/app/services/view.service';
 })
 export class PartySwitchComponent implements OnInit, OnDestroy {
 
-    isAdmin: boolean = true;
+    isOwner: boolean;
     partyParamID: string;
     
     constructor(private activatedRoute: ActivatedRoute,
                 private viewService: ViewService,
                 private toast: NgToastService,
-                private socketService: SocketWebService) {
+                private socketService: SocketWebService,
+                private partyService: PartyService) {
                     
         this.viewService.setShowNarBar(true, false);
     }
 
     ngOnInit(): void {
         this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
-        this.socketService.joinParty(this.partyParamID);
+
+        this.partyService.getPartyByID(this.partyParamID).subscribe({
+            next: (response) => { 
+                console.log('response', response);
+                let partyOwner = response.partyOwnerId;
+                let actualUser = sessionStorage.getItem('user-id');
+                this.isOwner = (partyOwner == actualUser)? true : false;
+
+                this.socketService.joinParty(this.partyParamID);
+            }
+        })
+
         this.listenServerEvents();
     }
     
@@ -64,9 +77,4 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
         })
 
     }
-
-    
-
-
-
 }
