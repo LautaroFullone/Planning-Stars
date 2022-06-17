@@ -29,4 +29,7 @@ export class NavBarComponent implements OnInit {
         this.authService.logout();
     }
 
+    renameAccount(){
+        console.log('renameAccount');
+    }
 }

@@ -1,6 +1,6 @@
 <header>
     <a [routerLink]="['/dashboard']" routerLinkActive="active" class="nav-link logo"><b>PLANNING-STARS</b></a>
-    
+
     <ng-template [ngIf]="showOptions">
         <nav>
             <ul class="nav-links">
@@ -9,18 +9,24 @@
                 <li><a class="nav-link" href="#">How to play</a></li>
             </ul>
         </nav>
-    </ng-template>    
+    </ng-template>
+
     <button class="primary-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Options </button>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item disabled" href="#">Hello {{username}}!</a></li>
-        <li><a class="dropdown-item" href="#">Rename Account</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" (click)="logout()"> 
-                Logout <i class="fa-solid fa-arrow-right-from-bracket logoutIcon"></i>
-            </a>
+
+        <li><a class="dropdown-item disabled">Hello {{username}}!</a></li>
+
+        <li><a class="dropdown-item" (click)="renameAccount()">Rename Account</a></li>
+
+        <hr class="dropdown-divider">
+        
+        <li class="dropdown-item logout-container" (click)="logout()">
+            <a class="">Logout</a>
+            <i class="fa-solid fa-arrow-right-from-bracket logoutIcon"></i>
         </li>
+
     </ul>
-    
+
 </header>
 
 <app-party-join-modal></app-party-join-modal>

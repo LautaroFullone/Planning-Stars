@@ -33,7 +33,6 @@ ul{
 
 .nav-links li{
     display: inline-block;
-    padding: 0px 20px;
 }
 
 .nav-links li a{
@@ -44,4 +43,12 @@ ul{
     color: #FF4B2B;
 }
 
+ul.dropdown-menu li a:hover{
+    cursor: pointer;
+}
 
+.logout-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
