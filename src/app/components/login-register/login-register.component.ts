@@ -16,8 +16,8 @@ export class LoginRegisterComponent implements OnInit{
     userToLogIn = new LoginUser(); 
 
     loginForm = new FormGroup({
-        login_email: new FormControl('lautarofullone@gmail.com', [Validators.required, Validators.email]),
-        login_password: new FormControl('123', [Validators.required, Validators.minLength(3)]),
+        login_email: new FormControl('', [Validators.required, Validators.email]),
+        login_password: new FormControl('', [Validators.required, Validators.minLength(3)]),
     });
     get login_email() { return this.loginForm.get('login_email').value; }
     get login_password() { return this.loginForm.get('login_password').value; }

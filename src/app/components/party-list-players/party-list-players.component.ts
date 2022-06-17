@@ -1,11 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PartyService } from 'src/app/services/party.service';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
     selector: 'app-party-list-players',
     templateUrl: './party-list-players.component.html',
-    styleUrls: ['../party-admin-view/party-admin-view.component.css']
+    styleUrls: ['../party-admin-view/party-admin-view.component.css',
+                 './party-list-players.component.css']
 })
 export class ListPlayersComponent implements OnInit {
 
@@ -13,22 +16,16 @@ export class ListPlayersComponent implements OnInit {
 
     playersList = new Array<any>();
 
-    constructor(private partyService: PartyService,
-        private toast: NgToastService) { }
+    constructor(private socketService: SocketWebService) { }
 
     ngOnInit(): void {
-        this.getPartyPlayers();
+        this.initPlayersList();
     }
 
-    getPartyPlayers() {
-        this.partyService.getPartyPlayers(this.partyID).subscribe({
-            next: (response) => { this.playersList = response; },
-            error: (apiError) => {
-                this.toast.error({
-                    detail: apiError.error.message,
-                    summary: apiError.error.errors[0],
-                    position: 'br', duration: 6000
-                })
+    initPlayersList(){
+        this.socketService._partyPlayers.subscribe({
+            next: (players) => {
+                this.playersList = Object.values(players);
             }
         })
     }

@@ -22,41 +22,45 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
         this.viewService.setShowNarBar(true, false);
     }
 
+    ngOnInit(): void {
+        this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
+        this.socketService.joinParty(this.partyParamID);
+        this.listenServerEvents();
+    }
+    
     ngOnDestroy(): void {
         this.socketService.leaveParty(this.partyParamID);
     }
 
-    ngOnInit(): void {
-        this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
-        
-        this.socketService.joinParty(this.partyParamID);
-
-        this.listenServerEvents();
-    }
-
     listenServerEvents(){
-        this.socketService._playerJoin.subscribe(username => {
-            this.toast.info({
-                detail: "Player Joined",
-                summary: `${username} has just arrived to the party`,
-                position: 'br', duration: 6000
-            })
+        this.socketService._playerJoin.subscribe({
+            next: (user) => {
+                this.toast.info({
+                    detail: "Player Joined",
+                    summary: `${user.name} has just arrived to the party`,
+                    position: 'br', duration: 6000
+                })
+            }
         })
 
-        this.socketService._playerLeave.subscribe(username => {
-            this.toast.info({
-                detail: "Player Leave",
-                summary: `${username} has leave the party`,
-                position: 'br', duration: 6000
-            })
+        this.socketService._playerLeave.subscribe({
+            next: (user) => {
+                this.toast.info({
+                    detail: "Player Leave",
+                    summary: `${user.name} has leave the party`,
+                    position: 'br', duration: 6000
+                })
+            }
         })
 
-        this.socketService._actualPlayerJoin.subscribe( () => {
-            this.toast.success({
-                detail: "You are in!",
-                summary: `Welcome to the party`,
-                position: 'br', duration: 6000
-            })
+        this.socketService._actualPlayerJoin.subscribe({
+            next: () => {
+                this.toast.success({
+                    detail: "You are in!",
+                    summary: `Welcome to the party`,
+                    position: 'br', duration: 6000
+                })
+            }
         })
 
     }
