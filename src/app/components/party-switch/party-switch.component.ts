@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
+import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { ViewService } from 'src/app/services/view.service';
@@ -17,7 +17,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     
     constructor(private activatedRoute: ActivatedRoute,
                 private viewService: ViewService,
-                private toast: NgToastService,
+                private toast: NotificationService,
                 private socketService: SocketWebService,
                 private partyService: PartyService) {
                     
@@ -48,30 +48,27 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     listenServerEvents(){
         this.socketService._playerJoin.subscribe({
             next: (user) => {
-                this.toast.info({
-                    detail: "Player Joined",
-                    summary: `${user.name} has just arrived to the party`,
-                    position: 'br', duration: 6000
+                this.toast.successToast({
+                    title: "Player Joined",
+                    description: `${user.name} has just arrived to the party.`
                 })
             }
         })
 
         this.socketService._playerLeave.subscribe({
             next: (user) => {
-                this.toast.info({
-                    detail: "Player Leave",
-                    summary: `${user.name} has leave the party`,
-                    position: 'br', duration: 6000
+                this.toast.infoToast({
+                    title: "Player Leave",
+                    description: `${user.name} has leave the party.`
                 })
             }
         })
 
         this.socketService._actualPlayerJoin.subscribe({
             next: () => {
-                this.toast.success({
-                    detail: "You are in!",
-                    summary: `Welcome to the party`,
-                    position: 'br', duration: 6000
+                this.toast.successToast({
+                    title: "You are in!",
+                    description: `Welcome to the party.`
                 })
             }
         })

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
+import { NotificationService } from 'src/app/services/notification.service';
 import { UserStoryService } from 'src/app/services/user-story.service';
 
 @Component({
@@ -37,19 +37,18 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
     get usFileLink() { return this.userStoryForm.get('fileLink').value; }
 
     constructor(private userStoryService: UserStoryService,
-                private toast: NgToastService,
-                private render: Renderer2) { }
+        private toast: NotificationService,
+        private render: Renderer2) { }
 
-   
+
     ngOnChanges(changes: SimpleChanges) {
         this.formAction = (this.selectedUS) ? 'Update' : 'Create';
     }
 
     ngOnInit(): void {
-       this.render.listen(document, "keydown", (event) => {
-            if(event.key == 'Escape'){
-               this.cleanModal();
-            }
+        this.render.listen(document, "keydown", (event) => {
+            if (event.key == 'Escape') 
+                this.cleanModal();   
         })
     }
 
@@ -57,7 +56,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         setTimeout(() => this.userStoryForm.reset(), 500)
     }
 
-    populateInputs(){
+    populateInputs() {
         this.userStoryForm.setValue({
             tag: this.selectedUS.tag,
             name: this.selectedUS.name,
@@ -79,57 +78,55 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         usData.storyWritter = this.usStoryWritter;
         usData.fileLink = this.usFileLink;
 
-        if(this.selectedUS){
+        if (this.selectedUS) {
             usData.id = this.selectedUS.id;
 
-            this.userStoryService.updateUserStory(this.selectedUS.id, usData).subscribe( response => {
-                
-                this.updatedUserStory.emit();
+            this.userStoryService.updateUserStory(this.selectedUS.id, usData).subscribe({
+                next: (response) => {
+                    this.updatedUserStory.emit();
 
-                this.toast.info({
-                    detail: "US UPDATED",
-                    summary: `${response.name} was successfully updated`,
-                    position: 'br', duration: 6000
-                }),
-                    (apiError) => {
-                        this.toast.error({
-                            detail: "US ERROR",
-                            summary: apiError,
-                            position: 'br', duration: 6000
-                        })
-                    }
-            })
-
-        }
-        else{ 
-            this.userStoryService.createUserStory(usData).subscribe(usResponse => {
-
-                this.userStoryService.addUserStoryToParty(this.partyID, usResponse.id).subscribe(response => {
-
-                    this.addedUserStory.emit(usResponse);
-
-                    this.toast.success({
-                        detail: "US CREATED",
-                        summary: `${usResponse.name} was successfully created`,
-                        position: 'br', duration: 6000
+                    this.toast.infoToast({
+                        title: "User Story Updated",
+                        description: `Item #${response.name} was successfully updated`
                     })
-                }),
-                    (apiError) => {
-                        this.toast.error({
-                            detail: "US ERROR",
-                            summary: apiError,
-                            position: 'br', duration: 6000
-                        })
-                    }
-            }),
-                (apiError) => {
-                    this.toast.error({
-                        detail: "US ERROR",
-                        summary: apiError,
-                        position: 'br', duration: 6000
+                },
+                error: (apiError) => {
+                    this.toast.errorToast({
+                        title: apiError.error.message,
+                        description: apiError.error.errors[0]
                     })
                 }
+            })
         }
-        this.userStoryForm.reset();
+        else {
+            this.userStoryService.createUserStory(usData).subscribe({
+                next: (createResponse) => {
+                    this.userStoryService.addUserStoryToParty(this.partyID, createResponse.id).subscribe({
+                        next: (addResponse) => {
+                            this.addedUserStory.emit(createResponse);
+
+                            this.toast.successToast({
+                                title: "User Story Created",
+                                description: `Item #${createResponse.name} was successfully created`
+                            })
+                        },
+                        error: (apiError) => {
+                            this.toast.errorToast({
+                                title: apiError.error.message,
+                                description: apiError.error.errors[0]
+                            })
+                        }
+                    })
+                },
+                error: (apiError) => {
+                    this.toast.errorToast({
+                        title: apiError.error.message,
+                        description: apiError.error.errors[0]
+                    })
+                }
+            })
+
+            this.userStoryForm.reset();
+        }
     }
 }

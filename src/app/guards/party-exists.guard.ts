@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { NotificationService } from '../services/notification.service';
 import { PartyService } from '../services/party.service';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class PartyExistsGuard implements CanActivate {
 
     constructor(private partyService: PartyService,
                 private router: Router,
-                private toast: NgToastService) { }
+                private toast: NotificationService) { }
 
     canActivate(
         route: ActivatedRouteSnapshot,
@@ -26,10 +26,9 @@ export class PartyExistsGuard implements CanActivate {
                 if(!response){
                     this.router.navigateByUrl('/not-found');
 
-                    this.toast.error({
-                        detail: "PARTY NOT FOUND",
-                        summary: `The party #${partyID} was not found`,
-                        position: 'br', duration: 6000
+                    this.toast.errorToast({
+                        title: 'Party Not Found',
+                        description: `The party #${partyID} was not found`
                     })
                     return false;
                 }
