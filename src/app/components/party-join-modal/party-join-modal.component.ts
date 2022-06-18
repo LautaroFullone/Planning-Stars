@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
+import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class PartyJoinModalComponent implements OnInit {
 
     constructor(private partyService: PartyService,
                 private router: Router,
-                private toast: NgToastService) { }
+                private toast: NotificationService) { }
 
     ngOnInit(): void { }
 
@@ -31,10 +31,10 @@ export class PartyJoinModalComponent implements OnInit {
             },
             error: (apiError) => {
                 this.partyForm.reset(); 
-                this.toast.error({
-                    detail: apiError.error.message,
-                    summary: apiError.error.errors[0],
-                    position: 'br', duration: 6000
+
+                this.toast.errorToast({
+                    title: apiError.error.message,
+                    description: apiError.error.errors[0]
                 })
             }
         })

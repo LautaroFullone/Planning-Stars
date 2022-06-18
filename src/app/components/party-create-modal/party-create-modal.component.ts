@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Party } from 'src/app/models/party';
+import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 
 @Component({
@@ -31,7 +30,7 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
     constructor(private partyService: PartyService,
         private authService: AuthService,
         private render: Renderer2,
-        private toast: NgToastService) { }
+        private toast: NotificationService) { }
 
     ngOnInit(): void { }
 
@@ -49,26 +48,24 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         partyData.createdBy = this.authService.getUserName();
         partyData.partyOwnerId = sessionStorage.getItem('user-id');
         
-        this.partyService.createParty(partyData).subscribe(response => {
+        this.partyService.createParty(partyData).subscribe({
+            next: (response) => {
+                this.render.setProperty(this.partyID.nativeElement, 'value', `#${response.id}`);
+                this.isPartyCreated = true;
+                this.partyID_value = response.id;
 
-            this.render.setProperty(this.partyID.nativeElement, 'value', '#'+response.id);
-            this.isPartyCreated = true;
-            this.partyID_value = response.id;
-
-            this.toast.success({
-                detail: "PARTY CREATED",
-                summary: `${response.name} was successfully created`,
-                position: 'br', duration: 6000
-            })
-        }),
-            (apiError) => {
-                this.toast.error({
-                    detail: "PARTY ERROR",
-                    summary: apiError,
-                    position: 'br', duration: 6000
+                this.toast.successToast({
+                    title: "Party Created",
+                    description: `${response.name} was successfully created.`
+                }) 
+            },
+            error: (apiError) => {
+                this.toast.errorToast({
+                    title: apiError.error.message,
+                    description: apiError.error.errors[0]
                 })
             }
-
+        })
     }
 
     resetForm(){
@@ -85,10 +82,9 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
             this.partyID.nativeElement.select();
             document.execCommand("copy");
 
-            this.toast.success({
-                detail: "ID COPIED",
-                summary: `The party ID was copied to clipboard`,
-                position: 'br', duration: 6000
+            this.toast.successToast({
+                title: "Party ID Copied",
+                description: "The ID was copied to your clipboard."
             })
         }  
     }

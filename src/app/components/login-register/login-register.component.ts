@@ -1,9 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/auth/auth.service';
 import { LoginUser } from 'src/app/models/login-user';
+import { NotificationService } from 'src/app/services/notification.service';
 import { ViewService } from 'src/app/services/view.service';
 
 @Component({
@@ -34,7 +34,8 @@ export class LoginRegisterComponent implements OnInit{
     constructor(private authService: AuthService,
                 private router: Router,
                 private render: Renderer2,
-                private toast: NgToastService, private viewService: ViewService) {
+                private toast: NotificationService, 
+                private viewService: ViewService) {
 
         this.viewService.setShowNarBar(false);
     }
@@ -69,18 +70,16 @@ export class LoginRegisterComponent implements OnInit{
                     this.router.navigateByUrl('/dashboard');
 
                 if(isOldUser){
-                    this.toast.success({
-                        detail: "Login Success",
-                        summary: "It's good to see you here.",
-                        position: 'br', duration: 6000
+                    this.toast.successToast({
+                        title: "Login Success",
+                        description: "It's good to see you here."
                     })
                 }
             },
             error: (apiError) => {
-                this.toast.error({
-                    detail: apiError.error.message,
-                    summary: apiError.error.errors[0],
-                    position: 'br', duration: 6000
+                this.toast.errorToast({
+                    title: apiError.error.message,
+                    description: apiError.error.errors[0]
                 })
             }
         })
@@ -92,21 +91,18 @@ export class LoginRegisterComponent implements OnInit{
                 //calling again to login method telling that the user is new
                 this.loginUser(false);
                 
-                this.toast.success({
-                    detail: "Register Success",
-                    summary: "Welcome to the jungle.",
-                    position: 'br', duration: 6000
+                this.toast.successToast({
+                    title: "Register Success",
+                    description: "Welcome to the jungle."
                 })
             },
             error: (apiError) => {
-                this.toast.error({
-                    detail: apiError.error.message,
-                    summary: apiError.error.errors[0],
-                    position: 'br', duration: 6000
+                this.toast.errorToast({
+                    title: apiError.error.message,
+                    description: apiError.error.errors[0]
                 })
             }
         })
-
     }
 
 }

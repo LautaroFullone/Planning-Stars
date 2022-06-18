@@ -1,7 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
-import { AuthService } from 'src/app/auth/auth.service';
-import { PartyService } from 'src/app/services/party.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
