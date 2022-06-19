@@ -42,30 +42,35 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
     }
 
     ngSubmit() {
-        let partyData = new Party;
-        partyData.name = this.partyName;
-        partyData.maxPlayer = this.partySize;
-        partyData.createdBy = this.authService.getUserName();
-        partyData.partyOwnerId = sessionStorage.getItem('user-id');
-        
-        this.partyService.createParty(partyData).subscribe({
+        this.authService.getUser().subscribe({
             next: (response) => {
-                this.render.setProperty(this.partyID.nativeElement, 'value', `#${response.id}`);
-                this.isPartyCreated = true;
-                this.partyID_value = response.id;
+                let connectedUser = response
+                let partyData = new Party;
+                partyData.name = this.partyName;
+                partyData.maxPlayer = this.partySize;
+                partyData.createdBy = connectedUser.name;
+                partyData.partyOwnerId = connectedUser.id;
 
-                this.toast.successToast({
-                    title: "Party Created",
-                    description: `${response.name} was successfully created.`
-                }) 
-            },
-            error: (apiError) => {
-                this.toast.errorToast({
-                    title: apiError.error.message,
-                    description: apiError.error.errors[0]
+                this.partyService.createParty(partyData).subscribe({
+                    next: (response) => {
+                        this.render.setProperty(this.partyID.nativeElement, 'value', `#${response.id}`);
+                        this.isPartyCreated = true;
+                        this.partyID_value = response.id;
+
+                        this.toast.successToast({
+                            title: "Party Created",
+                            description: `${response.name} was successfully created.`
+                        })
+                    },
+                    error: (apiError) => {
+                        this.toast.errorToast({
+                            title: apiError.error.message,
+                            description: apiError.error.errors[0]
+                        })
+                    }
                 })
             }
-        })
+        })   
     }
 
     resetForm(){

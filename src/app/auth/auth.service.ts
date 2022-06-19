@@ -63,13 +63,18 @@ export class AuthService {
             return this.getUserById(sessionStorage.getItem('user-id'));
     }
 
-    getUserName(): string {
-        return this.user.name;
+    renameUserAccount(userID: string, user: User): Observable<any> {
+        return this.http.put<any>(`${environment.apiURL}/user/${userID}`, user, this.headers);
     }
 
     getToken() {
         this.token = sessionStorage.getItem('token');
         return this.token;
+    }
+
+    setUserName(username: string){
+        if(this.user)
+            this.user.name = username;
     }
 
 }
