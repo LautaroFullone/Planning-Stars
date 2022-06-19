@@ -29,7 +29,6 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
         this.partyService.getPartyByID(this.partyParamID).subscribe({
             next: (response) => { 
-                console.log('response', response);
                 let partyOwner = response.partyOwnerId;
                 let actualUser = sessionStorage.getItem('user-id');
                 this.isOwner = (partyOwner == actualUser)? true : false;
@@ -72,6 +71,5 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                 })
             }
         })
-
     }
 }

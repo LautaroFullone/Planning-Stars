@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ViewService } from 'src/app/services/view.service';
 
@@ -25,11 +24,11 @@ export class NavBarComponent implements OnInit {
         })
     }
 
-    logout() {
-        this.authService.logout();
+    handleUserRename(username){
+        this.username = username;
     }
 
-    renameAccount(){
-        console.log('renameAccount');
+    logout() {
+        this.authService.logout();
     }
 }

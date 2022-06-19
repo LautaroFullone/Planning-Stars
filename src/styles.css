@@ -5,6 +5,10 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+input {
+	outline: none;
+}
+
 button.primary-button,
 a.primary-button {
 	border-radius: 20px;

@@ -43,6 +43,10 @@ ul{
     color: #FF4B2B;
 }
 
+.nav-links li a:active {
+    color: #bd3820;
+}
+
 ul.dropdown-menu li a:hover{
     cursor: pointer;
 }
@@ -51,4 +55,8 @@ ul.dropdown-menu li a:hover{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.dropdown-item:active{
+    background-color: #bd3820;
 }
