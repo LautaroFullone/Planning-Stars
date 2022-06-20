@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
+import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class PartyPlayerCardsComponent implements OnInit {
 
     constructor(private partyService: PartyService,
                 private render: Renderer2,
-                private toast: NgToastService) { }
+                private toast: NotificationService) { }
 
     ngOnInit(): void {
         this.cardsList = this.partyService.getCardsList();
@@ -34,16 +34,15 @@ export class PartyPlayerCardsComponent implements OnInit {
         if(this.cardSelected){ 
             let cardValue = this.cardSelected.innerHTML;
             console.log('cardValue', cardValue);
-            this.toast.success({
-                detail: "VOTE SENT",
-                summary: `Your score was sent`,
-                position: 'br', duration: 6000
+
+            this.toast.successToast({
+                title: "Vote Sent",
+                description: "Your score was sent."
             })
         } else{
-            this.toast.info({
-                detail: "INVALID ACTION",
-                summary: `Please select a card before vote`,
-                position: 'br', duration: 6000
+            this.toast.warningToast({
+                title: "Invalid Action",
+                description: "Please select a card before vote."
             })
         }
     }

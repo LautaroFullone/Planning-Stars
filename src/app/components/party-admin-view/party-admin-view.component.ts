@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
+import { NotificationService } from 'src/app/services/notification.service';
 import { UserStoryService } from 'src/app/services/user-story.service';
 import { PartyAddEditUsModalComponent } from '../party-add-edit-us-modal/party-add-edit-us-modal.component';
 import { UserStoriesListComponent } from '../party-user-stories-list/party-user-stories-list.component';
@@ -22,7 +22,7 @@ export class PartyAdminViewComponent implements OnInit {
     deletedUserStoryId: number;
 
     constructor(private userStoryService: UserStoryService,
-                private toast: NgToastService) { }
+                private toast: NotificationService) { }
 
     ngOnInit(): void { }
 
@@ -48,24 +48,23 @@ export class PartyAdminViewComponent implements OnInit {
 
     handleDeletedUS(event) {
         if (this.selectedUS) {
-            this.userStoryService.deleteUserStory(event).subscribe((response) => {
+            this.userStoryService.deleteUserStory(event).subscribe({
+                next: (response) => {
+                    this.deletedUserStoryId = event;
 
-                this.deletedUserStoryId = event;
-
-                this.toast.info({
-                    detail: "USER STORY DELETED",
-                    summary: `US #${this.selectedUS.tag} was successfully deleted`,
-                    position: 'br', duration: 6000
-                })
-            },
-                (apiError) => {
-                    this.toast.error({
-                        detail: apiError.error.message,
-                        summary: apiError.error.errors[0],
-                        position: 'br', duration: 6000
+                    this.toast.infoToast({
+                        title: "Item Deleted",
+                        description: `Item #${this.selectedUS.tag} was successfully deleted`
                     })
-                });
-        }
+                },
+                error: (apiError) => {
+                    this.toast.errorToast({
+                        title: apiError.error.message,
+                        description: apiError.error.errors[0]
+                    })
+                }
+            })
+         }
     }
 
 }

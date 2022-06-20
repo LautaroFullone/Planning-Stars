@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginUser } from '../models/login-user';
 import { User } from '../models/user';
@@ -11,60 +11,60 @@ import { User } from '../models/user';
 })
 export class AuthService {
 
-    token = null;
-    user: User;
+    private token = null;
+    private user: User;
 
-    redirectUrl: string = '';
+    private headers = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+        })
+    };
 
     constructor(private http: HttpClient,
-        private router: Router) { }
+                private router: Router) { }
 
     login(userLoginInfo: LoginUser): Observable<any> {
+        let observable = this.http.post(`${environment.apiURL}/user/login`, userLoginInfo, this.headers);
 
-        const headers = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-
-        const observable = this.http.post(`${environment.apiURL}/user/login`, userLoginInfo, headers);
-
-        observable.subscribe((response) => {
-            this.token = response['token'];
-            this.user = response['userDetails'];
-
-            sessionStorage.setItem('token', this.token);
-            sessionStorage.setItem('username', this.user.name);
-
-            this.redirectUrl = '/dashboard';
-
-        },
-            (error) => {
-                console.log('LOGIN ERROR', error);
-            });
-
+        observable.subscribe({
+            next: (response) => { 
+                this.token = response['token'];
+                this.user = response['userDetails'];
+                
+                sessionStorage.setItem('token', this.token);
+                sessionStorage.setItem('user-id', this.user.id.toString());
+            }
+        })
         return observable;
     }
 
-    register(name: String, email: String, password: String): Observable<any> {
-
-        const headers = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-
-        const observable = this.http.post(`${environment.apiURL}/user/register`, { name, email, password }, headers);
-        return observable;
+    register(name: string, email: string, password: string): Observable<any> {
+        return this.http.post(`${environment.apiURL}/user/register`, { name, email, password }, this.headers);
     }
 
-    logOut() {
+    logout() {
         sessionStorage.removeItem('token');
-        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('user-id');
+
         this.token = null;
         this.user = null;
 
         this.router.navigateByUrl("/login");
+    }
+
+    getUserById(userID: string): Observable<any> {
+        return this.http.get<any>(`${environment.apiURL}/user/${userID}`, this.headers);
+    }
+
+    getUser(): Observable<any> {
+        if (this.user)
+            return new BehaviorSubject(this.user).asObservable();
+        else
+            return this.getUserById(sessionStorage.getItem('user-id'));
+    }
+
+    renameUserAccount(userID: string, user: User): Observable<any> {
+        return this.http.put<any>(`${environment.apiURL}/user/${userID}`, user, this.headers);
     }
 
     getToken() {
@@ -72,21 +72,9 @@ export class AuthService {
         return this.token;
     }
 
-    getUser() {
-        if (this.user)
-            return this.user;
-        else { //we are analysing if it's convenient to make a request here in order to get the  logged user                  
-            return new User();
-        }
+    setUserName(username: string){
+        if(this.user)
+            this.user.name = username;
     }
-
-    getUserName() {
-        return sessionStorage.getItem('username');
-    }
-
-    getRedirectUrl() {
-        return this.redirectUrl;
-    }
-
 
 }

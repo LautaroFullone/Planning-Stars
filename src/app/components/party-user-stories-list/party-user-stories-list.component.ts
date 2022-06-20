@@ -1,7 +1,6 @@
-import { LiteralArrayExpr } from '@angular/compiler';
 import { Component, OnInit, Output, EventEmitter, Renderer2, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
 import { UserStory } from 'src/app/models/user-story';
+import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 
 @Component({
@@ -23,7 +22,7 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
 
     constructor(private partyService: PartyService,
                 private render: Renderer2,
-                private toast: NgToastService) { }
+                private toast: NotificationService) { }
 
     ngOnInit(): void {
         this.getPartyUserStories();
@@ -55,20 +54,20 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
     }
 
     getPartyUserStories() {
-        this.partyService.getPartyUserStories(this.partyID).subscribe((response) => {
-            if(response)
-                this.userStoriesList = response; 
-            else
-                this.userStoriesList = new Array();
-            
-        },
-            (apiError) => {
-                this.toast.error({
-                    detail: apiError.error.message,
-                    summary: apiError.error.errors[0],
-                    position: 'br', duration: 6000
+        this.partyService.getPartyUserStories(this.partyID).subscribe({
+            next: (response) => {
+                if (response)
+                    this.userStoriesList = response;
+                else
+                    this.userStoriesList = new Array();
+            },
+            error: (apiError) => {
+                this.toast.errorToast({
+                    title: apiError.error.message,
+                    description: apiError.error.errors[0]
                 })
-            });
+            }
+        })
     }
 
     resetSelectedUS(){

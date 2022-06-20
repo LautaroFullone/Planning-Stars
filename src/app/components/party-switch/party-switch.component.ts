@@ -1,25 +1,75 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from 'src/app/services/notification.service';
+import { PartyService } from 'src/app/services/party.service';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 import { ViewService } from 'src/app/services/view.service';
 
 @Component({
-  selector: 'app-party-switch',
-  templateUrl: './party-switch.component.html',
-  styleUrls: ['./party-switch.component.css']
+    selector: 'app-party-switch',
+    templateUrl: './party-switch.component.html',
+    styleUrls: ['./party-switch.component.css']
 })
-export class PartySwitchComponent implements OnInit {
+export class PartySwitchComponent implements OnInit, OnDestroy {
 
-  isAdmin: boolean = true;
-  partyParamID: string;
+    isOwner: boolean;
+    partyParamID: string;
+    
+    constructor(private activatedRoute: ActivatedRoute,
+                private viewService: ViewService,
+                private toast: NotificationService,
+                private socketService: SocketWebService,
+                private partyService: PartyService) {
+                    
+        this.viewService.setShowNarBar(true, false);
+    }
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private viewService: ViewService) { 
+    ngOnInit(): void {
+        this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
 
-    this.viewService.setShowNarBar(true, false);
-  }
+        this.partyService.getPartyByID(this.partyParamID).subscribe({
+            next: (response) => { 
+                let partyOwner = response.partyOwnerId;
+                let actualUser = sessionStorage.getItem('user-id');
+                this.isOwner = (partyOwner == actualUser)? true : false;
 
-  ngOnInit(): void {
-    this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
-  }
+                this.socketService.joinParty(this.partyParamID);
+            }
+        })
 
+        this.listenServerEvents();
+    }
+    
+    ngOnDestroy(): void {
+        this.socketService.leaveParty(this.partyParamID);
+    }
+
+    listenServerEvents(){
+        this.socketService._playerJoin.subscribe({
+            next: (user) => {
+                this.toast.successToast({
+                    title: "Player Joined",
+                    description: `${user.name} has just arrived to the party.`
+                })
+            }
+        })
+
+        this.socketService._playerLeave.subscribe({
+            next: (user) => {
+                this.toast.infoToast({
+                    title: "Player Leave",
+                    description: `${user.name} has leave the party.`
+                })
+            }
+        })
+
+        this.socketService._actualPlayerJoin.subscribe({
+            next: () => {
+                this.toast.successToast({
+                    title: "You are in!",
+                    description: `Welcome to the party.`
+                })
+            }
+        })
+    }
 }

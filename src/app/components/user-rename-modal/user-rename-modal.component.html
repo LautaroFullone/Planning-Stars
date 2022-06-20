@@ -1,0 +1,30 @@
+<div class="modal fade" id="renameUserModal" tabindex="-1" role="dialog" aria-labelledby="renameUserModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Rename User</h5>
+                <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <form [formGroup]="renameForm" (ngSubmit)="ngSubmit()">
+                <div class="modal-body">
+                    <small class="font-weight-light">Please provide the new username for your account.</small>
+
+                    <div class="row">
+                        <div class="col-8" style="margin: auto;">
+                            <input type="text" formControlName="username" placeholder="Username">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <small class="form-text text-muted">You'll be redirected!</small>
+                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="false">
+                        Rename
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
