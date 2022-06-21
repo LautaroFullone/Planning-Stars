@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from './auth.service';
 import { User } from '../models/user';
 
 @Injectable({

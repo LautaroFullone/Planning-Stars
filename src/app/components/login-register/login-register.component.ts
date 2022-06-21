@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { LoginUser } from 'src/app/models/login-user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ViewService } from 'src/app/services/view.service';
