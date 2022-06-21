@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'party/:id', component: PartySwitchComponent, canActivate: [AuthGuard, PartyExistsGuard] }, 
   { path: 'not-found', component: NotFoundComponent},
   { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  { path: '**', redirectTo: '/dashboard', pathMatch: 'full'}
+  { path: '**', redirectTo: '/not-found', pathMatch: 'full'}
 ];
 
 @NgModule({
