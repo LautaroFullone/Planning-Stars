@@ -15,10 +15,9 @@ div.cards-container{
     display: flex;
     flex-direction: row;
 
-    margin: 0 auto;
+    margin: 1vh auto;
     max-width: 90%;
     overflow-x: auto;
-    padding: 5px 5px 0 5px;
 }
 
 button.my-card {
@@ -29,7 +28,7 @@ button.my-card {
     border-radius: 10px;
     text-decoration: none;
 
-    margin: 1vh 1vw;
+    margin: 1.5vh 1vw;
     height: 200px;
     min-width: 140px;
     font-size: 80px;
@@ -46,5 +45,4 @@ button.my-card.active{
     -webkit-transform: scale(1.1);
     -ms-transform: scale(1.1);
     transform: scale(1.1);
-    border: 2px #24252A solid;
 }

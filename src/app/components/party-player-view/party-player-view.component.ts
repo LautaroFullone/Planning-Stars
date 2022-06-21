@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
-  selector: 'app-party-player-view',
-  templateUrl: './party-player-view.component.html',
-  styleUrls: ['./party-player-view.component.css']
+    selector: 'app-party-player-view',
+    templateUrl: './party-player-view.component.html',
+    styleUrls: ['./party-player-view.component.css']
 })
 export class PartyPlayerViewComponent implements OnInit {
 
-  @Input() partyID: string;
+    @Input() partyID: string;
 
-  userStory: UserStory = {
+    actualUserStory: UserStory /*= {
     "id": 76,
     "tag": "16F9T",
     "name": "F_PartySwich component should validate if the party exists",
@@ -21,10 +22,19 @@ export class PartyPlayerViewComponent implements OnInit {
     "storyWritter": "Lautaro Fullone",
     "fileLink": "http://givemenbastreams.com/nba/heat-live-stream?sport=basketball",
     "isActive": true
-  }
-  constructor() { }
+  }*/
+    constructor(private socketService: SocketWebService) { }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+        this.listenServerEvents();
+    }
 
+    listenServerEvents() {
+        this.socketService._selectedUS.subscribe({
+            next: (userStory) => {
+                console.log('socket us',userStory);
+                this.actualUserStory = userStory;
+            }
+        })
+    }
 }
