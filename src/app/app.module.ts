@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NgToastModule } from 'ng-angular-popup';
-import { InterceptorService } from './auth/interceptor.service';
+import { InterceptorService } from './services/interceptor.service';
 import { PartySwitchComponent } from './components/party-switch/party-switch.component';
 import { PartyPlayerViewComponent } from './components/party-player-view/party-player-view.component';
 import { PartyAdminViewComponent } from './components/party-admin-view/party-admin-view.component';
@@ -26,8 +26,9 @@ import { PartyPlayerCardsComponent } from './components/party-player-cards/party
 import { PartyPlayerTimerComponent } from './components/party-player-timer/party-player-timer.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { UserRenameModalComponent } from './components/user-rename-modal/user-rename-modal.component';
+import { environment } from 'src/environments/environment';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }; 
+const config: SocketIoConfig = { url: environment.serverURL, options: {} }; 
 
 @NgModule({
   declarations: [
