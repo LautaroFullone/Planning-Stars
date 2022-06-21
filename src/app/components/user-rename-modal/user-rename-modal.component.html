@@ -1,11 +1,10 @@
-<div class="modal fade" id="renameUserModal" tabindex="-1" role="dialog" aria-labelledby="renameUserModalTitle"
-    aria-hidden="true">
+<div class="modal fade" id="renameUserModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="renameUserModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Rename User</h5>
                 <a class="closeButton" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" (click)="cleanModal()">&times;</span>
                 </a>
             </div>
             <form [formGroup]="renameForm" (ngSubmit)="ngSubmit()">
@@ -17,10 +16,29 @@
                             <input type="text" formControlName="username" placeholder="Username">
                         </div>
                     </div>
+
+                    <div *ngIf="renameForm.controls['username'].invalid && renameForm.controls['username'].dirty && renameForm.controls['username'].touched" class="alert" style="display: flex; ">
+                        
+                        <div *ngIf="renameForm.controls['username'].errors['required']" style="margin: auto;">
+                            <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide an username!</small>
+                        </div>
+
+                        <div *ngIf="renameForm.controls['username'].errors['minlength']" style="margin: auto;">
+                            <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter a username longer than
+                                {{renameForm.controls['username'].errors['minlength'].requiredLength}} characters!</small>
+                        </div>
+
+                        <div *ngIf="renameForm.controls['username'].errors['maxlength']" style="margin: auto;">
+                            <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Enter a username shorter than
+                                {{renameForm.controls['username'].errors['maxlength'].requiredLength}} characters!</small>
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <small class="form-text text-muted">You'll be redirected!</small>
-                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="false">
+                    <small class="form-text text-muted">It will be updated automatically!</small>
+                    <button class="primary-button" data-bs-dismiss="modal" [disabled]="!renameForm.valid">
                         Rename
                     </button>
                 </div>
