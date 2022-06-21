@@ -88,9 +88,10 @@ a.link:hover::before {
 }
 
 li.list-group-item:hover{
-    background-color: #f4202092;
-    border: 0;
+    background-color: #f27121af;
+    color: #FFF;
     cursor: pointer;
+    margin: 0;
 }
 li.list-group-item {
     font-size: 14px;

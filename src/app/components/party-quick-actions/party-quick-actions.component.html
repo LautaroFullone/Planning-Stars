@@ -9,17 +9,17 @@
             <div class="actions-grid">
 
                 <div class="update-section">
-                    <button type="button" class="btn btn-outline-primary" (click)="updateUS()" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
+                    <button type="button" [disabled]="!showButtons" class="btn btn-outline-primary" (click)="updateUS()" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
                         Update Item
                     </button>
                 </div>
                 <div class="delete-section">
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">
+                    <button type="button" [disabled]="!showButtons" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">
                         Delete Item
                     </button>
                 </div>
                 <div class="start-section">
-                    <button type="button" class="btn btn-outline-tertiary" >Start Planning</button>
+                    <button type="button" [disabled]="!showButtons" class="btn btn-outline-tertiary" (click)="startPlanning()">Start Planning</button>
                 </div>
 
             </div>

@@ -76,7 +76,9 @@ button.btn-outline-primary:hover {
 button.btn-outline-primary:focus {
 	box-shadow: 0px 3px 15px #F27121 !important;
 }
-
+button.btn-outline-primary:disabled {
+	color: #F27121;
+}
 
 button.btn-outline-secondary {
 	color: #E94057;
