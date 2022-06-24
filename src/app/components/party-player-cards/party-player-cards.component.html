@@ -1,4 +1,5 @@
 <div class="card">
+    
     <div class="card-header text-align-center">
         <i class="fa-regular fa-chess-knight"></i> - Cards
     </div>
@@ -15,8 +16,9 @@
         </div>
 
     </div>
+
     <div class="card-footer text-align-center">
-        <button type="button" (click)="handleVote()" class="btn btn-outline-tertiary">Vote User Story</button>
+        <button type="button" [disabled]="!showButton" class="btn btn-outline-tertiary" (click)="handleVote()" >Vote User Story</button>
     </div>
 
 </div>

@@ -17,7 +17,7 @@ export class VotationService {
 
     constructor(private http: HttpClient) { }
 
-    createVotation(votation: Votation, userStoryID: string): Observable<any> {
+    createVotation(votation: Votation, userStoryID: number): Observable<any> {
         return this.http.put<any>(`${environment.apiURL}/userStory/${userStoryID}/votation`, votation, this.headers);
     }
 
