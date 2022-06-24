@@ -1,6 +1,9 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Renderer2, SimpleChanges } from '@angular/core';
+import { UserStory } from 'src/app/models/user-story';
+import { Votation } from 'src/app/models/votation';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
+import { VotationService } from 'src/app/services/votation.service';
 
 @Component({
     selector: 'app-party-player-cards',
@@ -8,17 +11,31 @@ import { PartyService } from 'src/app/services/party.service';
     styleUrls: ['../party-player-view/party-player-view.component.css',
                 './party-player-cards.component.css']
 })
-export class PartyPlayerCardsComponent implements OnInit {
+export class PartyPlayerCardsComponent implements OnInit, OnChanges {
+
+    @Input() selectedUS: UserStory;
 
     cardSelected: HTMLElement;
     cardsList: Array<any>;
+    showButton = true
+
 
     constructor(private partyService: PartyService,
+                private votationService: VotationService, 
                 private render: Renderer2,
                 private toast: NotificationService) { }
 
     ngOnInit(): void {
         this.cardsList = this.partyService.getCardsList();
+
+        if(!this.selectedUS)
+            this.showButton = false
+
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['selectedUS'] && changes['selectedUS'].currentValue)
+            this.showButton = true;
     }
 
     handleClickCard(card: any){
@@ -26,18 +43,29 @@ export class PartyPlayerCardsComponent implements OnInit {
             this.render.removeClass(this.cardSelected, "active");
 
         this.cardSelected = document.getElementById(`card-${card.id}`);
-       
         this.render.addClass(this.cardSelected, "active");
     }
 
     handleVote(){
         if(this.cardSelected){ 
-            let cardValue = this.cardSelected.innerHTML;
-            console.log('cardValue', cardValue);
+            let votation = new Votation;
+            votation.userID = sessionStorage.getItem('user-id');
+            votation.value = this.cardSelected.innerHTML;
 
-            this.toast.successToast({
-                title: "Vote Sent",
-                description: "Your score was sent."
+            this.votationService.createVotation(votation, this.selectedUS.id).subscribe({
+                next: () => {
+                    this.showButton = false;
+                    this.toast.successToast({
+                        title: "Vote Sent",
+                        description: "Your score was sent."
+                    })
+                },
+                error: (apiError) => {
+                    this.toast.errorToast({
+                        title: apiError.error.message,
+                        description: apiError.error.errors[0]
+                    })
+                }
             })
         } else{
             this.toast.warningToast({
