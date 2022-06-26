@@ -3,6 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { UserStory } from '../models/user-story';
+import { Votation } from '../models/votation';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,8 @@ export class SocketWebService {
     _partyPlayers = this.socket.fromEvent<any>('partyPlayers_socket');
 
     _selectedUS = this.socket.fromEvent<any>('selectedUS_socket');
+
+    _playerVotation = this.socket.fromEvent<any>('playerVotation_socket');
 
     private userLogged: User;
 
@@ -38,8 +41,12 @@ export class SocketWebService {
         this.socket.disconnect();
     }
 
-    sendSelectedUS(userStory: UserStory, partyID: string) {
-        this.socket.emit('selectUS', { party: partyID, us: userStory });
+    sendSelectedUS(userStory: UserStory) {
+        this.socket.emit('selectUS', { us: userStory });
+    }
+
+    sendPlayerVotation(votation: Votation){
+        this.socket.emit('playerVotation', { votation: votation });        
     }
 
 }

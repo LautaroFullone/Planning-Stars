@@ -21,7 +21,7 @@ export class VotationService {
         return this.http.put<any>(`${environment.apiURL}/userStory/${userStoryID}/votation`, votation, this.headers);
     }
 
-    getPartyPlayers(userStoryID: string): Observable<any> {
+    getUserStoryVotations(userStoryID: number): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/votations`, this.headers);
     }
 }

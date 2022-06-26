@@ -31,7 +31,7 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 	}
 
 	startPlanning(){
-		this.socketService.sendSelectedUS(this.selectedUS, this.partyID);
+		this.socketService.sendSelectedUS(this.selectedUS);
 		this.votingUS = this.selectedUS;
 		this.showButtons = false
 	}
