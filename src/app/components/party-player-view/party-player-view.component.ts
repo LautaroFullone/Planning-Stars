@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
     selector: 'app-party-player-view',
@@ -9,9 +10,15 @@ import { UserStory } from 'src/app/models/user-story';
 export class PartyPlayerViewComponent implements OnInit {
 
     @Input() partyID: string;
-    @Input() actualUserStory: UserStory;
+    actualUserStory: UserStory;
 
-    constructor() { }
+    constructor(private socketService: SocketWebService) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.socketService._selectedUS.subscribe({
+            next: (userStory) => {
+                this.actualUserStory = userStory;
+            }
+        })
+    }
 }

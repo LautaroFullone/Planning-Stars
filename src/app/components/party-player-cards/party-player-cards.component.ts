@@ -3,6 +3,7 @@ import { UserStory } from 'src/app/models/user-story';
 import { Votation } from 'src/app/models/votation';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 import { VotationService } from 'src/app/services/votation.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
 
 
     constructor(private partyService: PartyService,
-                private votationService: VotationService, 
+                private votationService: VotationService,
+                private socketService: SocketWebService, 
                 private render: Renderer2,
                 private toast: NotificationService) { }
 
@@ -55,6 +57,8 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
             this.votationService.createVotation(votation, this.selectedUS.id).subscribe({
                 next: () => {
                     this.showButton = false;
+                    this.socketService.sendPlayerVotation(votation);
+
                     this.toast.successToast({
                         title: "Vote Sent",
                         description: "Your score was sent."

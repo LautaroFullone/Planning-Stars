@@ -15,7 +15,6 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
     isOwner: boolean;
     partyParamID: string;
-    actualUserStory: UserStory;
     
     constructor(private activatedRoute: ActivatedRoute,
                 private viewService: ViewService,
@@ -47,12 +46,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     }
 
     listenServerEvents(){
-        this.socketService._selectedUS.subscribe({
-            next: (userStory) => {
-                this.actualUserStory = userStory;
-            }
-        })
-
+        
         this.socketService._playerJoin.subscribe({
             next: (user) => {
                 this.toast.successToast({

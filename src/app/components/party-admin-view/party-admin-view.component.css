@@ -214,18 +214,6 @@ div.players-grid {
     margin-bottom: 0;
 }
 
-div.player-status{
-    justify-self: center;
-}
-
-div.completed{
-    color: #F27121;
-}
-
-div.incompleted {
-    color: #8A2387;
-}
-
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: repeat(2,minmax(200px, 1fr));
