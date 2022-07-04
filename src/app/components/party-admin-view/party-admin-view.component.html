@@ -21,6 +21,7 @@
 
             <div class="actions">
                 <app-party-quick-actions
+                    [partyID]= "partyID"
                     [selectedUS] ="selectedUS"
                     (updatingUserStory) = "handleUpdatingUS()">
                 </app-party-quick-actions>
@@ -28,7 +29,8 @@
 
             <div class="players">
                 <app-party-list-players
-                    [partyID]= "partyID">
+                    [partyID]= "partyID"
+                    [selectedUS] = "selectedUS">
                 </app-party-list-players>
             </div>
         </div>

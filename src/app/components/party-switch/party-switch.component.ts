@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterPreloader } from '@angular/router';
+import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -32,19 +33,20 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                 let partyOwner = response.partyOwnerId;
                 let actualUser = sessionStorage.getItem('user-id');
                 this.isOwner = (partyOwner == actualUser)? true : false;
-
-                this.socketService.joinParty(this.partyParamID);
+                
+                this.socketService.joinParty(this.partyParamID/*, this.isOwner*/);
             }
         })
 
         this.listenServerEvents();
     }
-    
+
     ngOnDestroy(): void {
         this.socketService.leaveParty(this.partyParamID);
     }
 
     listenServerEvents(){
+        
         this.socketService._playerJoin.subscribe({
             next: (user) => {
                 this.toast.successToast({

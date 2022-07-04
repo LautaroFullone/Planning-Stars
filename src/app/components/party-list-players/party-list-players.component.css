@@ -1,3 +1,15 @@
 ol{
     margin-bottom: unset;
 }
+
+div.player-status {
+    justify-self: center;
+}
+
+.completed-color {
+    color: #F27121;
+}
+
+.incompleted-color {
+    color: #8A2387;
+}

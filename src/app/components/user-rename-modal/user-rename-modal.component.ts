@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -13,15 +13,21 @@ export class UserRenameModalComponent implements OnInit {
     @Output() updatedUserName = new EventEmitter<any>();
 
     renameForm = new FormGroup({
-        username: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+        username: new FormControl('', [Validators.required, Validators.minLength(3),Validators.maxLength(10)]),
     });
 
     get username() { return this.renameForm.get('username').value; }
 
     constructor(private authService: AuthService,
-                private toast: NotificationService) { }
+                private toast: NotificationService,
+                private render: Renderer2) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.render.listen(document, "keydown", (event) => {
+            if (event.key == 'Escape')
+                this.cleanModal();
+        })
+    }
 
     ngSubmit() {
         let userID = sessionStorage.getItem('user-id');
@@ -36,6 +42,7 @@ export class UserRenameModalComponent implements OnInit {
                     next: (response) => {                       
                         this.updatedUserName.emit(response.name);
                         this.authService.setUserName(response.name);
+                        this.cleanModal();
 
                         this.toast.infoToast({
                             title: 'Name Updated',
@@ -51,5 +58,9 @@ export class UserRenameModalComponent implements OnInit {
                 })
             }
         })
+    }
+    
+    cleanModal() {
+        setTimeout(() => this.renameForm.reset(), 500)
     }
 }
