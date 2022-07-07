@@ -34,7 +34,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                 let actualUser = sessionStorage.getItem('user-id');
                 this.isOwner = (partyOwner == actualUser)? true : false;
                 
-                this.socketService.joinParty(this.partyParamID/*, this.isOwner*/);
+                this.socketService.joinParty(this.partyParamID, this.isOwner);
             }
         })
 
@@ -46,13 +46,23 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     }
 
     listenServerEvents(){
-        
+        let actualUserID = sessionStorage.getItem('user-id');
+
         this.socketService._playerJoin.subscribe({
             next: (user) => {
-                this.toast.successToast({
-                    title: "Player Joined",
-                    description: `${user.name} has just arrived to the party.`
-                })
+                console.log('userJoining', user);
+                if(user.id == actualUserID){
+                    this.toast.successToast({
+                        title: "You are in!",
+                        description: `Welcome to the party.`
+                    })
+                }
+                else{
+                    this.toast.successToast({
+                        title: "Player Joined",
+                        description: `${user.name} has just arrived to the party.`
+                    })
+                } 
             }
         })
 
@@ -61,15 +71,6 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                 this.toast.infoToast({
                     title: "Player Leave",
                     description: `${user.name} has leave the party.`
-                })
-            }
-        })
-
-        this.socketService._actualPlayerJoin.subscribe({
-            next: () => {
-                this.toast.successToast({
-                    title: "You are in!",
-                    description: `Welcome to the party.`
                 })
             }
         })
