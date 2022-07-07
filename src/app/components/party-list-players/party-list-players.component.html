@@ -4,19 +4,39 @@
     </div>
     <div class="card-body y-scroll">
         <ol>
-            <div class="players-grid" *ngFor="let player of playersList">
+            <div class="players-grid" *ngFor="let socket of socketsList">
 
                 <li>
                     <div class="player-name">
-                        {{player.name}} <br>
-                        <p class="text-muted">{{player.email}}</p>
+                        {{socket.user.name}} <br>
+                        <p class="text-muted">{{socket.user.email}}</p>
                     </div>
                 </li>
 
-                <div class="player-status" id="player-{{player.id}}">
-                    <i class="fa-solid fa-xmark"></i>
-                </div>
-            
+                <ng-container *ngIf="socket.isOwner; else normal_player">
+                    <div class="player-status" >
+                        <i style="font-size: 20px;" class="fa-solid fa-circle-user"></i> Admin
+                    </div>
+                </ng-container>
+                
+                <ng-template #normal_player>
+                    <div *ngIf="socket.hasVote; then check else uncheck"></div>
+                
+                    <ng-template #check>
+                        <div class="player-status completed-color" id="player-{{socket.user.id}}">
+                            <i class="fa-solid fa-check"></i> (has voted)
+                        </div>
+                    </ng-template>
+                        
+                    <ng-template #uncheck>
+                        <div class="player-status incompleted-color" id="player-{{socket.user.id}}">
+                            <i class="fa-solid fa-xmark"></i> (hasn't voted)
+                        </div>
+                    </ng-template>
+                </ng-template>
+
+                
+ 
             </div>
         </ol>
     </div>

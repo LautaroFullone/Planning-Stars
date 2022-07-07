@@ -57,7 +57,7 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
             this.votationService.createVotation(votation, this.selectedUS.id).subscribe({
                 next: () => {
                     this.showButton = false;
-                    this.socketService.sendPlayerVotation(votation);
+                    this.socketService.sendPlayerVotation(votation, this.selectedUS.id);
 
                     this.toast.successToast({
                         title: "Vote Sent",

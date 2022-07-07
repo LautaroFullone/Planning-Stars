@@ -15,7 +15,8 @@
             
             <div class="actual-story">
                 <app-party-actual-user-story
-                    [selectedUS] ="selectedUS">
+                    [selectedUS] = "selectedUS"
+                    messageType = "owner" >
                 </app-party-actual-user-story>
             </div>
 
@@ -38,7 +39,7 @@
 </body>
 
 <app-party-add-edit-us-modal
-    [partyID]="partyID"
+    [partyID]= "partyID"
     [selectedUS]= "selectedUS"
     (addedUserStory)="handleAddedUs($event)"
     (updatedUserStory) = "handleUpdatedUS()">

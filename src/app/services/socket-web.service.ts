@@ -9,8 +9,6 @@ import { Votation } from '../models/votation';
     providedIn: 'root'
 })
 export class SocketWebService {
-    
-    _actualPlayerJoin = this.socket.fromEvent<any>('actualPlayerJoin_socket');
     _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
     _playerLeave = this.socket.fromEvent<any>('playerLeave_socket');
     _partyPlayers = this.socket.fromEvent<any>('partyPlayers_socket');
@@ -24,20 +22,19 @@ export class SocketWebService {
     constructor(private socket: Socket,
                 private authService: AuthService) {  }
 
-    joinParty(partyID: string) {
+    joinParty(partyID: string, isUserOwner: boolean) {
         this.socket.connect();
         
         this.authService.getUser().subscribe({
             next: (response) => { 
                 this.userLogged = response; 
-                this.socket.emit('joinParty', { party: partyID, user: this.userLogged }); 
+                this.socket.emit('joinParty', { party: partyID, user: this.userLogged, isOwner: isUserOwner }); 
             }
         })
     }
 
     leaveParty(partyID: string) {
         this.socket.emit('leaveParty', { party: partyID, user: this.userLogged });
-        sessionStorage.removeItem('party');
         this.socket.disconnect();
     }
 
@@ -45,8 +42,8 @@ export class SocketWebService {
         this.socket.emit('selectUS', { us: userStory });
     }
 
-    sendPlayerVotation(votation: Votation){
-        this.socket.emit('playerVotation', { votation: votation });        
+    sendPlayerVotation(votation: Votation, userStoryID: number){
+        this.socket.emit('playerVotation', { votation, userStoryID });        
     }
 
 }
