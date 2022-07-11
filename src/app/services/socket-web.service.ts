@@ -9,22 +9,33 @@ import { Votation } from '../models/votation';
     providedIn: 'root'
 })
 export class SocketWebService {
+    _hasUserAccess = this.socket.fromEvent<any>('hasUserAccess_socket');
+
+    _userPartyOwner = this.socket.fromEvent<any>('userPartyOwner_socket');
+
     _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
-    _playerLeave = this.socket.fromEvent<any>('playerLeave_socket');
+    _playerLeave = this.socket.fromEvent<any>('playerLeave_socket'); 
+    _adminLeave = this.socket.fromEvent<any>('adminLeave_socket');
     _partyPlayers = this.socket.fromEvent<any>('partyPlayers_socket');
 
     _selectedUS = this.socket.fromEvent<any>('selectedUS_socket');
 
     _playerVotation = this.socket.fromEvent<any>('playerVotation_socket');
-
+    
     private userLogged: User;
 
     constructor(private socket: Socket,
-                private authService: AuthService) {  }
+                private authService: AuthService) { }
+
+    connectSocketIO(){
+        this.socket.connect();
+    }   
+    
+    disconnectSocketIO() {
+        this.socket.disconnect();
+    }
 
     joinParty(partyID: string, isUserOwner: boolean) {
-        this.socket.connect();
-        
         this.authService.getUser().subscribe({
             next: (response) => { 
                 this.userLogged = response; 
@@ -33,9 +44,16 @@ export class SocketWebService {
         })
     }
 
-    leaveParty(partyID: string) {
-        this.socket.emit('leaveParty', { party: partyID, user: this.userLogged });
-        this.socket.disconnect();
+    isUserPartyOwner(){
+        this.socket.emit('isUserPartyOwner');
+    }
+
+    leaveParty(partyID: string, adminLeave: boolean) {
+        this.socket.emit('leaveParty', { party: partyID, user: this.userLogged, adminLeave: adminLeave });
+    }
+
+    getPartyPlayers(partyID: string){
+        this.socket.emit('partyPlayers', { party: partyID });
     }
 
     sendSelectedUS(userStory: UserStory) {
@@ -45,5 +63,4 @@ export class SocketWebService {
     sendPlayerVotation(votation: Votation, userStoryID: number){
         this.socket.emit('playerVotation', { votation, userStoryID });        
     }
-
 }
