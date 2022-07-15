@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthNotGuard } from '../guards/auth-not.guard';
-import { AuthGuard } from '../guards/auth.guard';
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { LoginRegisterComponent } from '../components/login-register/login-register.component';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 import { PartySwitchComponent } from '../components/party-switch/party-switch.component';
+import { AdminDisconnectGuard } from '../guards/admin-disconnect.guard';
+import { AuthNotGuard } from '../guards/auth-not.guard';
+import { AuthGuard } from '../guards/auth.guard';
 import { PartyExistsGuard } from '../guards/party-exists.guard';
 import { UserConnectedGuard } from '../guards/user-connected.guard';
-import { AdminDisconnectGuard } from '../guards/admin-disconnect.guard';
 
 const routes: Routes = [
     {

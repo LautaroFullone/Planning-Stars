@@ -18,7 +18,12 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.socketService.connectSocketIO();
+        this.socketService.isSocketConnected().subscribe({
+            next: (response) => {
+                if(response == 'YES')
+                    this.socketService.connectSocketIO(); 
+            }
+        })
     }
 
 }

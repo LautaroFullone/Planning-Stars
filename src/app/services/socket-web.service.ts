@@ -4,6 +4,9 @@ import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { UserStory } from '../models/user-story';
 import { Votation } from '../models/votation';
+import { map } from 'rxjs';
+import { NotificationService } from './notification.service';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +15,7 @@ export class SocketWebService {
     _hasUserAccess = this.socket.fromEvent<any>('hasUserAccess_socket');
 
     _userPartyOwner = this.socket.fromEvent<any>('userPartyOwner_socket');
+    _socketConnected = this.socket.fromEvent<any>('socketConnected_socket');
 
     _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
     _playerLeave = this.socket.fromEvent<any>('playerLeave_socket'); 
@@ -46,6 +50,20 @@ export class SocketWebService {
 
     isUserPartyOwner(){
         this.socket.emit('isUserPartyOwner');
+    }
+
+    isSocketConnected(){
+        this.socket.emit('isSocketConnected');
+
+        return this._socketConnected.pipe(
+            map(response => {
+                console.log('_socketConnected', response);
+                if(response)
+                    return 'YES';
+                else
+                    return 'NO';
+            })
+        );
     }
 
     leaveParty(partyID: string, adminLeave: boolean) {
