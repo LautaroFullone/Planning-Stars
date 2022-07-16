@@ -5,14 +5,14 @@ import { User } from '../models/user';
 import { UserStory } from '../models/user-story';
 import { Votation } from '../models/votation';
 import { map } from 'rxjs';
-import { NotificationService } from './notification.service';
-import { Router } from '@angular/router';
+import { Party } from '../models/party';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SocketWebService {
     _hasUserAccess = this.socket.fromEvent<any>('hasUserAccess_socket');
+    hasUserAccess$ = this.socket.fromEvent<any>('test_socket');
 
     _userPartyOwner = this.socket.fromEvent<any>('userPartyOwner_socket');
     _socketConnected = this.socket.fromEvent<any>('socketConnected_socket');
@@ -29,23 +29,48 @@ export class SocketWebService {
     private userLogged: User;
 
     constructor(private socket: Socket,
-                private authService: AuthService) { }
+                private authService: AuthService) { 
+        
+        this.authService.getUser().subscribe({
+            next: (response) => {
+                this.userLogged = response;
+            }
+        })            
+    }
 
     connectSocketIO(){
         this.socket.connect();
+         
+        this.authService.getUser().subscribe({
+            next: (response) => {
+                this.userLogged = response;
+            }
+        }) 
     }   
     
     disconnectSocketIO() {
         this.socket.disconnect();
+        this.userLogged = undefined;
     }
 
-    joinParty(partyID: string, isUserOwner: boolean) {
-        this.authService.getUser().subscribe({
-            next: (response) => { 
-                this.userLogged = response; 
-                this.socket.emit('joinParty', { party: partyID, user: this.userLogged, isOwner: isUserOwner }); 
-            }
-        })
+    hasUserAccess (party: Party){
+        this.socket.emit('hasUserAccess', { user: this.userLogged, party:party.id, partyOwnerID: party.partyOwnerId })
+
+        return this.hasUserAccess$.pipe(
+            map(response => {
+                return response;
+            })
+        );
+    }
+
+    joinParty(partyID: string) {       
+        this.socket.emit('joinParty', { party: partyID, user: this.userLogged });
+
+        return this._userPartyOwner.pipe(
+            map(response => {
+                return response;
+            })
+        )
     }
 
     isUserPartyOwner(){
@@ -57,7 +82,6 @@ export class SocketWebService {
 
         return this._socketConnected.pipe(
             map(response => {
-                console.log('_socketConnected', response);
                 if(response)
                     return 'YES';
                 else
