@@ -33,20 +33,20 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if ( changes['addedUserStory'] && (changes['addedUserStory'].previousValue != changes['addedUserStory'].currentValue) ) {
+        if( changes['addedUserStory'] && (changes['addedUserStory'].previousValue != changes['addedUserStory'].currentValue) ) {
             this.userStoriesList.push(this.addedUserStory);
         }
 
-        if (changes['deletedUserStoryId'] && !changes['deletedUserStoryId'].firstChange){
+        if(changes['deletedUserStoryId'] && !changes['deletedUserStoryId'].firstChange){
             let usIDtoDelete = changes['deletedUserStoryId'].currentValue;
             this.deleteUSFromList(usIDtoDelete);
             this.resetSelectedUS();
         }
     }
 
-    asingClasses(){
+    asingClasses() {
         this.userStoriesList.forEach((us) => {
-            if (!us.isActive) {
+            if(!us.isActive) {
                 let elementUS = document.getElementById(`us-${us.id}`);
                 this.render.addClass(elementUS, "disabled");
             }
@@ -78,14 +78,17 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
     }
 
     handleClickItem(us: UserStory){
-        if(this.itemSelected)
+        this.selectedUS = us;        
+        this.selectedUserStory.emit(us);
+    }
+
+    asignClassToSelectedUS() {
+        let usID = this.selectedUS.id;
+        if (this.itemSelected)
             this.render.removeClass(this.itemSelected, "active");
 
-        this.selectedUS = us;
-        this.itemSelected = document.getElementById(`us-${us.id}`);
+        this.itemSelected = document.getElementById(`us-${usID}`);
         this.render.addClass(this.itemSelected, "active");
-        
-        this.selectedUserStory.emit(us);
     }
 
     handleAddedUs(newUS){

@@ -23,47 +23,34 @@ export class PartyJoinModalComponent implements OnInit {
                 private router: Router,
                 private toast: NotificationService) {  }
 
-    ngOnInit(): void {
-        this.socketService._hasUserAccess.subscribe({ 
-            next: (response) => {
-                console.log('_hasUserAccess', response);
-
-                let canUserJoin = response.hasAccess;
-
-                if(canUserJoin) {
-                    this.router.navigateByUrl(`/party/${this.partyID}`);
-                }
-                else {
-                    this.toast.warningToast({
-                        title: "Joining Party Validation",
-                        description: response.reason
-                    })
-                }
-                this.partyForm.reset();
-            },
-            error: (error) => {
-                console.log('error', error);
-            }
-            
-        })
-    }
+    ngOnInit(): void { }
 
     ngSubmit() {
         this.partyService.getPartyByID(this.partyID).subscribe({
-            next: (response) => {  
-                let partyOwnerID = response.partyOwnerId;
-                let actualUserID = sessionStorage.getItem('user-id');
-                
-                let isOwner = (partyOwnerID == actualUserID) ? true : false;
+            next: (partyResponse) => {
 
-                this.socketService.joinParty(this.partyID, isOwner);        
+                this.socketService.hasUserAccess(partyResponse).subscribe({
+                    next: (response) => {
+                        let party = this.partyID
+                        if (response.hasAccess){
+                            this.router.navigateByUrl(`/party/${party}`);
+                        }
+                        else {
+                            this.toast.warningToast({
+                                title: "Joining Party Validation",
+                                description: response.reason
+                            })
+                        }
+                        this.partyForm.reset();
+                    }
+                })
             },
             error: (apiError) => {
                 this.toast.errorToast({
                     title: 'Party Not Found',
                     description: `The party #${this.partyID} was not found`
                 })
-                this.partyForm.reset(); 
+                this.partyForm.reset();
             }
         })
     }

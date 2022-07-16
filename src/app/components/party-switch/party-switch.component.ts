@@ -25,11 +25,10 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.partyParamID = this.activatedRoute.snapshot.paramMap.get('id');
-        this.socketService.isUserPartyOwner();
 
-        this.socketService._userPartyOwner.subscribe({
-            next: (response) => {
-                this.isOwner = response;
+        this.socketService.joinParty(this.partyParamID).subscribe({
+            next: (isUserOwner) => {
+                this.isOwner = isUserOwner;
             }
         })
        
@@ -45,14 +44,14 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
         this.socketService._playerJoin.subscribe({
             next: (user) => {
-                console.log('_playerJoin', user);
-                if(user.id == actualUserID){
+
+                if(user.id == actualUserID) {
                     this.toast.successToast({
                         title: "You are in!",
                         description: `Welcome to the party.`
                     })
                 }
-                else{
+                else {
                     this.toast.successToast({
                         title: "Player Joined",
                         description: `${user.name} has just arrived to the party.`
@@ -62,9 +61,8 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
         })
 
         this.socketService._playerLeave.subscribe({
-            next: (response) => {
-                console.log('_playerLeave', response);
-                
+            next: (response) => {  
+                              
                 this.toast.infoToast({
                     title: "Player Leave",
                     description: `${response.user.name} has leave the party.`
@@ -74,8 +72,6 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
         this.socketService._adminLeave.subscribe({
             next: (response) => {
-                console.log('ADMIN LEAVE', response);       
-
                 this.router.navigateByUrl('/dashboard')
 
                 this.toast.infoToast({
