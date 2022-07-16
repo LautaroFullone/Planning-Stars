@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
-import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { VotationService } from 'src/app/services/votation.service';
 
@@ -29,7 +28,6 @@ export class ListPlayersComponent implements OnInit{
             }
         })
         
-        //listen if a player send his votation
         this.socketService._playerVotation.subscribe({  //WHEN USER VOTE
             next: (votation) => {
                 //then i retrive from api all votations
