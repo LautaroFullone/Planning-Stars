@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
+import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 	showButtons = true;
 	votingUS: UserStory;
 
-	constructor(private socketService: SocketWebService) { }
+	constructor(private socketService: SocketWebService,
+                private toast: NotificationService) { }
 		
 	ngOnInit(): void { }
 
@@ -36,6 +38,11 @@ export class QuickActionsComponent implements OnInit, OnChanges {
         this.planningStarted.emit(this.selectedUS);
 		this.votingUS = this.selectedUS;
 		this.showButtons = false
+
+        this.toast.infoToast({
+            title: 'New Item selected',
+            description: 'Players have received the selected US'
+        })
 	}
 
 }
