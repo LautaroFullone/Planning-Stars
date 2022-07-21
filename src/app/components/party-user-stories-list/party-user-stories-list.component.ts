@@ -78,13 +78,18 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
     }
 
     handleClickItem(us: UserStory){
-        this.selectedUS = us;        
+        if(this.itemSelected)
+            this.render.removeAttribute(this.itemSelected, 'style');
+        
+        this.selectedUS = us;    
+        this.itemSelected = document.getElementById(`us-${us.id}`);     
+        this.render.setAttribute(this.itemSelected, 'style', 'font-weight: bolder')
         this.selectedUserStory.emit(us);
     }
 
     asignClassToSelectedUS() {
         let usID = this.selectedUS.id;
-        if (this.itemSelected)
+        if(this.itemSelected)
             this.render.removeClass(this.itemSelected, "active");
 
         this.itemSelected = document.getElementById(`us-${usID}`);

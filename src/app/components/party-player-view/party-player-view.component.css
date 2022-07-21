@@ -1,7 +1,5 @@
-html,
-body {
+html,body {
     background-color: #f6f5f7;
-    height: 93vh;
 }
 
 .ps-container {
@@ -17,7 +15,7 @@ body {
     width: 100%;
 
     grid-template-columns: repeat(2,minmax(200px, 1fr)) ;
-    grid-template-rows: repeat(2, 43.5vh);
+    grid-template-rows: repeat(2, minmax(400px, 43.5vh));
 
     grid-template-areas: "timer  user-story"
                          "cards  user-story";
@@ -26,7 +24,7 @@ body {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: repeat(2, minmax(300px, 1fr));
-        grid-template-rows: repeat(2, 43.5vh);
+        grid-template-rows: repeat(2, minmax(400px, 43.5vh));
         grid-template-areas: "timer        cards"
                              "user-story   user-story";
     }

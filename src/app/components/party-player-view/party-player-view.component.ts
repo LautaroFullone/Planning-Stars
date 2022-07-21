@@ -15,7 +15,7 @@ export class PartyPlayerViewComponent implements OnInit {
     constructor(private socketService: SocketWebService) { }
 
     ngOnInit(): void {
-        this.socketService._selectedUS.subscribe({
+        this.socketService.selectedUS$.subscribe({
             next: (userStory) => {
                 this.actualUserStory = userStory;
             }

@@ -21,7 +21,7 @@ export class AdminDisconnectGuard implements CanDeactivate<unknown> {
 
         this.socketService.isUserPartyOwner();
 
-        return this.socketService._userPartyOwner.pipe(
+        return this.socketService.userPartyOwner$.pipe(
             catchError(() => of(false)),   //of() method return an observable with parameter value 
             map(response => {
 

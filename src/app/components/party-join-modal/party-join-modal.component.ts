@@ -28,7 +28,6 @@ export class PartyJoinModalComponent implements OnInit {
     ngSubmit() {
         this.partyService.getPartyByID(this.partyID).subscribe({
             next: (partyResponse) => {
-
                 this.socketService.hasUserAccess(partyResponse).subscribe({
                     next: (response) => {
                         let party = this.partyID
@@ -41,7 +40,7 @@ export class PartyJoinModalComponent implements OnInit {
                                 description: response.reason
                             })
                         }
-                        this.partyForm.reset();
+                        
                     }
                 })
             },
@@ -50,7 +49,6 @@ export class PartyJoinModalComponent implements OnInit {
                     title: 'Party Not Found',
                     description: `The party #${this.partyID} was not found`
                 })
-                this.partyForm.reset();
             }
         })
     }
