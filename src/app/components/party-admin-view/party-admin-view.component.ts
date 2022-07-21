@@ -51,7 +51,7 @@ export class PartyAdminViewComponent implements OnInit {
     }
 
     handleDeletedUS(event) {
-        if (this.selectedUS) {
+        if(this.selectedUS) {
             this.userStoryService.deleteUserStory(event).subscribe({
                 next: (response) => {
                     this.deletedUserStoryId = event;
@@ -68,7 +68,7 @@ export class PartyAdminViewComponent implements OnInit {
                     })
                 }
             })
-         }
+        }
     }
 
 }
