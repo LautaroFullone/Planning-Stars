@@ -19,7 +19,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
     formAction: string;
 
     userStoryForm = new FormGroup({
-        tag: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+        tag: new FormControl('', [Validators.required, Validators.maxLength(6)]),
         name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
         sprint: new FormControl('', [Validators.required, Validators.maxLength(20)]),
         description: new FormControl('', [Validators.required]),
@@ -87,7 +87,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
 
                     this.toast.infoToast({
                         title: "User Story Updated",
-                        description: `Item #${response.name} was successfully updated`
+                        description: `Item #${response.tag} was successfully updated`
                     })
                 },
                 error: (apiError) => {

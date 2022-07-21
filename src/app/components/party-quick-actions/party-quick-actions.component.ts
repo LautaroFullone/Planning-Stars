@@ -12,6 +12,7 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 	@Input() partyID: string;
 	@Input() selectedUS: UserStory = new UserStory();
 	@Output() updatingUserStory = new EventEmitter<any>();
+    @Output() planningStarted = new EventEmitter<any>();
 
 	showButtons = true;
 	votingUS: UserStory;
@@ -32,6 +33,7 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 
 	startPlanning(){
 		this.socketService.sendSelectedUS(this.selectedUS);
+        this.planningStarted.emit(this.selectedUS);
 		this.votingUS = this.selectedUS;
 		this.showButtons = false
 	}

@@ -42,12 +42,16 @@ export class PartyAdminViewComponent implements OnInit {
         this.addEditUS_ChildComponent.populateInputs();
     }
 
+    handlePlanningStarted() {
+        this.userStoriesList_ChildComponent.asignClassToSelectedUS();
+    }
+
     handleUpdatedUS() {  //when user has updated and US, ti's needed to charge the list of us in order to see the changes
         this.userStoriesList_ChildComponent.getPartyUserStories();
     }
 
     handleDeletedUS(event) {
-        if (this.selectedUS) {
+        if(this.selectedUS) {
             this.userStoryService.deleteUserStory(event).subscribe({
                 next: (response) => {
                     this.deletedUserStoryId = event;
@@ -64,7 +68,7 @@ export class PartyAdminViewComponent implements OnInit {
                     })
                 }
             })
-         }
+        }
     }
 
 }

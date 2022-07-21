@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Party } from '../models/party';
 
@@ -28,10 +28,6 @@ export class PartyService {
 
     createParty(party: Party): Observable<any> {
         return this.http.post<any>(`${environment.apiURL}/party`, party, this.headers);
-    }
-
-    getPartyPlayers(partyID: string): Observable<any> {
-        return this.http.get<any>(`${environment.apiURL}/party/${partyID}/players`, this.headers);
     }
  
     getPartyUserStories(partyID: string): Observable<any> {

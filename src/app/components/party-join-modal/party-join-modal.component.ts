@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
     selector: 'app-party-join-modal',
@@ -15,26 +16,38 @@ export class PartyJoinModalComponent implements OnInit {
         id: new FormControl('', [Validators.required]),
     });
 
-    get id() { return this.partyForm.get('id').value; }
+    get partyID() { return this.partyForm.get('id').value; }
 
     constructor(private partyService: PartyService,
+                private socketService: SocketWebService,
                 private router: Router,
-                private toast: NotificationService) { }
+                private toast: NotificationService) {  }
 
     ngOnInit(): void { }
 
     ngSubmit() {
-        this.partyService.getPartyByID(this.id).subscribe({
-            next: () => {  
-                this.router.navigateByUrl(`/party/${this.id}`);
-                this.partyForm.reset();
+        this.partyService.getPartyByID(this.partyID).subscribe({
+            next: (partyResponse) => {
+                this.socketService.hasUserAccess(partyResponse).subscribe({
+                    next: (response) => {
+                        let party = this.partyID
+                        if (response.hasAccess){
+                            this.router.navigateByUrl(`/party/${party}`);
+                        }
+                        else {
+                            this.toast.warningToast({
+                                title: "Joining Party Validation",
+                                description: response.reason
+                            })
+                        }
+                        
+                    }
+                })
             },
             error: (apiError) => {
-                this.partyForm.reset(); 
-
                 this.toast.errorToast({
-                    title: apiError.error.message,
-                    description: apiError.error.errors[0]
+                    title: 'Party Not Found',
+                    description: `The party #${this.partyID} was not found`
                 })
             }
         })

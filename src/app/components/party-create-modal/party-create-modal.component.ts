@@ -77,7 +77,7 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         this.createForm.reset();
     }
 
-    joinParty(){
+    enterIntoParty(){
         this.resetForm()
         this.isPartyCreated= false;
     }
