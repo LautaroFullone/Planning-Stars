@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first, observable, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { ViewService } from 'src/app/services/view.service';
@@ -42,7 +43,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     listenServerEvents(){
         let actualUserID = sessionStorage.getItem('user-id');
 
-        this.socketService._playerJoin.subscribe({
+        this.socketService.playerJoin$.subscribe({
             next: (user) => {
 
                 if(user.id == actualUserID) {
@@ -60,7 +61,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
             }
         })
 
-        this.socketService._playerLeave.subscribe({
+        this.socketService.playerLeave$.subscribe({
             next: (response) => {  
                               
                 this.toast.infoToast({
@@ -70,7 +71,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
             }
         })
 
-        this.socketService._adminLeave.subscribe({
+        this.socketService.adminLeave$.subscribe({
             next: (response) => {
                 this.router.navigateByUrl('/dashboard')
 

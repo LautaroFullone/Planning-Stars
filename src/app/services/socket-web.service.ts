@@ -11,20 +11,19 @@ import { Party } from '../models/party';
     providedIn: 'root'
 })
 export class SocketWebService {
-    _hasUserAccess = this.socket.fromEvent<any>('hasUserAccess_socket');
-    hasUserAccess$ = this.socket.fromEvent<any>('test_socket');
+    hasUserAccess$ = this.socket.fromEvent<any>('hasUserAccess_socket');
 
-    _userPartyOwner = this.socket.fromEvent<any>('userPartyOwner_socket');
-    _socketConnected = this.socket.fromEvent<any>('socketConnected_socket');
+    userPartyOwner$ = this.socket.fromEvent<any>('userPartyOwner_socket');
+    socketConnected$ = this.socket.fromEvent<any>('socketConnected_socket');
 
-    _playerJoin = this.socket.fromEvent<any>('playerJoin_socket');
-    _playerLeave = this.socket.fromEvent<any>('playerLeave_socket'); 
-    _adminLeave = this.socket.fromEvent<any>('adminLeave_socket');
-    _partyPlayers = this.socket.fromEvent<any>('partyPlayers_socket');
+    playerJoin$ = this.socket.fromEvent<any>('playerJoin_socket');
+    playerLeave$ = this.socket.fromEvent<any>('playerLeave_socket'); 
+    adminLeave$ = this.socket.fromEvent<any>('adminLeave_socket');
+    partyPlayers$ = this.socket.fromEvent<any>('partyPlayers_socket');
 
-    _selectedUS = this.socket.fromEvent<any>('selectedUS_socket');
+    selectedUS$ = this.socket.fromEvent<any>('selectedUS_socket');
 
-    _playerVotation = this.socket.fromEvent<any>('playerVotation_socket');
+    playerVotation$ = this.socket.fromEvent<any>('playerVotation_socket');
     
     private userLogged: User;
 
@@ -66,7 +65,7 @@ export class SocketWebService {
     joinParty(partyID: string) {       
         this.socket.emit('joinParty', { party: partyID, user: this.userLogged });
 
-        return this._userPartyOwner.pipe(
+        return this.userPartyOwner$.pipe(
             map(response => {
                 return response;
             })
@@ -80,7 +79,7 @@ export class SocketWebService {
     isSocketConnected(){
         this.socket.emit('isSocketConnected');
 
-        return this._socketConnected.pipe(
+        return this.socketConnected$.pipe(
             map(response => {
                 if(response)
                     return 'YES';

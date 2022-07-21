@@ -22,13 +22,14 @@ export class ListPlayersComponent implements OnInit{
                 private votationService: VotationService) { }
 
     ngOnInit(): void {
-        this.socketService._partyPlayers.subscribe({
+        this.socketService.partyPlayers$.subscribe({
             next: (sockets) => {
+                console.log('partyPlayers$', sockets);
                 this.socketsList = sockets;
             }
         })
         
-        this.socketService._playerVotation.subscribe({  //WHEN USER VOTE
+        this.socketService.playerVotation$.subscribe({  //WHEN USER VOTE
             next: (votation) => {
                 //then i retrive from api all votations
                 this.votationService.getUserStoryVotations(this.selectedUS.id).subscribe({

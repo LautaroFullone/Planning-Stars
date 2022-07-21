@@ -21,7 +21,7 @@ export class UserConnectedGuard implements CanActivate {
 
         this.socketService.isUserPartyOwner();
 
-        return this.socketService._userPartyOwner.pipe(  //it retrives undefined if user is not conected into party
+        return this.socketService.userPartyOwner$.pipe(  //it retrives undefined if user is not conected into party
             catchError(() => of(false)),   //of() method return an observable with parameter value 
             map(response => {
                 if (response == undefined) { //if user is not connected into party
