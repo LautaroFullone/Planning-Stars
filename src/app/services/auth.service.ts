@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginUser } from '../models/login-user';
 import { User } from '../models/user';
@@ -26,16 +26,23 @@ export class AuthService {
     login(userLoginInfo: LoginUser): Observable<any> {
         let observable = this.http.post(`${environment.apiURL}/user/login`, userLoginInfo, this.headers);
 
-        observable.subscribe({
-            next: (response) => { 
-                this.token = response['token'];
-                this.user = response['userDetails'];
+        return observable.pipe(
+            catchError(() => of(false)),
+            map(response => {
                 
-                sessionStorage.setItem('token', this.token);
-                sessionStorage.setItem('user-id', this.user.id.toString());
-            }
-        })
-        return observable;
+                if(response) {
+                    this.token = response['token'];
+                    this.user = response['userDetails'];
+
+                    sessionStorage.setItem('token', this.token);
+                    sessionStorage.setItem('user-id', this.user.id.toString());
+                    return true;
+                } 
+                else {
+                    return false;
+                }
+            })
+        );
     }
 
     register(name: string, email: string, password: string): Observable<any> {
