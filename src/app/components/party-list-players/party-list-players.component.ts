@@ -24,7 +24,6 @@ export class ListPlayersComponent implements OnInit{
     ngOnInit(): void {
         this.socketService.partyPlayers$.subscribe({
             next: (sockets) => {
-                console.log('partyPlayers$', sockets);
                 this.socketsList = sockets;
             }
         })

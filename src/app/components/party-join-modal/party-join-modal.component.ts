@@ -28,19 +28,21 @@ export class PartyJoinModalComponent implements OnInit {
     ngSubmit() {
         this.partyService.getPartyByID(this.partyID).subscribe({
             next: (partyResponse) => {
+                let party = this.partyID
+
                 this.socketService.hasUserAccess(partyResponse).subscribe({
                     next: (response) => {
-                        let party = this.partyID
-                        if (response.hasAccess){
-                            this.router.navigateByUrl(`/party/${party}`);
-                        }
+                        
+                        if (response.hasAccess)
+                            this.router.navigateByUrl(`/party/${party}`);  
                         else {
                             this.toast.warningToast({
                                 title: "Joining Party Validation",
                                 description: response.reason
                             })
                         }
-                        
+
+                        this.partyForm.reset();
                     }
                 })
             },
@@ -49,6 +51,8 @@ export class PartyJoinModalComponent implements OnInit {
                     title: 'Party Not Found',
                     description: `The party #${this.partyID} was not found`
                 })
+
+                this.partyForm.reset();
             }
         })
     }
