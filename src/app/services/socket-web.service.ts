@@ -53,7 +53,7 @@ export class SocketWebService {
     }
 
     hasUserAccess (party: Party){
-        this.socket.emit('hasUserAccess', { user: this.userLogged, party:party.id, partyOwnerID: party.partyOwnerId })
+        this.socket.emit('hasUserAccess', { user: this.userLogged, party })
 
         return this.hasUserAccess$.pipe(
             map(response => {
