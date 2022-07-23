@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first, observable, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { ViewService } from 'src/app/services/view.service';
@@ -21,7 +20,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                 private socketService: SocketWebService,
                 private router: Router) {
                     
-        this.viewService.setShowNarBar(true, false);
+        this.viewService.setShowNarBar(true, false, true);
     }
 
     ngOnInit(): void {
@@ -37,7 +36,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.socketService.leaveParty(this.partyParamID, false);
+        this.socketService.leaveParty();
     }
 
     listenServerEvents(){
@@ -80,7 +79,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                     description: 'You just got redirected to dashboard'
                 })
 
-                this.socketService.leaveParty(this.partyParamID, true);
+                this.socketService.leaveParty();
             }
         })
     }

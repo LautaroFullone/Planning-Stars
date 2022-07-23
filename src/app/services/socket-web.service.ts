@@ -53,7 +53,7 @@ export class SocketWebService {
     }
 
     hasUserAccess (party: Party){
-        this.socket.emit('hasUserAccess', { user: this.userLogged, party:party.id, partyOwnerID: party.partyOwnerId })
+        this.socket.emit('hasUserAccess', { user: this.userLogged, party })
 
         return this.hasUserAccess$.pipe(
             map(response => {
@@ -89,8 +89,8 @@ export class SocketWebService {
         );
     }
 
-    leaveParty(partyID: string, adminLeave: boolean) {
-        this.socket.emit('leaveParty', { party: partyID, user: this.userLogged, adminLeave: adminLeave });
+    leaveParty() {
+        this.socket.emit('leaveParty');
     }
 
     getPartyPlayers(partyID: string){
