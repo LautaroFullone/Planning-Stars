@@ -89,8 +89,8 @@ export class SocketWebService {
         );
     }
 
-    leaveParty(partyID: string, adminLeave: boolean) {
-        this.socket.emit('leaveParty', { party: partyID, user: this.userLogged, adminLeave: adminLeave });
+    leaveParty() {
+        this.socket.emit('leaveParty');
     }
 
     getPartyPlayers(partyID: string){
