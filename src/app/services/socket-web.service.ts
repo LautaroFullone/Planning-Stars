@@ -91,10 +91,7 @@ export class SocketWebService {
 
     leaveParty() {
         this.socket.emit('leaveParty');
-    }
-
-    getPartyPlayers(partyID: string){
-        this.socket.emit('partyPlayers', { party: partyID });
+        this.socket.disconnect();
     }
 
     sendSelectedUS(userStory: UserStory) {

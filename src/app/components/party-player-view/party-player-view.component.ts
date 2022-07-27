@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -8,16 +9,18 @@ import { SocketWebService } from 'src/app/services/socket-web.service';
     templateUrl: './party-player-view.component.html',
     styleUrls: ['./party-player-view.component.css']
 })
-export class PartyPlayerViewComponent implements OnInit {
+export class PartyPlayerViewComponent implements OnInit, OnDestroy {
 
     @Input() partyID: string;
     actualUserStory: UserStory;
+
+    private selectedUsSub: Subscription;
 
     constructor(private socketService: SocketWebService,
                 private toast: NotificationService) { }
 
     ngOnInit(): void {
-        this.socketService.selectedUS$.subscribe({
+        this.selectedUsSub = this.socketService.selectedUS$.subscribe({
             next: (userStory) => {
                 this.actualUserStory = userStory;
 
@@ -27,5 +30,9 @@ export class PartyPlayerViewComponent implements OnInit {
                 })
             }
         })
+    }
+
+    ngOnDestroy(): void {
+        this.selectedUsSub.unsubscribe();
     }
 }
