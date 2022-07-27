@@ -12,7 +12,6 @@ export class NotFoundComponent implements OnInit {
         this.viewService.setShowNarBar(false);
     }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
 }
