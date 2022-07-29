@@ -34,7 +34,7 @@ export class PartyService {
         return this.http.get<any>(`${environment.apiURL}/party/${partyID}/userstories`, this.headers);
     }
 
-    getCardsList(){
+    getCardsList(): any{
         return this.cardsList;
     }
 }

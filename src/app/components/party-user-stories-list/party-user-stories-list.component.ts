@@ -8,7 +8,7 @@ import { PartyService } from 'src/app/services/party.service';
     templateUrl: './party-user-stories-list.component.html',
     styleUrls: ['../party-admin-view/party-admin-view.component.css']
 })
-export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChanges {
+export class UserStoriesListComponent implements OnInit, OnChanges {
 
     @Input() partyID: string;
     @Input() addedUserStory: UserStory;
@@ -19,6 +19,7 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
     userStoriesList = new Array<UserStory>()
     itemSelected: HTMLElement;
     selectedUS: UserStory;
+    applyClasses = false;
 
     constructor(private partyService: PartyService,
                 private render: Renderer2,
@@ -28,11 +29,7 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
         this.getPartyUserStories();
     }
 
-    ngAfterViewInit(): void {
-        this.asingClasses();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
         if( changes['addedUserStory'] && (changes['addedUserStory'].previousValue != changes['addedUserStory'].currentValue) ) {
             this.userStoriesList.push(this.addedUserStory);
         }
@@ -43,23 +40,11 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
             this.resetSelectedUS();
         }
     }
-
-    asingClasses() {
-        this.userStoriesList.forEach((us) => {
-            if(!us.isActive) {
-                let elementUS = document.getElementById(`us-${us.id}`);
-                this.render.addClass(elementUS, "disabled");
-            }
-        }); 
-    }
-
-    getPartyUserStories() {
+    getPartyUserStories(): void {
+        
         this.partyService.getPartyUserStories(this.partyID).subscribe({
             next: (response) => {
-                if (response)
-                    this.userStoriesList = response;
-                else
-                    this.userStoriesList = new Array();
+                this.userStoriesList = response;                
             },
             error: (apiError) => {
                 this.toast.errorToast({
@@ -70,14 +55,14 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
         })
     }
 
-    resetSelectedUS(){
+    resetSelectedUS(): void {
         this.resetSelectedUserStory.emit();
         
         if (this.itemSelected)
             this.render.removeClass(this.itemSelected, "active");
     }
 
-    handleClickItem(us: UserStory){
+    handleClickItem(us: UserStory): void {
         if(this.itemSelected)
             this.render.removeAttribute(this.itemSelected, 'style');
         
@@ -87,7 +72,7 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
         this.selectedUserStory.emit(us);
     }
 
-    asignClassToSelectedUS() {
+    handlePlanningStarted(): void {
         let usID = this.selectedUS.id;
         if(this.itemSelected)
             this.render.removeClass(this.itemSelected, "active");
@@ -95,12 +80,21 @@ export class UserStoriesListComponent implements OnInit, AfterViewInit, OnChange
         this.itemSelected = document.getElementById(`us-${usID}`);
         this.render.addClass(this.itemSelected, "active");
     }
+    
+    handlePlanningFinished(us: UserStory): void {       
+        let usVoted = document.getElementById(`us-${us.id}`);
+        
+        this.resetSelectedUS();
 
-    handleAddedUs(newUS){
+        this.render.removeAttribute(usVoted, "style");
+        this.render.addClass(usVoted, "disabled");
+    }
+
+    handleAddedUs(newUS): void {
         this.userStoriesList.push(newUS);
     }
 
-    deleteUSFromList(usID: number) {
+    deleteUSFromList(usID: number): void {
         this.userStoriesList.forEach((item, index) => {
             if (item.id === usID) {
                 this.userStoriesList.splice(index, 1);

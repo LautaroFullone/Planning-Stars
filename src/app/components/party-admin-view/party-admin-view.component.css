@@ -160,10 +160,11 @@ div.actions-grid{
     align-content: center;
   
     grid-template-columns: repeat(2,auto);
-    grid-template-rows: repeat(2, auto);
+    grid-template-rows: repeat(3, auto);
     
     grid-template-areas: "update  delete"
-                         "startt  startt";
+                         "start-p start-p"
+                         "end-p   end-p";
 }
 
 div.update-section{
@@ -173,7 +174,10 @@ div.delete-section {
     grid-area: delete;
 }
 div.start-section {
-    grid-area: startt;
+    grid-area: start-p;
+}
+div.end-section {
+    grid-area: end-p;
 }
 
 div.actions-grid > div > button {

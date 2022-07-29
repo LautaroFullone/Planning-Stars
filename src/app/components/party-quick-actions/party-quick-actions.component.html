@@ -1,8 +1,10 @@
 <div class="card">
+    
     <div class="card-header text-align-center">
         <i class="fa-solid fa-toolbox"></i> - Actions
     </div>
-    <div *ngIf="selectedUS; then isSelected else isNotSelected"></div>
+
+    <ng-template *ngIf="selectedUS; then isSelected else isNotSelected"></ng-template>
 
     <ng-template #isSelected>
         <div class="card-body">
@@ -19,7 +21,10 @@
                     </button>
                 </div>
                 <div class="start-section">
-                    <button type="button" [disabled]="!showButtons" class="btn btn-outline-tertiary" (click)="startPlanning()">Start Planning</button>
+                    <button type="button" [disabled]="!showButtons || votingUS" class="btn btn-outline-tertiary" (click)="startPlanning()">Start Planning</button>
+                </div>
+                <div class="end-section" *ngIf="votingUS && (votingUS.id == selectedUS.id)">
+                    <button type="button" class="btn btn-outline-danger" (click)="finishPlanning()">Conclude Planning</button>
                 </div>
 
             </div>
