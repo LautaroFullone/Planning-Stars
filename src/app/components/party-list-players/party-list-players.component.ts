@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -10,7 +10,7 @@ import { VotationService } from 'src/app/services/votation.service';
     styleUrls: ['../party-admin-view/party-admin-view.component.css',
                  './party-list-players.component.css']
 })
-export class ListPlayersComponent implements OnInit, OnDestroy{
+export class PartyListPlayersComponent implements OnInit, OnDestroy, OnChanges{
 
     @Input() partyID: string;
     @Input() selectedUS: UserStory;
@@ -18,13 +18,21 @@ export class ListPlayersComponent implements OnInit, OnDestroy{
     votationsList = new Array<any>();
     socketsList = new Array<any>();
     adminID: string;
+    votingUS = undefined;
+    showIcons = false;
 
     private partyPlayersSub: Subscription;
     private playersVotationSub: Subscription;
 
     constructor(private socketService: SocketWebService,
                 private votationService: VotationService) { }
+    
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['selectedUS'] && changes['selectedUS'].currentValue) 
+            this.showIcons = (changes['selectedUS'].currentValue == this.votingUS) ? true : false;
+    }
+                
     ngOnInit(): void {
         this.listenServerEvents();
     }
@@ -38,7 +46,12 @@ export class ListPlayersComponent implements OnInit, OnDestroy{
         this.playersVotationSub.unsubscribe();
     }
 
-    listenServerEvents() { 
+    handlePlanningStarted(us: UserStory): void {
+        this.votingUS = us;
+        this.showIcons = true;
+    }
+
+    listenServerEvents(): void { 
         this.partyPlayersSub = this.socketService.partyPlayers$.subscribe({
             next: (sockets) => {
                 this.socketsList = sockets;
@@ -48,11 +61,14 @@ export class ListPlayersComponent implements OnInit, OnDestroy{
         this.playersVotationSub = this.socketService.playerVotation$.subscribe({  //WHEN USER VOTE
             next: (votation) => {
                 //then i retrive from api all votations
-                this.votationService.getUserStoryVotations(this.selectedUS.id).subscribe({
+                let test = this.socketsList.find( socket => socket.user.id == votation.userID);
+                test.hasVote = true;
+                
+                /*this.votationService.getUserStoryVotations(this.selectedUS.id).subscribe({
                     next: (usVotations) => {
                         this.votationsList = usVotations;
                     }
-                })
+                })*/
             }
         })  
     }

@@ -11,9 +11,10 @@ import { SocketWebService } from 'src/app/services/socket-web.service';
 export class QuickActionsComponent implements OnInit, OnChanges {
 
 	@Input() partyID: string;
-	@Input() selectedUS: UserStory = new UserStory();
+	@Input() selectedUS: UserStory
 	@Output() updatingUserStory = new EventEmitter<any>();
     @Output() planningStarted = new EventEmitter<any>();
+    @Output() planningFinished = new EventEmitter<any>();
 
 	showButtons = true;
 	votingUS: UserStory;
@@ -28,12 +29,12 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 			this.showButtons = (changes['selectedUS'].currentValue != this.votingUS) ? true : false;
 	}
 
-	updateUS() {
+	updateUS(): void {
 		if(this.selectedUS)
 			this.updatingUserStory.emit();
 	}
 
-	startPlanning(){
+	startPlanning(): void {
 		this.socketService.sendSelectedUS(this.selectedUS);
         this.planningStarted.emit(this.selectedUS);
 		this.votingUS = this.selectedUS;
@@ -45,4 +46,13 @@ export class QuickActionsComponent implements OnInit, OnChanges {
         })
 	}
 
+    finishPlanning(): void {
+        this.votingUS = undefined
+        this.showButtons = true;
+        //TODO: here should be called the logic to get the final story points of the US
+        this.planningFinished.emit( { userStory: this.selectedUS, storyPoints: 99 } );
+        //TODO: Here should be saved the story points with the api
+
+    }
+ 
 }

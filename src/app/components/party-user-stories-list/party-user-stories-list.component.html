@@ -15,7 +15,7 @@
 
             <ul class="list-group" *ngFor="let us of userStoriesList">
 
-                <li class="list-group-item" (click)="handleClickItem(us)" id="us-{{us.id}}">
+                <li class="list-group-item" [ngClass]="{'disabled': us.storyPoints}" (click)="handleClickItem(us)" id="us-{{us.id}}">
                     User Story #{{us.tag}}: {{us.name}}
                 </li>
             </ul>

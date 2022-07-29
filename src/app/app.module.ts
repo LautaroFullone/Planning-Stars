@@ -17,7 +17,7 @@ import { PartyJoinModalComponent } from './components/party-join-modal/party-joi
 import { PartyCreateModalComponent } from './components/party-create-modal/party-create-modal.component';
 import { UserStoriesListComponent } from './components/party-user-stories-list/party-user-stories-list.component';
 import { ActualUserStoryComponent } from './components/party-actual-user-story/party-actual-user-story.component';
-import { ListPlayersComponent } from './components/party-list-players/party-list-players.component';
+import { PartyListPlayersComponent } from './components/party-list-players/party-list-players.component';
 import { QuickActionsComponent } from './components/party-quick-actions/party-quick-actions.component';
 import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-modal/party-add-edit-us-modal.component';
 import { PartyDeleteUsConfComponent } from './components/party-delete-us-conf/party-delete-us-conf.component';
@@ -43,7 +43,7 @@ const config: SocketIoConfig = { url: environment.serverURL, options: {} };
     PartyCreateModalComponent,
     UserStoriesListComponent,
     ActualUserStoryComponent,
-    ListPlayersComponent,
+    PartyListPlayersComponent,
     QuickActionsComponent,
     PartyAddEditUsModalComponent,
     PartyDeleteUsConfComponent,
