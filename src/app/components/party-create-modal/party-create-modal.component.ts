@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-party-create-modal',
@@ -18,6 +19,7 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
     
     isPartyCreated: boolean = false;
     partyToJoin: Party;
+    private hasUserAccessSub: Subscription;
 
     createForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.maxLength(10)]),
@@ -77,8 +79,8 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         })   
     }
 
-    enterIntoParty(){
-        this.socketService.hasUserAccess(this.partyToJoin).subscribe({
+    enterIntoParty() {
+        this.hasUserAccessSub = this.socketService.hasUserAccess(this.partyToJoin).subscribe({
             next: (response) => {
                 if (response.hasAccess) {
                     this.router.navigateByUrl(`/party/${this.partyToJoin.id}`);
@@ -89,6 +91,7 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
                         description: response.reason
                     })
                 }
+                this.hasUserAccessSub.unsubscribe();
             }
         })
 

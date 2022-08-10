@@ -35,7 +35,7 @@ ul{
     display: inline-block;
 }
 
-.nav-links li a{
+.nav-links li a {
     transition: all 0.7s ease-in-out 0s;
     margin: 0 10px;
 }
