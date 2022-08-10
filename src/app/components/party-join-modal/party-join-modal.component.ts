@@ -47,10 +47,16 @@ export class PartyJoinModalComponent implements OnInit {
             error: (apiError) => {
                 this.toast.errorToast({
                     title: 'Party Not Found',
-                    description: `The party #${this.partyID} was not found`
+                    description: `The party #${this.partyID} do not exists`
                 })
+                this.cleanModal();
             }
         })
+    }
+
+
+    cleanModal() {
+        setTimeout(() => this.partyForm.reset(), 500)
     }
 
 }

@@ -9,7 +9,7 @@
 
         <div class="list-container">
 
-            <ng-container *ngIf="userStoriesList.length == 0">
+            <ng-container *ngIf="userStoriesList && userStoriesList.length == 0">
                 There is no elements to display, please add some of them.
             </ng-container>
 

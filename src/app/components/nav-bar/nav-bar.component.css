@@ -35,8 +35,9 @@ ul{
     display: inline-block;
 }
 
-.nav-links li a{
-    transition: all 0.3s ease 0s;
+.nav-links li a {
+    transition: all 0.7s ease-in-out 0s;
+    margin: 0 10px;
 }
 
 .nav-links li a:hover{
