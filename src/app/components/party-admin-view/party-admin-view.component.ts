@@ -3,6 +3,7 @@ import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserStoryService } from 'src/app/services/user-story.service';
 import { PartyAddEditUsModalComponent } from '../party-add-edit-us-modal/party-add-edit-us-modal.component';
+import { PartyListPlayersComponent } from '../party-list-players/party-list-players.component';
 import { UserStoriesListComponent } from '../party-user-stories-list/party-user-stories-list.component';
 
 @Component({
@@ -14,8 +15,9 @@ export class PartyAdminViewComponent implements OnInit {
 
     @Input() partyID: string;
 
-    @ViewChild(PartyAddEditUsModalComponent) addEditUS_ChildComponent: PartyAddEditUsModalComponent;
-    @ViewChild(UserStoriesListComponent) userStoriesList_ChildComponent: UserStoriesListComponent;
+    @ViewChild(PartyAddEditUsModalComponent) partyAddEditUsModalComponent: PartyAddEditUsModalComponent;
+    @ViewChild(UserStoriesListComponent) userStoriesListComponent : UserStoriesListComponent;
+    @ViewChild(PartyListPlayersComponent) partyListPlayersComponent: PartyListPlayersComponent;
 
     selectedUS: UserStory;
     addedUS: UserStory;
@@ -26,31 +28,39 @@ export class PartyAdminViewComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    handleSelectedUS(event) {
+    handleSelectedUS(event): void {
         this.selectedUS = event;
     }
 
-    handleResetUS() {
+    handleResetUS(): void {
         this.selectedUS = undefined;
     }
 
-    handleAddedUs(event) {
+    handleAddedUs(event): void {
         this.addedUS = event;
     }
 
-    handleUpdatingUS() {  //when user clicks on 'Update' button, is needed to populate all the fields into modal form
-        this.addEditUS_ChildComponent.populateInputs();
+    handleUpdatingUS(): void {  //when user clicks on 'Update' button, is needed to populate all the fields into modal form
+        this.partyAddEditUsModalComponent.populateInputs();
     }
 
-    handlePlanningStarted() {
-        this.userStoriesList_ChildComponent.asignClassToSelectedUS();
+    handlePlanningStarted(us: UserStory): void {
+        this.userStoriesListComponent.handlePlanningStarted();
+        this.partyListPlayersComponent.handlePlanningStarted(us);
     }
 
-    handleUpdatedUS() {  //when user has updated and US, ti's needed to charge the list of us in order to see the changes
-        this.userStoriesList_ChildComponent.getPartyUserStories();
+    handlePlanningFinished(data): void {
+        let userStory = data.userStory;
+        
+        this.userStoriesListComponent.handlePlanningFinished(userStory);
+        this.userStoryService.saveFinalVotationResult(userStory.id, data.storyPoints);
     }
 
-    handleDeletedUS(event) {
+    handleUpdatedUS(): void {  //when user has updated and US, ti's needed to charge the list of us in order to see the changes
+        this.userStoriesListComponent.getPartyUserStories();
+    }
+
+    handleDeletedUS(event): void {
         if(this.selectedUS) {
             this.userStoryService.deleteUserStory(event).subscribe({
                 next: (response) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -16,6 +17,8 @@ export class PartyJoinModalComponent implements OnInit {
         id: new FormControl('', [Validators.required]),
     });
 
+    private hasUserAccessSub: Subscription;
+
     get partyID() { return this.partyForm.get('id').value; }
 
     constructor(private partyService: PartyService,
@@ -28,19 +31,26 @@ export class PartyJoinModalComponent implements OnInit {
     ngSubmit() {
         this.partyService.getPartyByID(this.partyID).subscribe({
             next: (partyResponse) => {
-                this.socketService.hasUserAccess(partyResponse).subscribe({
+                let party = this.partyID
+
+                this.hasUserAccessSub = this.socketService.hasUserAccess(partyResponse).subscribe({
                     next: (response) => {
-                        let party = this.partyID
-                        if (response.hasAccess){
-                            this.router.navigateByUrl(`/party/${party}`);
-                        }
+                        
+                        if (response.hasAccess)
+                            this.router.navigateByUrl(`/party/${party}`);  
                         else {
                             this.toast.warningToast({
                                 title: "Joining Party Validation",
                                 description: response.reason
                             })
                         }
-                        
+
+                        this.partyForm.reset();
+                        this.hasUserAccessSub.unsubscribe();
+                    },
+                    error: (socketError) => {
+                        console.error(socketError);
+                        this.hasUserAccessSub.unsubscribe();
                     }
                 })
             },
@@ -54,9 +64,7 @@ export class PartyJoinModalComponent implements OnInit {
         })
     }
 
-
     cleanModal() {
         setTimeout(() => this.partyForm.reset(), 500)
     }
-
 }

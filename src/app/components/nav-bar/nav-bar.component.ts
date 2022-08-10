@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ViewService } from 'src/app/services/view.service';
 
@@ -9,6 +9,7 @@ import { ViewService } from 'src/app/services/view.service';
 })
 export class NavBarComponent implements OnInit {
     showOptions: boolean;
+    showLeaveButton: boolean;
     username: String;
 
     constructor(private authService: AuthService,
@@ -17,6 +18,10 @@ export class NavBarComponent implements OnInit {
     ngOnInit(): void {
         this.viewService.getShowNavBarOptions().subscribe({
             next: (response) => { this.showOptions = response }
+        })
+
+        this.viewService.getShowLeavePartyButton().subscribe({
+            next: (response) => { this.showLeaveButton = response }
         })
 
         this.authService.getUser().subscribe({

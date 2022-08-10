@@ -77,10 +77,6 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         })   
     }
 
-    resetForm() {
-        this.createForm.reset();
-    }
-
     enterIntoParty() {
         this.socketService.hasUserAccess(this.partyToJoin).subscribe({
             next: (response) => {
@@ -112,4 +108,7 @@ export class PartyCreateModalComponent implements OnInit, AfterViewInit{
         }  
     }
 
+    resetForm() {
+        setTimeout(() => this.createForm.reset(), 500)
+    }
 }

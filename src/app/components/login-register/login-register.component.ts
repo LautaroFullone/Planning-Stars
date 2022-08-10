@@ -65,22 +65,25 @@ export class LoginRegisterComponent implements OnInit{
         }
         
         this.authService.login(this.userToLogIn).subscribe({
-            next: () => {
-                if (this.authService.getToken())
-                    this.router.navigateByUrl('/dashboard');
+            next: (response) => {
+                
+                if(response){
+                    if (this.authService.getToken())
+                        this.router.navigateByUrl('/dashboard');
 
-                if(isOldUser){
-                    this.toast.successToast({
-                        title: "Login Success",
-                        description: "It's good to see you here."
+                    if (isOldUser) {
+                        this.toast.successToast({
+                            title: "Login Success",
+                            description: "It's good to see you here."
+                        })
+                    }
+                }
+                else {
+                    this.toast.errorToast({
+                        title: 'Login Error',
+                        description: 'There is a problem with the data.'
                     })
                 }
-            },
-            error: (apiError) => {
-                this.toast.errorToast({
-                    title: apiError.error.message,
-                    description: apiError.error.errors[0]
-                })
             }
         })
     }
