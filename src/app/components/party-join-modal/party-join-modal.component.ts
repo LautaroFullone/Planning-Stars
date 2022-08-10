@@ -59,13 +59,14 @@ export class PartyJoinModalComponent implements OnInit {
                     title: 'Party Not Found',
                     description: `The party #${this.partyID} do not exists`
                 })
-
                 this.cleanModal();
             }
         })
     }
 
-    cleanModal(){
+
+    cleanModal() {
         setTimeout(() => this.partyForm.reset(), 500)
     }
+
 }
