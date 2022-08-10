@@ -24,7 +24,7 @@ html,body {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: repeat(2, minmax(300px, 1fr));
-        grid-template-rows: repeat(2, minmax(400px, 43.5vh));
+        grid-template-rows: minmax(400px, 43.5vh) minmax(600px, 422px);
         grid-template-areas: "timer        cards"
                              "user-story   user-story";
     }

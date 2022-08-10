@@ -160,10 +160,11 @@ div.actions-grid{
     align-content: center;
   
     grid-template-columns: repeat(2,auto);
-    grid-template-rows: repeat(2, auto);
+    grid-template-rows: repeat(3, auto);
     
     grid-template-areas: "update  delete"
-                         "startt  startt";
+                         "start-p start-p"
+                         "end-p   end-p";
 }
 
 div.update-section{
@@ -173,7 +174,10 @@ div.delete-section {
     grid-area: delete;
 }
 div.start-section {
-    grid-area: startt;
+    grid-area: start-p;
+}
+div.end-section {
+    grid-area: end-p;
 }
 
 div.actions-grid > div > button {
@@ -227,16 +231,16 @@ div.players-grid {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr);
-        grid-template-rows: auto minmax(600px, 422px) minmax(100px, 200px) auto;
+        grid-template-rows: auto minmax(100px, 200px) minmax(600px, 422px) auto;
 
         grid-template-areas: "stories-list"
-            "actual-story"
-            "actions"
-            "players";
+                             "actions"
+                             "actual-story"
+                             "players";
     }
 
     .text-container {
-        max-height: 250px;
+        max-height: 340px;
     }
 
     .list-container {

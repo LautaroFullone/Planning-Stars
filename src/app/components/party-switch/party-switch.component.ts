@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first, observable, Subject, Subscription, take, takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { ViewService } from 'src/app/services/view.service';
@@ -15,13 +15,17 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     isOwner: boolean;
     partyParamID: string;
 
+    private playerJoinSub: Subscription;
+    private playerLeaveSub: Subscription;
+    private adminLeaveSub: Subscription;
+
     constructor(private activatedRoute: ActivatedRoute,
                 private viewService: ViewService,
                 private toast: NotificationService,
                 private socketService: SocketWebService,
                 private router: Router) {
                     
-        this.viewService.setShowNarBar(true, false);
+        this.viewService.setShowNarBar(true, false, true);
     }
 
     ngOnInit(): void {
@@ -37,13 +41,20 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.socketService.leaveParty(this.partyParamID, false);
+        this.socketService.leaveParty();
+        this.removeAllSubscriptions();
+    }
+
+    removeAllSubscriptions(): void {
+        this.playerJoinSub.unsubscribe();
+        this.playerLeaveSub.unsubscribe();
+        this.adminLeaveSub.unsubscribe();
     }
 
     listenServerEvents(){
         let actualUserID = sessionStorage.getItem('user-id');
 
-        this.socketService.playerJoin$.subscribe({
+        this.playerJoinSub = this.socketService.playerJoin$.subscribe({
             next: (user) => {
 
                 if(user.id == actualUserID) {
@@ -61,9 +72,8 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
             }
         })
 
-        this.socketService.playerLeave$.subscribe({
-            next: (response) => {  
-                              
+        this.playerLeaveSub = this.socketService.playerLeave$.subscribe({
+            next: (response) => {                               
                 this.toast.infoToast({
                     title: "Player Leave",
                     description: `${response.user.name} has leave the party.`
@@ -71,7 +81,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
             }
         })
 
-        this.socketService.adminLeave$.subscribe({
+        this.adminLeaveSub = this.socketService.adminLeave$.subscribe({
             next: (response) => {
                 this.router.navigateByUrl('/dashboard')
 
@@ -80,7 +90,7 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
                     description: 'You just got redirected to dashboard'
                 })
 
-                this.socketService.leaveParty(this.partyParamID, true);
+                this.socketService.leaveParty();
             }
         })
     }
