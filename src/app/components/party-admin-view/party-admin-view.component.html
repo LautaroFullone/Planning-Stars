@@ -6,7 +6,6 @@
             <div class="stories-list">
                 <app-party-user-stories-list
                     [partyID]= "partyID"
-                    [addedUserStory] = "addedUS"
                     [deletedUserStoryId] = "deletedUserStoryId"
                     (selectedUserStory)= "handleSelectedUS($event)" 
                     (resetSelectedUserStory)= "handleResetUS()">
@@ -32,7 +31,7 @@
 
             <div class="players">
                 <app-party-list-players
-                    [partyID]= "partyID"
+                    [partyID] = "partyID"
                     [selectedUS] = "selectedUS">
                 </app-party-list-players>
             </div>
@@ -41,9 +40,9 @@
 </body>
 
 <app-party-add-edit-us-modal
-    [partyID]= "partyID"
-    [selectedUS]= "selectedUS"
-    (addedUserStory)="handleAddedUs($event)"
+    [partyID] = "partyID"
+    [selectedUS] = "selectedUS"
+    (addedUserStory) = "handleAddedUs($event)"
     (updatedUserStory) = "handleUpdatedUS()">
 </app-party-add-edit-us-modal>
 

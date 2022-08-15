@@ -193,6 +193,7 @@ div.waiting-body{
     align-items: center;
     font-size: 30px;
     background-color: #00000008;
+    text-align: center;
 }
 
 div.players-grid {
@@ -231,7 +232,7 @@ div.players-grid {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr);
-        grid-template-rows: auto minmax(100px, 200px) minmax(600px, 422px) auto;
+        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(600px, 422px) auto;
 
         grid-template-areas: "stories-list"
                              "actions"
@@ -244,7 +245,7 @@ div.players-grid {
     }
 
     .list-container {
-        max-height: 450px;
+        max-height: 250px;
         overflow: auto;
     }
 
