@@ -15,8 +15,31 @@
                         <div class="col">
                             <input type="text" placeholder="Tag" value="" formControlName="tag">
                         </div>
+                        
                         <div class="col">
                             <input type="text" placeholder="Sprint"  formControlName="sprint" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['tag'].invalid && (userStoryForm.controls['tag'].dirty || userStoryForm.controls['tag'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['tag'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a tag!</small>
+                                </div>
+                                <div *ngIf="userStoryForm.controls['tag'].errors['maxlength']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a tag fewer than {{userStoryForm.controls['tag'].errors['maxlength'].requiredLength}} characters!!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['sprint'].invalid && (userStoryForm.controls['sprint'].dirty || userStoryForm.controls['sprint'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['sprint'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a Sprint!</small>
+                                </div>
+                                <div *ngIf="userStoryForm.controls['sprint'].errors['maxlength']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a Sprint fewer than {{userStoryForm.controls['sprint'].errors['maxlength'].requiredLength}} characters!!</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -25,11 +48,35 @@
                             <input type="name" placeholder="Name"  formControlName="name" value="">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['name'].invalid && (userStoryForm.controls['name'].dirty || userStoryForm.controls['name'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['name'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a Name!</small>
+                                </div>
+                                <div *ngIf="userStoryForm.controls['name'].errors['maxlength']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a Name fewer than {{userStoryForm.controls['name'].errors['maxlength'].requiredLength}} characters!!</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col">
                             <textarea placeholder="Description" max="10" cols="50" formControlName="description" value=""></textarea>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['description'].invalid && (userStoryForm.controls['description'].dirty || userStoryForm.controls['description'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['description'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a Description!</small>
+                                </div>
+                                <div *ngIf="userStoryForm.controls['description'].errors['maxlength']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a Description fewer than {{userStoryForm.controls['description'].errors['maxlength'].requiredLength}} characters!!</small>
+                                </div>
+                            </div>
+                        </div>                      
                     </div>
 
                     <div class="row">
@@ -39,11 +86,40 @@
                         <div class="col">
                             <input type="text" placeholder="Story Writter" formControlName="storyWritter" value="">
                         </div>
+                    </div> <div class="row">
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['workArea'].invalid && (userStoryForm.controls['workArea'].dirty || userStoryForm.controls['workArea'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['workArea'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a WorkArea!</small>
+                                </div>
+                                <div *ngIf="userStoryForm.controls['workArea'].errors['maxlength']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a workArea fewer than {{userStoryForm.controls['workArea'].errors['maxlength'].requiredLength}} characters!!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['storyWritter'].invalid && (userStoryForm.controls['storyWritter'].dirty || userStoryForm.controls['storyWritter'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['storyWritter'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a StoryWritter!</small>
+                                </div>
+                                <div *ngIf="userStoryForm.controls['storyWritter'].errors['maxlength']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Use a StoryWritter fewer than {{userStoryForm.controls['storyWritter'].errors['maxlength'].requiredLength}} characters!!</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
                         <div class="col">
                             <input type="url" placeholder="File link" formControlName="fileLink" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div *ngIf="userStoryForm.controls['fileLink'].invalid && (userStoryForm.controls['fileLink'].dirty || userStoryForm.controls['fileLink'].touched)" class="alert">
+                                <div *ngIf="userStoryForm.controls['storyWritter'].errors['required']">
+                                    <small class="font-weight-light"><i class="fa-solid fa-circle-exclamation"></i> Please provide a FileLink!</small>
+                                </div></div>
                         </div>
                     </div>
            
