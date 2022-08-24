@@ -9,4 +9,5 @@ export class UserStory {
     storyWritter: string;
     fileLink: string;
     isActive: boolean;
+    timeInSeconds: number;
 }

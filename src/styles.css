@@ -60,7 +60,7 @@ a.ghost:hover {
 
 .dropdown-toggle::after {
     font-size: 15px;
-		background-image: linear-gradient(to right, #F27121, #E94057 50%, #8A2387 50%, #000 50%);
+	background-image: linear-gradient(to right, #F27121, #E94057 50%, #8A2387 50%, #000 50%);
 }
 
 button.btn-outline-primary{
@@ -135,5 +135,8 @@ button.btn-outline-danger:focus {
 
 .closeButton:hover {
 	color: rgb(0, 0, 0);
+}
 
+button:focus {
+    outline: none;
 }

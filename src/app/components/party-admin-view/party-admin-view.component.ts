@@ -55,6 +55,7 @@ export class PartyAdminViewComponent implements OnInit {
     }
 
     handleUpdatedUS(): void {  
+        this.selectedUS = undefined;
         this.userStoriesListComponent.getPartyUserStories();
     }
 

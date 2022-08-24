@@ -22,6 +22,7 @@ export class SocketWebService {
     partyPlayers$ = this.socket.fromEvent<any>('partyPlayers_socket');
 
     selectedUS$ = this.socket.fromEvent<any>('selectedUS_socket');
+    planningStarted$ = this.socket.fromEvent<any>('planningStarted_socket');
 
     playerVotation$ = this.socket.fromEvent<any>('playerVotation_socket');
     
@@ -50,6 +51,10 @@ export class SocketWebService {
     disconnectSocketIO() {
         this.socket.disconnect();
         this.userLogged = undefined;
+    }
+
+    planningStarted(us: UserStory){
+        this.socket.emit('planningStarted', { us })
     }
 
     hasUserAccess (party: Party){

@@ -50,7 +50,7 @@ export class UserStoriesListComponent implements OnInit {
         this.resetSelectedUserStory.emit();
         
         if (this.itemSelected)
-            this.render.removeClass(this.itemSelected, "active");
+            this.render.removeAttribute(this.itemSelected, 'style');
     }
 
     handleClickItem(us: UserStory): void {
@@ -102,7 +102,7 @@ export class UserStoriesListComponent implements OnInit {
         
         this.resetSelectedUS();
 
-        this.render.removeAttribute(usVoted, "style");
+        this.render.removeClass(usVoted, "active");
         this.render.addClass(usVoted, "disabled");
     }
 
