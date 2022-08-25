@@ -6,7 +6,7 @@
     <ng-template *ngIf="selectedUS; then thenBlock else elseBlock"></ng-template>
 
     <ng-template #thenBlock>
-        <div class="card-body">
+        <div class="card-body"  style="padding-botom: 0px">
 
             <div class="title-box">
                 <h5 class="card-title text-align-center"> 
@@ -45,6 +45,9 @@
                 </ul>
             </div>
             
+        </div>
+        <div *ngIf="isOwner" class="card-footer text-muted">
+            2 days ago
         </div>
     </ng-template>
 

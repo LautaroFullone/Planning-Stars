@@ -1,0 +1,16 @@
+div.timer-container {
+    margin: auto;
+}
+
+.count-text {
+    font-size: 100px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.count-text:hover {
+    transition-duration: 0.5s;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}

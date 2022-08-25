@@ -1,8 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
+import { PartyCountdownTimerComponent } from '../party-countdown-timer/party-countdown-timer.component';
 
 @Component({
     selector: 'app-party-player-view',
@@ -12,27 +13,43 @@ import { SocketWebService } from 'src/app/services/socket-web.service';
 export class PartyPlayerViewComponent implements OnInit, OnDestroy {
 
     @Input() partyID: string;
-    actualUserStory: UserStory;
 
-    private selectedUsSub: Subscription;
+    @ViewChild(PartyCountdownTimerComponent) countdownTimerComponent: PartyCountdownTimerComponent;
+
+    actualUserStory: UserStory;
+    timeToPlanning;
+
+    private planningStartedSub: Subscription;
 
     constructor(private socketService: SocketWebService,
                 private toast: NotificationService) { }
 
     ngOnInit(): void {
-        this.selectedUsSub = this.socketService.selectedUS$.subscribe({
-            next: (userStory) => {
-                this.actualUserStory = userStory;
+        this.listenServerEvents();
+    }
+
+    ngOnDestroy(): void {
+        this.removeAllSubscriptions();
+    }
+
+    listenServerEvents() {
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (us) => {
+                this.actualUserStory = us;
+
+                this.timeToPlanning = us.timeInSeconds;
+
+                this.countdownTimerComponent.startCountDown(this.timeToPlanning);
 
                 this.toast.infoToast({
-                    title: 'New Item selected',
-                    description: 'Admin has selected a US'
+                    title: "It's time to vote",
+                    description: `Item #${us.tag} votation Started`
                 })
             }
         })
     }
 
-    ngOnDestroy(): void {
-        this.selectedUsSub.unsubscribe();
+    removeAllSubscriptions() {
+        this.planningStartedSub.unsubscribe();
     }
 }

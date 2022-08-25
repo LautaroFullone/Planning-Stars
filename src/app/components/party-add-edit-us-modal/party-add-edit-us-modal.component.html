@@ -125,8 +125,18 @@
            
                 </div>
 
-                <div class="modal-footer">
-                    <small class="form-text text-muted"></small>
+                <div class="modal-footer form-text text-muted">
+                    
+                    <div class="row align-items-center">
+                        Time:
+                        <div class="col-4" style="padding-right: 10px">
+                            <input type="number" placeholder="Min" formControlName="timeMinutes" value="" min="0" max="30" class="timer-input"> 
+                        </div> :
+                        <div class="col-4" style="padding-left: 10px;">
+                            <input type="number" onchange="if(parseInt(this.value,10)<10)this.value='0'+this.value;" placeholder="Seg" formControlName="timeSeconds" value="" min="0" max="59" class="timer-input">
+                        </div>
+                    </div>
+
                     <button class="primary-button" data-bs-dismiss="modal" [disabled]="!userStoryForm.valid">{{formAction}}</button>
                 </div>
 

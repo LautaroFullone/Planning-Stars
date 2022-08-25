@@ -26,6 +26,8 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         workArea: new FormControl('', [Validators.required, Validators.maxLength(60)]),
         storyWritter: new FormControl('', [Validators.required, Validators.maxLength(60)]),
         fileLink: new FormControl('', [Validators.required]),
+        timeMinutes: new FormControl('', [Validators.required, Validators.min(0)]),
+        timeSeconds: new FormControl('', [Validators.required, Validators.min(0)]),
     });
 
     get usTag() { return this.userStoryForm.get('tag').value; }
@@ -35,10 +37,12 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
     get usWorkArea() { return this.userStoryForm.get('workArea').value; }
     get usStoryWritter() { return this.userStoryForm.get('storyWritter').value; }
     get usFileLink() { return this.userStoryForm.get('fileLink').value; }
+    get minutes() { return this.userStoryForm.get('timeMinutes').value; }
+    get seconds() { return this.userStoryForm.get('timeSeconds').value; }
 
     constructor(private userStoryService: UserStoryService,
-        private toast: NotificationService,
-        private render: Renderer2) { }
+                private toast: NotificationService,
+                private render: Renderer2) { }
 
 
     ngOnChanges(changes: SimpleChanges) {
@@ -52,21 +56,6 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         })
     }
 
-    cleanModal() {
-        setTimeout(() => this.userStoryForm.reset(), 500)
-    }
-
-    populateInputs() {
-        this.userStoryForm.setValue({
-            tag: this.selectedUS.tag,
-            name: this.selectedUS.name,
-            sprint: this.selectedUS.sprint,
-            description: this.selectedUS.description,
-            workArea: this.selectedUS.workArea,
-            storyWritter: this.selectedUS.storyWritter,
-            fileLink: this.selectedUS.fileLink
-        });
-    }
 
     ngSubmit() {
         let usData = new UserStory();
@@ -77,6 +66,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         usData.workArea = this.usWorkArea;
         usData.storyWritter = this.usStoryWritter;
         usData.fileLink = this.usFileLink;
+        usData.timeInSeconds = (this.minutes * 60) + this.seconds;
 
         if (this.selectedUS) {
             usData.id = this.selectedUS.id;
@@ -128,5 +118,24 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
 
             this.userStoryForm.reset();
         }
+    }
+
+    cleanModal() {
+        setTimeout(() => this.userStoryForm.reset(), 500)
+    }
+
+    populateInputs() {
+        let seconds = (this.selectedUS.timeInSeconds % 60);
+        this.userStoryForm.setValue({
+            tag: this.selectedUS.tag,
+            name: this.selectedUS.name,
+            sprint: this.selectedUS.sprint,
+            description: this.selectedUS.description,
+            workArea: this.selectedUS.workArea,
+            storyWritter: this.selectedUS.storyWritter,
+            fileLink: this.selectedUS.fileLink,
+            timeSeconds: (seconds < 10) ? '0'+seconds : seconds,
+            timeMinutes: Math.trunc(this.selectedUS.timeInSeconds / 60 )
+        });
     }
 }
