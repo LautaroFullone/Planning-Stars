@@ -20,11 +20,9 @@ export class PartyAdminViewComponent implements OnInit {
     @ViewChild(PartyListPlayersComponent) partyListPlayersComponent: PartyListPlayersComponent;
 
     selectedUS: UserStory;
-    addedUS: UserStory;
     deletedUserStoryId: number;
 
-    constructor(private userStoryService: UserStoryService,
-                private toast: NotificationService) { }
+    constructor(private userStoryService: UserStoryService) { }
 
     ngOnInit(): void { }
 
@@ -36,15 +34,15 @@ export class PartyAdminViewComponent implements OnInit {
         this.selectedUS = undefined;
     }
 
-    handleAddedUs(event): void {
-        this.addedUS = event;
+    handleAddedUs(us): void {
+        this.userStoriesListComponent.handleUserStoryCreated(us);
     }
 
     handleUpdatingUS(): void {  //when user clicks on 'Update' button, is needed to populate all the fields into modal form
         this.partyAddEditUsModalComponent.populateInputs();
     }
 
-    handlePlanningStarted(us: UserStory): void {
+    handlePlanningStarted(us): void {
         this.userStoriesListComponent.handlePlanningStarted();
         this.partyListPlayersComponent.handlePlanningStarted(us);
     }
@@ -56,29 +54,13 @@ export class PartyAdminViewComponent implements OnInit {
         this.userStoryService.saveFinalVotationResult(userStory.id, data.storyPoints);
     }
 
-    handleUpdatedUS(): void {  //when user has updated and US, ti's needed to charge the list of us in order to see the changes
+    handleUpdatedUS(): void {  
+        this.selectedUS = undefined;
         this.userStoriesListComponent.getPartyUserStories();
     }
 
-    handleDeletedUS(event): void {
-        if(this.selectedUS) {
-            this.userStoryService.deleteUserStory(event).subscribe({
-                next: (response) => {
-                    this.deletedUserStoryId = event;
-
-                    this.toast.infoToast({
-                        title: "Item Deleted",
-                        description: `Item #${this.selectedUS.tag} was successfully deleted`
-                    })
-                },
-                error: (apiError) => {
-                    this.toast.errorToast({
-                        title: apiError.error.message,
-                        description: apiError.error.errors[0]
-                    })
-                }
-            })
-        }
+    handleDeletedUS(userStoryID): void {
+        this.userStoriesListComponent.handleDeleteUserStory(userStoryID);
     }
 
 }

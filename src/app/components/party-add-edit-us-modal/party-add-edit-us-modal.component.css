@@ -37,8 +37,15 @@ input, textarea {
     font-size: revert;
 }
 
+textarea:focus {
+    outline: none;
+}
+
 div.modal-footer {
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: end;
 }
 
 
@@ -61,4 +68,10 @@ small i {
 .alert {
     padding: 0%;
     margin: 0%;
+}
+
+.timer-input {
+    padding-right: 5px;
+    padding-left: 10px;
+    margin: 0px;
 }

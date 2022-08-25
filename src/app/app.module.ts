@@ -23,10 +23,10 @@ import { PartyAddEditUsModalComponent } from './components/party-add-edit-us-mod
 import { PartyDeleteUsConfComponent } from './components/party-delete-us-conf/party-delete-us-conf.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PartyPlayerCardsComponent } from './components/party-player-cards/party-player-cards.component';
-import { PartyPlayerTimerComponent } from './components/party-player-timer/party-player-timer.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { UserRenameModalComponent } from './components/user-rename-modal/user-rename-modal.component';
 import { environment } from 'src/environments/environment';
+import { PartyCountdownTimerComponent } from './components/party-countdown-timer/party-countdown-timer.component';
 
 const config: SocketIoConfig = { url: environment.serverURL, options: {} }; 
 
@@ -49,8 +49,8 @@ const config: SocketIoConfig = { url: environment.serverURL, options: {} };
     PartyDeleteUsConfComponent,
     NotFoundComponent,
     PartyPlayerCardsComponent,
-    PartyPlayerTimerComponent,
-    UserRenameModalComponent
+    UserRenameModalComponent,
+    PartyCountdownTimerComponent
   ],
   imports: [
     BrowserModule,

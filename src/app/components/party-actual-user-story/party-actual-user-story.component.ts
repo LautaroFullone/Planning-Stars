@@ -16,7 +16,10 @@ export class ActualUserStoryComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        this.waitingMessage = (this.messageType == 'owner') ? 'Please select a item from the list' : 'Waiting admin item selection';
+        this.waitingMessage = (this.isOwner) ? 'Please select a item from the list' : 'Waiting admin item selection';
     }
 
+    get isOwner() {
+        return this.messageType == 'owner';
+    }
 }

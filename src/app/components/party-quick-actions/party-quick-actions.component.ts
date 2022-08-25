@@ -35,10 +35,12 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 	}
 
 	startPlanning(): void {
-		this.socketService.sendSelectedUS(this.selectedUS);
+		//this.socketService.sendSelectedUS(this.selectedUS);
         this.planningStarted.emit(this.selectedUS);
 		this.votingUS = this.selectedUS;
-		this.showButtons = false
+		this.showButtons = false;
+
+        this.socketService.planningStarted(this.selectedUS);
 
         this.toast.infoToast({
             title: 'New Item selected',

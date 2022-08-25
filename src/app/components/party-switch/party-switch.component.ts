@@ -83,6 +83,8 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
 
         this.adminLeaveSub = this.socketService.adminLeave$.subscribe({
             next: (response) => {
+
+                //TODO: Navigate do not works
                 this.router.navigateByUrl('/dashboard')
 
                 this.toast.infoToast({
