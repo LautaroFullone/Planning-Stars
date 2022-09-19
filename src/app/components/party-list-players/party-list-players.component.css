@@ -5,6 +5,13 @@ ol{
 div.player-status {
     justify-self: center;
 }
+div.story-points {
+    justify-self: center;
+}
+div.grid-title {
+    font-weight: bolder;
+    justify-self: center;
+}
 
 .completed-color {
     color: #F27121;
