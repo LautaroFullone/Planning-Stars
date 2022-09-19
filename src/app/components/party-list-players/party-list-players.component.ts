@@ -10,7 +10,7 @@ import { VotationService } from 'src/app/services/votation.service';
     styleUrls: ['../party-admin-view/party-admin-view.component.css',
                  './party-list-players.component.css']
 })
-export class PartyListPlayersComponent implements OnInit, OnDestroy, OnChanges{
+export class PartyListPlayersComponent implements OnInit, OnDestroy{
 
     @Input() partyID: string;
     @Input() selectedUS: UserStory;
@@ -18,7 +18,7 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy, OnChanges{
     votationsList = new Array<any>();
     socketsList = new Array<any>();
     adminID: string;
-    votingUS = undefined;
+    votingUS: UserStory = undefined;
     showIcons = false;
 
     private partyPlayersSub: Subscription;
@@ -26,13 +26,7 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy, OnChanges{
 
     constructor(private socketService: SocketWebService,
                 private votationService: VotationService) { }
-    
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['selectedUS'] && changes['selectedUS'].currentValue) 
-            this.showIcons = (changes['selectedUS'].currentValue == this.votingUS) ? true : false;
-    }
-                
+               
     ngOnInit(): void {
         this.listenServerEvents();
     }
@@ -59,10 +53,10 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy, OnChanges{
         })
 
         this.playersVotationSub = this.socketService.playerVotation$.subscribe({  //WHEN USER VOTE
-            next: (votation) => {
+            next: (votationData) => {
                 //then i retrive from api all votations
-                let test = this.socketsList.find( socket => socket.user.id == votation.userID);
-                test.hasVote = true;
+                let userWhoVoted = this.socketsList.find(socket => socket.user.id == votationData.userID);
+                userWhoVoted.votation = votationData.votation;
                 
                 /*this.votationService.getUserStoryVotations(this.selectedUS.id).subscribe({
                     next: (usVotations) => {
