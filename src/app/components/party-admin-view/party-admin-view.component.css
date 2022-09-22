@@ -81,37 +81,6 @@ a.link:hover::before {
     width: 100%;
 }
 
-.list-container{
-    overflow: auto;
-    max-height: 80%;
-}
-
-li.list-group-item:hover{
-    background-color: #f27121af;
-    color: #FFF;
-    cursor: pointer;
-    margin: 0;
-}
-li.list-group-item {
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-li.list-group-item.active {
-    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
-    border: 1px red;
-    font-weight: 100;
-}
-li.list-group-item.disabled {
-    background-color: unset;
-    color: gray;
-    text-decoration: line-through;
-    font-style: italic;
-}
-
 .text-align-center{
     text-align: center;
     vertical-align: middle;

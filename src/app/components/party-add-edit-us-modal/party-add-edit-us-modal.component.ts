@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -9,14 +9,19 @@ import { UserStoryService } from 'src/app/services/user-story.service';
     templateUrl: './party-add-edit-us-modal.component.html',
     styleUrls: ['./party-add-edit-us-modal.component.css']
 })
-export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
+export class PartyAddEditUsModalComponent implements OnInit {
 
     @Input() partyID: string;
-    @Input() selectedUS: UserStory;
     @Output() addedUserStory = new EventEmitter<UserStory>();
     @Output() updatedUserStory = new EventEmitter<any>();
 
-    formAction: string;
+    private actions = {
+        CREATE: 'Create',
+        UPDATE: 'Update'
+    }
+
+    formAction: string = this.actions.CREATE;
+    actionUserStory: UserStory;
 
     userStoryForm = new FormGroup({
         tag: new FormControl('', [Validators.required, Validators.maxLength(6)]),
@@ -45,17 +50,12 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
                 private render: Renderer2) { }
 
 
-    ngOnChanges(changes: SimpleChanges) {
-        this.formAction = (this.selectedUS) ? 'Update' : 'Create';
-    }
-
     ngOnInit(): void {
         this.render.listen(document, "keydown", (event) => {
             if (event.key == 'Escape') 
                 this.cleanModal();   
         })
     }
-
 
     ngSubmit() {
         let usData = new UserStory();
@@ -67,11 +67,11 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         usData.storyWritter = this.usStoryWritter;
         usData.fileLink = this.usFileLink;
         usData.timeInSeconds = (this.minutes * 60) + this.seconds;
+        
+        if (this.isUpdate) {
+            usData.id = this.actionUserStory.id;
 
-        if (this.selectedUS) {
-            usData.id = this.selectedUS.id;
-
-            this.userStoryService.updateUserStory(this.selectedUS.id, usData).subscribe({
+            this.userStoryService.updateUserStory(this.actionUserStory.id, usData).subscribe({
                 next: (response) => {
                     this.updatedUserStory.emit();
 
@@ -86,9 +86,9 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
                         description: apiError.error.errors[0]
                     })
                 }
-            })
+            });
         }
-        else {
+        else if(this.isCreate){
             this.userStoryService.createUserStory(usData).subscribe({
                 next: (createResponse) => {
                     this.userStoryService.addUserStoryToParty(this.partyID, createResponse.id).subscribe({
@@ -97,7 +97,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
 
                             this.toast.successToast({
                                 title: "User Story Created",
-                                description: `Item #${createResponse.name} was successfully created`
+                                description: `Item #${createResponse.tag} was successfully created`
                             })
                         },
                         error: (apiError) => {
@@ -114,7 +114,7 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
                         description: apiError.error.errors[0]
                     })
                 }
-            })
+            });
 
             this.userStoryForm.reset();
         }
@@ -124,18 +124,31 @@ export class PartyAddEditUsModalComponent implements OnInit, OnChanges {
         setTimeout(() => this.userStoryForm.reset(), 500)
     }
 
-    populateInputs() {
-        let seconds = (this.selectedUS.timeInSeconds % 60);
+    initUpdateAction(userStoryToUpdate: UserStory) {
+        this.formAction = this.actions.UPDATE;
+        this.actionUserStory = userStoryToUpdate;
+        
+        let seconds = (userStoryToUpdate.timeInSeconds % 60);
+        
         this.userStoryForm.setValue({
-            tag: this.selectedUS.tag,
-            name: this.selectedUS.name,
-            sprint: this.selectedUS.sprint,
-            description: this.selectedUS.description,
-            workArea: this.selectedUS.workArea,
-            storyWritter: this.selectedUS.storyWritter,
-            fileLink: this.selectedUS.fileLink,
+            tag: userStoryToUpdate.tag,
+            name: userStoryToUpdate.name,
+            sprint: userStoryToUpdate.sprint,
+            description: userStoryToUpdate.description,
+            workArea: userStoryToUpdate.workArea,
+            storyWritter: userStoryToUpdate.storyWritter,
+            fileLink: userStoryToUpdate.fileLink,
             timeSeconds: (seconds < 10) ? '0'+seconds : seconds,
-            timeMinutes: Math.trunc(this.selectedUS.timeInSeconds / 60 )
+            timeMinutes: Math.trunc(userStoryToUpdate.timeInSeconds / 60 )
         });
+    }
+
+
+    get isCreate() {
+        return this.formAction == this.actions.CREATE;
+    }
+
+    get isUpdate(){
+        return this.formAction == this.actions.UPDATE;
     }
 }
