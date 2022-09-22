@@ -6,9 +6,10 @@
             <div class="stories-list">
                 <app-party-user-stories-list
                     [partyID]= "partyID"
-                    [deletedUserStoryId] = "deletedUserStoryId"
                     (selectedUserStory)= "handleSelectedUS($event)" 
-                    (resetSelectedUserStory)= "handleResetUS()">
+                    (resetSelectedUserStory)= "handleResetUS()"
+                    (updatingUserStory) = "handleUpdatingUS($event)"
+                    (deletingUserStory) = "handleDeletingUS($event)">
                 </app-party-user-stories-list>
             </div>
             
@@ -23,7 +24,6 @@
                 <app-party-quick-actions
                     [partyID]= "partyID"
                     [selectedUS] ="selectedUS"
-                    (updatingUserStory) = "handleUpdatingUS()"
                     (planningStarted) = "handlePlanningStarted($event)"
                     (planningFinished) = "handlePlanningFinished($event)">
                 </app-party-quick-actions>
@@ -41,12 +41,11 @@
 
 <app-party-add-edit-us-modal
     [partyID] = "partyID"
-    [selectedUS] = "selectedUS"
     (addedUserStory) = "handleAddedUs($event)"
-    (updatedUserStory) = "handleUpdatedUS()">
+    (updatedUserStory) = "beforeUpdatedAction()">
 </app-party-add-edit-us-modal>
 
 <app-party-delete-us-conf 
-    [userStory] = "selectedUS"
-    (confirmation)="handleDeletedUS($event)">
+    [userStory] = "userStoryToDelete"
+    (confirmation) = "beforeDeleteConfimation($event)">
 </app-party-delete-us-conf>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
 
 @Component({
@@ -6,25 +6,21 @@ import { UserStory } from 'src/app/models/user-story';
     templateUrl: './party-delete-us-conf.component.html',
     styleUrls: ['../party-admin-view/party-admin-view.component.css']
 })
-export class PartyDeleteUsConfComponent implements OnInit, OnChanges {
+export class PartyDeleteUsConfComponent implements OnInit {
 
     @Input() userStory: UserStory;
-    @Output() confirmation = new EventEmitter<number>();
-
-    tag = '...'
+    @Output() confirmation = new EventEmitter<any>();
 
     constructor() { }
 
-    ngOnInit(): void {
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['userStory'] && changes['userStory'].currentValue)
-            this.tag = changes['userStory'].currentValue.tag;
-    }
+    ngOnInit(): void { }
 
     confirmDeletion() {
-        this.confirmation.emit(this.userStory.id);
+        this.confirmation.emit(this.userStory);
+    }
+
+    get tagUserStory() {
+        return (this.userStory != undefined) ? this.userStory.tag : '...';
     }
 
 }

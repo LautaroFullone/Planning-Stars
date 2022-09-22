@@ -29,11 +29,6 @@ export class QuickActionsComponent implements OnInit, OnChanges {
 			this.showButtons = (changes['selectedUS'].currentValue != this.votingUS) ? true : false;
 	}
 
-	updateUS(): void {
-		if(this.selectedUS)
-			this.updatingUserStory.emit();
-	}
-
 	startPlanning(): void {
 		//this.socketService.sendSelectedUS(this.selectedUS);
         this.planningStarted.emit(this.selectedUS);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Renderer2, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Renderer2, Input } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
@@ -7,7 +7,8 @@ import { UserStoryService } from 'src/app/services/user-story.service';
 @Component({
     selector: 'app-party-user-stories-list',
     templateUrl: './party-user-stories-list.component.html',
-    styleUrls: ['../party-admin-view/party-admin-view.component.css']
+    styleUrls: ['./party-user-stories-list.component.css',
+            '../party-admin-view/party-admin-view.component.css']
 })
 export class UserStoriesListComponent implements OnInit {
 
@@ -15,6 +16,9 @@ export class UserStoriesListComponent implements OnInit {
     @Input() deletedUserStoryId: number;
     @Output() selectedUserStory = new EventEmitter<UserStory>();
     @Output() resetSelectedUserStory = new EventEmitter<any>();
+    @Output() updatingUserStory = new EventEmitter<any>();
+    @Output() deletingUserStory = new EventEmitter<any>();
+
 
     userStoriesList: Array<UserStory> = [];
     itemSelected: HTMLElement;
@@ -26,12 +30,19 @@ export class UserStoriesListComponent implements OnInit {
                 private render: Renderer2,
                 private toast: NotificationService) { }
 
+    updateUS(us: UserStory): void {
+        this.updatingUserStory.emit(us);
+    }
+
+    deleteUS(us: UserStory): void {
+        this.deletingUserStory.emit(us);
+    }
+
     ngOnInit(): void {
         this.getPartyUserStories();
     }
 
     getPartyUserStories(): void {
-        
         this.partyService.getPartyUserStories(this.partyID).subscribe({
             next: (response) => {
                 if(response)
@@ -63,16 +74,16 @@ export class UserStoriesListComponent implements OnInit {
         this.selectedUserStory.emit(us);
     }
 
-    handleDeleteUserStory(userStoryID: number): void {
+    handleDeleteUserStory(userStory: UserStory): void {
 
-        this.userStoryService.deleteUserStory(userStoryID).subscribe({
+        this.userStoryService.deleteUserStory(userStory.id).subscribe({
             next: (response) => {
-                this.deleteUSFromList(userStoryID);
+                this.deleteUSFromList(userStory.id);
                 this.resetSelectedUS();
 
                 this.toast.infoToast({
                     title: "Item Deleted",
-                    description: `Item #${this.selectedUS.tag} was successfully deleted`
+                    description: `Item #${userStory.tag} was successfully deleted`
                 })
             },
             error: (apiError) => {

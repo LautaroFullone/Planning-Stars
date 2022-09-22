@@ -25,10 +25,16 @@
             <div class="list-container">        
                 <ul class="list-group" *ngFor="let us of userStoriesList">
         
-                    <li class="list-group-item" [ngClass]="{'disabled': us.storyPoints}" (click)="handleClickItem(us)"
-                        id="us-{{us.id}}">
-                        User Story #{{us.tag}}: {{us.name}}
-                    </li>
+                    <div class="item-grid">
+                        <li class="list-group-item" [ngClass]="{'disabled': us.storyPoints}" (click)="handleClickItem(us)" id="us-{{us.id}}">
+                            User Story #{{us.tag}}: {{us.name}}
+                        </li>
+                        <div class="item-icons">                        
+                            <i class="fa-solid fa-pen-to-square" (click)="updateUS(us)" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal"></i> 
+                            <i class="fa-solid fa-trash" (click)="deleteUS(us)" data-bs-toggle="modal" data-bs-target="#deleteConfirmation"></i>
+                        </div>
+                    </div>
+                    
                 </ul>
             </div>
         
@@ -37,7 +43,7 @@
     </ng-template>
 
     <div class="card-footer text-align-center">
-        <button type="button" class="btn btn-outline-secondary" (click)="resetSelectedUS()" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
+        <button type="button" class="btn btn-outline-tertiary large" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
             Add Item
         </button>
     </div>
