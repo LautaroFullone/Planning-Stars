@@ -15,10 +15,12 @@ html, body {
     width: 100%;
 
     grid-template-columns: repeat(3, minmax(200px,1fr));
-    grid-template-rows: repeat(2, minmax(400px,43.5vh));
+    grid-template-rows: repeat(4, 20.6vh);
 
-    grid-template-areas: "stories-list  actual-story    players "
-                         "actions       actual-story    players";
+    grid-template-areas: "stories-list  actual-story     players "
+                         "stories-list  actual-story     players"
+                         "actions       actual-story     players"
+                         "actions       timer-clock      players";
 }
 
 .card {
@@ -44,6 +46,10 @@ html, body {
 
 .main-grid .players {
     grid-area: players;
+}
+
+.main-grid .timer {
+    grid-area: timer-clock;
 }
 
 div.title-box {
