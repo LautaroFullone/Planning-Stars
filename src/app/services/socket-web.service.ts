@@ -23,6 +23,8 @@ export class SocketWebService {
 
     selectedUS$ = this.socket.fromEvent<any>('selectedUS_socket');
     planningStarted$ = this.socket.fromEvent<any>('planningStarted_socket');
+    plannigConcluded$ = this.socket.fromEvent<any>('plannigConcluded_socket');
+
 
     playerVotation$ = this.socket.fromEvent<any>('playerVotation_socket');
     
@@ -57,6 +59,9 @@ export class SocketWebService {
         this.socket.emit('planningStarted', { us })
     }
 
+    plannigConcluded(){
+        this.socket.emit('plannigConcluded')
+    }
     hasUserAccess (party: Party){
         this.socket.emit('hasUserAccess', { user: this.userLogged, party })
 

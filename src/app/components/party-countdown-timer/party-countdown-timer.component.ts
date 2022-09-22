@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
@@ -14,19 +15,20 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     protected seconds: number = 0;
     protected intervalID: any;
     protected planningStartedSub: Subscription;
+    protected planningConcludeSub: Subscription;
+    @Input()userType: string;
+    
 
    
-    constructor(private socketService: SocketWebService ) { }
+    constructor(private socketService: SocketWebService,
+                private toast: NotificationService) { }
 
     ngOnInit(): void {
-        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
-            next: (us) => {
-                this.startCountDown(us.timeInSeconds);
-            }
-        }) 
+        this.listenServerEvents();
     }
+
     ngOnDestroy(){
-       this.planningStartedSub.unsubscribe();
+       this.removeAllSuscription();
     }
 
     startCountDown(time) {
@@ -52,6 +54,13 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
         this.intervalID = undefined;
         this.seconds = 0; this.minutes = 0;
         console.log('time ended');
+        if(this.userType == 'owner'){
+            this.socketService.plannigConcluded();
+        }
+      this.toast.infoToast({
+        title: "Time Out",
+        description: `The estimation has been stopped.`
+      })
     }
 
     get minutesValue() {
@@ -59,6 +68,24 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     }
     get secondsValue() {
         return (this.seconds < 10) ? `0${this.seconds}` : this.seconds;
+    }
+
+    listenServerEvents(){
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (us) => {
+                this.startCountDown(us.timeInSeconds);
+            }
+        }) 
+        this.planningConcludeSub = this.socketService.plannigConcluded$.subscribe({
+            next: () => {
+               this.stopCountDown();
+            }
+        }) 
+    }
+
+    removeAllSuscription() {
+        this.planningStartedSub.unsubscribe();
+        this.planningConcludeSub.unsubscribe();
     }
 
 }

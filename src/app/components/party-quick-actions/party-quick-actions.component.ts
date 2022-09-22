@@ -49,6 +49,7 @@ export class QuickActionsComponent implements OnInit, OnChanges {
         //TODO: here should be called the logic to get the final story points of the US
         this.planningFinished.emit( { userStory: this.selectedUS, storyPoints: 99 } );
         //TODO: Here should be saved the story points with the api
+		this.socketService.plannigConcluded();
 
     }
  
