@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
     selector: 'app-party-countdown-timer',
@@ -7,16 +8,26 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./party-countdown-timer.component.css',
                 '../party-player-view/party-player-view.component.css']
 })
-export class PartyCountdownTimerComponent implements OnInit {
+export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
 
     protected minutes: number = 0;
     protected seconds: number = 0;
-
     protected intervalID: any;
-   
-    constructor() { }
+    protected planningStartedSub: Subscription;
 
-    ngOnInit(): void { }
+   
+    constructor(private socketService: SocketWebService ) { }
+
+    ngOnInit(): void {
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (us) => {
+                this.startCountDown(us.timeInSeconds);
+            }
+        }) 
+    }
+    ngOnDestroy(){
+       this.planningStartedSub.unsubscribe();
+    }
 
     startCountDown(time) {
         if(this.intervalID) this.stopCountDown();
