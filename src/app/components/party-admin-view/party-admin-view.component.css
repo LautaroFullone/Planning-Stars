@@ -97,9 +97,6 @@ div.card-header{
     top: 0;
     z-index: 10;
 }
-.card-title{
-    margin-bottom: 15px;
-}
 div.card-body.y-scroll{
     overflow-y: auto;
 }

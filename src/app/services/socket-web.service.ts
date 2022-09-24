@@ -59,9 +59,10 @@ export class SocketWebService {
         this.socket.emit('planningStarted', { us })
     }
 
-    plannigConcluded(){
-        this.socket.emit('plannigConcluded')
+    plannigConcluded(interruptedByOwner){
+        this.socket.emit('plannigConcluded', { interruptedByOwner })
     }
+
     hasUserAccess (party: Party){
         this.socket.emit('hasUserAccess', { user: this.userLogged, party })
 

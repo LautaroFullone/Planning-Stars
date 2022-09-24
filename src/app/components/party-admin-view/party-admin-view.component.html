@@ -22,7 +22,8 @@
 
             <div class="timer">
                 <app-party-countdown-timer
-                    userType="owner">
+                    userType="owner"
+                    (planningFinished) = "handlePlanningFinished($event)">
                 </app-party-countdown-timer>
             </div>
 

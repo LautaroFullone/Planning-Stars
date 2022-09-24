@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -11,14 +11,17 @@ import { SocketWebService } from 'src/app/services/socket-web.service';
 })
 export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
 
+    @Input() userType: string;
+
     protected minutes: number = 0;
     protected seconds: number = 0;
     protected intervalID: any;
-    protected planningStartedSub: Subscription;
-    protected planningConcludeSub: Subscription;
-    @Input()userType: string;
-    
 
+    waiting: boolean = true;
+    waitingMessage = "Waiting planning start"
+
+    private planningStartedSub: Subscription;
+    private planningConcludeSub: Subscription;
    
     constructor(private socketService: SocketWebService,
                 private toast: NotificationService) { }
@@ -33,6 +36,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
 
     startCountDown(time) {
         if(this.intervalID) this.stopCountDown();
+        this.waiting = false;
 
         this.minutes = Math.trunc(time / 60)
         this.seconds = (time % 60);
@@ -44,8 +48,9 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
         if(--this.seconds < 0) {
             this.seconds = 59;
             
-            if(--this.minutes < 0) 
+            if(--this.minutes < 0) {
                 this.stopCountDown();
+            }
         }
     }
 
@@ -53,14 +58,16 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
         clearInterval(this.intervalID);
         this.intervalID = undefined;
         this.seconds = 0; this.minutes = 0;
-        console.log('time ended');
+                
         if(this.userType == 'owner'){
-            this.socketService.plannigConcluded();
-        }
-      this.toast.infoToast({
-        title: "Time Out",
-        description: `The estimation has been stopped.`
-      })
+            this.socketService.plannigConcluded(false); 
+        } 
+        
+        this.toast.infoToast({
+            title: "Time Out",
+            description: `The estimation has been stopped.`
+        })
+        this.waiting = true
     }
 
     get minutesValue() {
@@ -77,8 +84,9 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
             }
         }) 
         this.planningConcludeSub = this.socketService.plannigConcluded$.subscribe({
-            next: () => {
-               this.stopCountDown();
+            next: (interruptedByOwner) => {
+                if(interruptedByOwner) 
+                    this.stopCountDown();
             }
         }) 
     }

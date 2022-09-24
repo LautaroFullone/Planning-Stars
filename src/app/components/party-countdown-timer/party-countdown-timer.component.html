@@ -3,9 +3,21 @@
         <i class="fa-solid fa-hourglass"></i> - Timer
     </div>
 
-    <div class="timer-container">
-        <p class="count-text">
-            {{minutesValue}} : {{secondsValue}}
-        </p>
-    </div>
+    <ng-template *ngIf="waiting; then notUsSelected else isUsSelected"></ng-template>
+    
+    <ng-template #notUsSelected>
+        <div class="card-body p-0">
+            <div class="waiting-body text-muted">
+                {{waitingMessage}}
+            </div>
+        </div>
+    </ng-template>
+        
+    <ng-template #isUsSelected>
+        <div class="timer-container">
+            <p class="count-text">
+                {{minutesValue}} : {{secondsValue}}
+            </p>
+        </div>
+    </ng-template>
 </div>

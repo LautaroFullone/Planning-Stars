@@ -81,4 +81,8 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
         })
     } 
     */
+
+    get votationUSIsSelected() {
+        return (this.votingUS && this.votingUS.id == this.selectedUS.id);
+    }
 }

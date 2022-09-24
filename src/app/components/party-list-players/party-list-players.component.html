@@ -33,7 +33,7 @@
 
                     <ng-template #isPlayer>
 
-                        <ng-template *ngIf="votingUS && votingUS.id == selectedUS.id; then showIcons else notShowIcons"></ng-template>
+                        <ng-template *ngIf="votationUSIsSelected; then showIcons else notShowIcons"></ng-template>
 
                         <ng-template #notShowIcons>
                             <div class="player-status"> - </div>
