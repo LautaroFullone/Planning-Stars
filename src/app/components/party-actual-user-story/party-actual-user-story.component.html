@@ -1,61 +1,54 @@
+
 <div class="card">
     <div class="card-header text-align-center">
         <i class="fa-regular fa-file-lines"></i> - Actual User Story
     </div>
 
-    <ng-template *ngIf="selectedUS; then thenBlock else elseBlock"></ng-template>
+    <ng-template *ngIf="selectedUS; then isUsSelected else notUsSelected"></ng-template>
 
-    <ng-template #thenBlock>
-        <div class="card-body"  style="padding-botom: 0px">
-
-            <div class="title-box">
-                <h5 class="card-title text-align-center"> 
-                    <a href="{{selectedUS.fileLink}}" class="link">User Story #{{selectedUS.tag}}: </a>
-                    {{selectedUS.name}}
-                </h5>
-            </div>
-            
-            <div class="text-container">
-                <p class="card-text">
-                    {{selectedUS.description}}
-                </p>
-            </div>
-
-            <hr>
-
-            <div class="details-container">
-                <ul>
-                    <li>
-                        <b>Story Writter:</b> {{selectedUS.storyWritter}}
-                    </li>
-                    <li>
-                        <b>Work Area:</b> {{selectedUS.workArea}}
-                    </li>
-                    <li>
-                        <b>Sprint:</b> {{selectedUS.sprint}}
-                    </li>
-
-                    <li class="item-link">
-                        <b>Item Link: </b>
-                        <a class='link item-link'
-                            href="https://{{selectedUS.fileLink}}">
-                            {{selectedUS.fileLink}}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            
-        </div>
-        <div *ngIf="isOwner" class="card-footer text-muted">
-            2 days ago
-        </div>
-    </ng-template>
-
-    <ng-template #elseBlock>
+    <ng-template #notUsSelected>
         <div class="card-body p-0">
             <div class="waiting-body text-muted">
                 {{waitingMessage}}
             </div>
+        </div>
+    </ng-template>
+
+    <ng-template #isUsSelected>
+        <div class="card-body">
+            <div class="actual-us-grid">
+
+                <div class="actual-title">   
+                    <h5>
+                        <a href="{{selectedUS.fileLink}}" class="link">User Story #{{selectedUS.tag}}: </a>
+                        {{selectedUS.name}}
+                    </h5>
+                </div>
+
+                <div class="actual-body">
+                    {{selectedUS.description}}         
+                </div>
+
+                <div class="actual-footer">
+                    <hr>
+
+                    <div class="footer-grid">
+                        <div>
+                            <b>Story Writter: </b> {{selectedUS.storyWritter}}
+                        </div>
+                        <div>
+                            <b>Sprint:</b> {{selectedUS.sprint}}
+                        </div>
+                        <div>
+                            <b>Work Area: </b> {{selectedUS.workArea}}
+                        </div>
+                        <div>
+                            <b>Item Link: </b> <a class='link item-link' href="{{selectedUS.fileLink}}">CLICK HERE</a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
         </div>
     </ng-template>
 </div>

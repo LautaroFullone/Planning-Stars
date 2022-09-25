@@ -14,11 +14,8 @@ export class PartyPlayerViewComponent implements OnInit, OnDestroy {
 
     @Input() partyID: string;
 
-    @ViewChild(PartyCountdownTimerComponent) countdownTimerComponent: PartyCountdownTimerComponent;
 
     actualUserStory: UserStory;
-    timeToPlanning;
-
     private planningStartedSub: Subscription;
 
     constructor(private socketService: SocketWebService,
@@ -36,11 +33,6 @@ export class PartyPlayerViewComponent implements OnInit, OnDestroy {
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
             next: (us) => {
                 this.actualUserStory = us;
-
-                this.timeToPlanning = us.timeInSeconds;
-
-                this.countdownTimerComponent.startCountDown(this.timeToPlanning);
-
                 this.toast.infoToast({
                     title: "It's time to vote",
                     description: `Item #${us.tag} votation Started`

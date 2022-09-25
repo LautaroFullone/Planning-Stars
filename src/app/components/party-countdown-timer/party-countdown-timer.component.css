@@ -1,11 +1,15 @@
 div.timer-container {
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .count-text {
     font-size: 100px;
     font-weight: bolder;
     cursor: pointer;
+    margin: 0;
 }
 
 .count-text:hover {

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 
 @Component({
     selector: 'app-party-countdown-timer',
@@ -7,19 +9,34 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./party-countdown-timer.component.css',
                 '../party-player-view/party-player-view.component.css']
 })
-export class PartyCountdownTimerComponent implements OnInit {
+export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
+
+    @Input() userType: string;
 
     protected minutes: number = 0;
     protected seconds: number = 0;
-
     protected intervalID: any;
-   
-    constructor() { }
 
-    ngOnInit(): void { }
+    waiting: boolean = true;
+    waitingMessage = "Waiting planning start"
+
+    private planningStartedSub: Subscription;
+    private planningConcludeSub: Subscription;
+   
+    constructor(private socketService: SocketWebService,
+                private toast: NotificationService) { }
+
+    ngOnInit(): void {
+        this.listenServerEvents();
+    }
+
+    ngOnDestroy(){
+       this.removeAllSuscription();
+    }
 
     startCountDown(time) {
         if(this.intervalID) this.stopCountDown();
+        this.waiting = false;
 
         this.minutes = Math.trunc(time / 60)
         this.seconds = (time % 60);
@@ -31,8 +48,9 @@ export class PartyCountdownTimerComponent implements OnInit {
         if(--this.seconds < 0) {
             this.seconds = 59;
             
-            if(--this.minutes < 0) 
+            if(--this.minutes < 0) {
                 this.stopCountDown();
+            }
         }
     }
 
@@ -40,7 +58,16 @@ export class PartyCountdownTimerComponent implements OnInit {
         clearInterval(this.intervalID);
         this.intervalID = undefined;
         this.seconds = 0; this.minutes = 0;
-        console.log('time ended');
+                
+        if(this.userType == 'owner'){
+            this.socketService.plannigConcluded(false); 
+        } 
+        
+        this.toast.infoToast({
+            title: "Time Out",
+            description: `The estimation has been stopped.`
+        })
+        this.waiting = true
     }
 
     get minutesValue() {
@@ -48,6 +75,25 @@ export class PartyCountdownTimerComponent implements OnInit {
     }
     get secondsValue() {
         return (this.seconds < 10) ? `0${this.seconds}` : this.seconds;
+    }
+
+    listenServerEvents(){
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (us) => {
+                this.startCountDown(us.timeInSeconds);
+            }
+        }) 
+        this.planningConcludeSub = this.socketService.plannigConcluded$.subscribe({
+            next: (interruptedByOwner) => {
+                if(interruptedByOwner) 
+                    this.stopCountDown();
+            }
+        }) 
+    }
+
+    removeAllSuscription() {
+        this.planningStartedSub.unsubscribe();
+        this.planningConcludeSub.unsubscribe();
     }
 
 }

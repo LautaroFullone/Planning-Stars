@@ -15,10 +15,12 @@ html, body {
     width: 100%;
 
     grid-template-columns: repeat(3, minmax(200px,1fr));
-    grid-template-rows: repeat(2, minmax(400px,43.5vh));
+    grid-template-rows: repeat(4, 20.6vh);
 
-    grid-template-areas: "stories-list  actual-story    players "
-                         "actions       actual-story    players";
+    grid-template-areas: "stories-list  actual-story     players "
+                         "stories-list  actual-story     players"
+                         "actions       actual-story     players"
+                         "actions       timer-clock      players";
 }
 
 .card {
@@ -44,6 +46,10 @@ html, body {
 
 .main-grid .players {
     grid-area: players;
+}
+
+.main-grid .timer {
+    grid-area: timer-clock;
 }
 
 div.title-box {
@@ -90,9 +96,6 @@ div.card-header{
     position: sticky;
     top: 0;
     z-index: 10;
-}
-.card-title{
-    margin-bottom: 15px;
 }
 div.card-body.y-scroll{
     overflow-y: auto;
@@ -190,10 +193,12 @@ div.players-grid {
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: repeat(2,minmax(200px, 1fr));
-        grid-template-rows: repeat(2, minmax(400px, 422px)) auto;
+        grid-template-rows: repeat(5, 30vh);
 
         grid-template-areas: "stories-list  actual-story"
+                             "stories-list  actual-story"
                              "actions       actual-story"
+                             "actions       timer-clock"
                              "players       players";
     }
 }
@@ -201,10 +206,11 @@ div.players-grid {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr);
-        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(600px, 422px) auto;
+        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(100px, 200px) minmax(600px, 422px) auto;
 
         grid-template-areas: "stories-list"
                              "actions"
+                             "timer-clock"
                              "actual-story"
                              "players";
     }

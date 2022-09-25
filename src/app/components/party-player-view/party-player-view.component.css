@@ -15,7 +15,7 @@ html,body {
     width: 100%;
 
     grid-template-columns: repeat(2,minmax(200px, 1fr)) ;
-    grid-template-rows: repeat(2, minmax(400px, 43.5vh));
+    grid-template-rows: repeat(2, minmax(400px, 43.3vh));
 
     grid-template-areas: "timer  user-story"
                          "cards  user-story";
@@ -112,11 +112,6 @@ div.card-header {
 
 div.card-body.y-scroll {
     overflow-y: auto;
-}
-
-.text-container {
-    height: 500px;
-    overflow: auto;
 }
 
 div.my-card-footer {
