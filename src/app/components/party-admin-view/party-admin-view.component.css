@@ -193,10 +193,12 @@ div.players-grid {
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: repeat(2,minmax(200px, 1fr));
-        grid-template-rows: repeat(2, minmax(400px, 422px)) auto;
+        grid-template-rows: repeat(5, 30vh);
 
         grid-template-areas: "stories-list  actual-story"
+                             "stories-list  actual-story"
                              "actions       actual-story"
+                             "actions       timer-clock"
                              "players       players";
     }
 }
@@ -204,10 +206,11 @@ div.players-grid {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr);
-        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(600px, 422px) auto;
+        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(100px, 200px) minmax(600px, 422px) auto;
 
         grid-template-areas: "stories-list"
                              "actions"
+                             "timer-clock"
                              "actual-story"
                              "players";
     }
