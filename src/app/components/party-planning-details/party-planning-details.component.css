@@ -1,0 +1,11 @@
+div.details-grid {
+    display: grid;
+    gap: 10px;
+    height: 100%;
+
+    align-items: center;
+
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    border: 1px solid red;
+}

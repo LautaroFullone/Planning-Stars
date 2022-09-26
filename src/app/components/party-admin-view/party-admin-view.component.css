@@ -19,15 +19,8 @@ html, body {
 
     grid-template-areas: "stories-list  actual-story     players "
                          "stories-list  actual-story     players"
-                         "actions       actual-story     players"
-                         "actions       timer-clock      players";
-}
-
-.card {
-    position: inherit;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+                         "actions       actual-story     details"
+                         "actions       timer-clock      details";
 }
 
 .main-grid .stories-list {
@@ -50,6 +43,10 @@ html, body {
 
 .main-grid .timer {
     grid-area: timer-clock;
+}
+
+.main-grid .details {
+    grid-area: details;
 }
 
 div.title-box {
@@ -85,11 +82,6 @@ a.link:hover {
 
 a.link:hover::before {
     width: 100%;
-}
-
-.text-align-center{
-    text-align: center;
-    vertical-align: middle;
 }
 
 div.card-header{
@@ -193,12 +185,13 @@ div.players-grid {
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: repeat(2,minmax(200px, 1fr));
-        grid-template-rows: repeat(5, 30vh);
+        grid-template-rows: repeat(6, 30vh);
 
         grid-template-areas: "stories-list  actual-story"
                              "stories-list  actual-story"
-                             "actions       actual-story"
-                             "actions       timer-clock"
+                             "timer-clock   actual-story"
+                             "actions       details"
+                             "actions       details"
                              "players       players";
     }
 }

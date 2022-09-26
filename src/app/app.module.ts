@@ -27,6 +27,7 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { UserRenameModalComponent } from './components/user-rename-modal/user-rename-modal.component';
 import { environment } from 'src/environments/environment';
 import { PartyCountdownTimerComponent } from './components/party-countdown-timer/party-countdown-timer.component';
+import { PartyPlanningDetailsComponent } from './components/party-planning-details/party-planning-details.component';
 
 const config: SocketIoConfig = { url: environment.serverURL, options: {} }; 
 
@@ -50,7 +51,8 @@ const config: SocketIoConfig = { url: environment.serverURL, options: {} };
     NotFoundComponent,
     PartyPlayerCardsComponent,
     UserRenameModalComponent,
-    PartyCountdownTimerComponent
+    PartyCountdownTimerComponent,
+    PartyPlanningDetailsComponent
   ],
   imports: [
     BrowserModule,
