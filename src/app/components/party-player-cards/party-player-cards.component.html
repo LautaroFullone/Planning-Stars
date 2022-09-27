@@ -19,6 +19,10 @@
 
     <div class="card-footer text-align-center">
         <button type="button" [disabled]="!showButton" class="btn btn-outline-tertiary" (click)="handleVote()" >Vote User Story</button>
+        <!-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#partyPlayerDetails">See results</button> -->
     </div>
 
 </div>
+
+<app-party-player-details-modal>
+</app-party-player-details-modal>

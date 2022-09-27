@@ -1,37 +1,50 @@
 <div class="card">
-
     <div class="card-header text-align-center">
         <i class="fa-solid fa-circle-info"></i> - Planning Details
     </div>
 
     <div class="card-body">
-        <div class="details-grid">
-            <div>
+
+        <div [ngClass]="isOwner ? 'owner-details-grid' : 'player-details-grid'">
+            <div class="p-1">
                 <form class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" value="Lautaro Fullone: 5SP">
+                    <input type="text" class="form-control" id="floatingInput" value="Lautaro Fullone: 5SP" readonly>
                     <label for="floatingInput">Highest Votation</label>
                 </form>
             </div>
 
-            <div>
+            <div class="p-1">
                 <form class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" value="Valentina: 1SP">
+                    <input type="text" class="form-control" id="floatingInput" value="Valentina: 1SP" readonly>
                     <label for="floatingInput">Lowest Votation</label>
                 </form>
             </div>
 
-            <div>
+            <div class="p-1">
                 <form class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" value="Valentina: 1SP">
+                    <input type="text" class="form-control" id="floatingInput" value="6 Players" readonly>
                     <label for="floatingInput">Votations received</label>
                 </form>
             </div>
 
-            <div>
+            <div class="p-1">
                 <form class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" value="Valentina: 1SP">
+                    <input type="text" class="form-control result" id="floatingInput" value="2 Players" readonly>
                     <label for="floatingInput">Votations left</label>
                 </form>
+            </div>
+
+            <div class="p-1 all-line details-actions">
+                <form class="form-floating">
+                    <input type="text" class="form-control" id="floatingInput" value="The session has concluded with 5 Story Points" readonly>
+                    <label for="floatingInput">Planning Result</label>
+                </form>
+            </div>
+
+            <div *ngIf="isOwner" class="all-line details-actions">
+                <div class="button-container">
+                  <button type="button" class="btn btn-outline-primary">Restart Planning</button>
+                </div>
             </div>
 
         </div>
