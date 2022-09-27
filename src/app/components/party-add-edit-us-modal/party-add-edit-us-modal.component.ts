@@ -31,8 +31,8 @@ export class PartyAddEditUsModalComponent implements OnInit {
         workArea: new FormControl('', [Validators.required, Validators.maxLength(60)]),
         storyWritter: new FormControl('', [Validators.required, Validators.maxLength(60)]),
         fileLink: new FormControl('', [Validators.required]),
-        timeMinutes: new FormControl('', [Validators.required, Validators.min(0)]),
-        timeSeconds: new FormControl('', [Validators.required, Validators.min(0)]),
+        timeMinutes: new FormControl('', [Validators.required, Validators.min(0), Validators.max(10)]),
+        timeSeconds: new FormControl('', [Validators.required, Validators.min(0), Validators.max(59)]),
     });
 
     get usTag() { return this.userStoryForm.get('tag').value; }

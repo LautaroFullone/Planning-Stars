@@ -10,15 +10,10 @@
         <div class="card-body">
             <div class="actions-grid">
 
-                <div class="update-section">
-                    
-                </div>
-                <div class="delete-section">
-                   
-                </div>
                 <div class="start-section">
                     <button type="button" [disabled]="!showButtons || votingUS" class="btn btn-outline-primary" (click)="startPlanning()">Start Planning</button>
                 </div>
+                
                 <div class="end-section" >
                     <button type="button" [disabled]="!(votingUS && (votingUS.id == selectedUS.id))" class="btn btn-outline-secondary" (click)="finishPlanning()">Conclude Planning</button>
                 </div>
