@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-party-planning-details',
-  templateUrl: './party-planning-details.component.html',
-  styleUrls: ['./party-planning-details.component.css']
+    selector: 'app-party-planning-details',
+    templateUrl: './party-planning-details.component.html',
+    styleUrls: ['./party-planning-details.component.css']
 })
 export class PartyPlanningDetailsComponent implements OnInit {
+    
+    @Input() userType: string;
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void { }
+
+    get isOwner() {
+        return this.userType == 'owner';
+    }
 
 }

@@ -185,7 +185,7 @@ div.players-grid {
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: repeat(2,minmax(200px, 1fr));
-        grid-template-rows: repeat(6, 30vh);
+        grid-template-rows: repeat(6, 190px);
 
         grid-template-areas: "stories-list  actual-story"
                              "stories-list  actual-story"
@@ -199,12 +199,13 @@ div.players-grid {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr);
-        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(100px, 200px) minmax(600px, 422px) auto;
+        grid-template-rows: 550px repeat(2, 160px) 550px 342px 550px;
 
         grid-template-areas: "stories-list"
                              "actions"
                              "timer-clock"
                              "actual-story"
+                             "details"
                              "players";
     }
 

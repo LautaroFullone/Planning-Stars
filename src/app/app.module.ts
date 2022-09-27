@@ -28,6 +28,7 @@ import { UserRenameModalComponent } from './components/user-rename-modal/user-re
 import { environment } from 'src/environments/environment';
 import { PartyCountdownTimerComponent } from './components/party-countdown-timer/party-countdown-timer.component';
 import { PartyPlanningDetailsComponent } from './components/party-planning-details/party-planning-details.component';
+import { PartyPlayerDetailsModalComponent } from './components/party-player-details-modal/party-player-details-modal.component';
 
 const config: SocketIoConfig = { url: environment.serverURL, options: {} }; 
 
@@ -52,7 +53,8 @@ const config: SocketIoConfig = { url: environment.serverURL, options: {} };
     PartyPlayerCardsComponent,
     UserRenameModalComponent,
     PartyCountdownTimerComponent,
-    PartyPlanningDetailsComponent
+    PartyPlanningDetailsComponent,
+    PartyPlayerDetailsModalComponent
   ],
   imports: [
     BrowserModule,
