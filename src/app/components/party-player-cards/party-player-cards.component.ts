@@ -20,7 +20,6 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
     cardsList: Array<any>;
     showButton = true
 
-
     constructor(private partyService: PartyService,
                 private votationService: VotationService,
                 private socketService: SocketWebService, 
@@ -38,6 +37,20 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['selectedUS'] && changes['selectedUS'].currentValue)
             this.showButton = true;
+    }
+
+    refreshCards() {
+        if(this.showButton) 
+            this.showButton = false;
+
+        if(this.cardSelected) {
+            this.cardSelected = undefined;
+            this.cardsList.forEach(card => {
+                let cardToRefresh = document.getElementById(`card-${card.id}`);
+                this.render.removeClass(cardToRefresh, 'inactive');
+                this.render.removeClass(cardToRefresh, 'active');                
+            });
+        }
     }
 
     handleClickCard(card: any){
@@ -58,7 +71,8 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
                 next: () => {
                     this.showButton = false;
                     this.socketService.sendPlayerVotation(votation, this.selectedUS.id);
-
+                    this.inactivateRestOfCards();
+                    
                     this.toast.successToast({
                         title: "Vote Sent",
                         description: "Your score was sent."
@@ -77,6 +91,18 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
                 description: "Please select a card before vote."
             })
         }
+    }
+
+    inactivateRestOfCards() {
+        console.log('inactivateRestOfCards', this.cardSelected )
+        this.cardsList.forEach(card => {
+            console.log('card', card)
+            if (`card-${card.id}` != this.cardSelected.id) {
+               let cardToInactivate = document.getElementById(`card-${card.id}`);
+                console.log('cardToInactivate', cardToInactivate)
+                this.render.addClass(cardToInactivate, "inactive");
+            }
+        });
     }
 
 }
