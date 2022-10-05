@@ -53,7 +53,7 @@ div.all-line {
 
 input:focus {
     border-color: #e9ecef;
-    box-shadow: 0px 3px 15px #F27121 !important;
+    box-shadow: 0px 1px 5px #F27121 !important;
 }
 
 .form-control[readonly] {
