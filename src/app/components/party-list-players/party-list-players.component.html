@@ -1,43 +1,75 @@
 <div class="card">
+
     <div class="card-header text-align-center">
-        <i class="fa-solid fa-users"></i> - Planning Player
+        <i class="fa-solid fa-users"></i> - Players Status
     </div>
+
     <div class="card-body y-scroll">
         <ol>
-            <div class="players-grid" *ngFor="let socket of socketsList">
+            <div class="players-grid">
 
-                <li>
-                    <div class="player-name">
-                        {{socket.user.name}} <br>
-                        <p class="text-muted">{{socket.user.email}}</p>
-                    </div>
-                </li>
+                <div class="grid-title">NAME</div>
+                <div class="grid-title">HAS VOTED</div>
+                <div class="grid-title">STORY POINTS</div>
 
-                <ng-container *ngIf="socket.isOwner">
-                    <div class="player-status" >
-                        <i style="font-size: 20px;" class="fa-solid fa-circle-user"></i> Admin
-                    </div>
-                </ng-container>
-                
-                <ng-container *ngIf="showIcons && !socket.isOwner">
+                <ng-container *ngFor="let socket of socketsList">
 
-                    <div *ngIf="socket.hasVote; then check else uncheck"></div>
-
-                    <ng-template #check>
-                        <div class="player-status completed-color" id="player-{{socket.user.id}}">
-                            <i class="fa-solid fa-check"></i> (has voted)
+                    <li>
+                        <div class="player-name">
+                            {{socket.user.name}} <br>
+                            <p class="text-muted">{{socket.user.email}}</p>
                         </div>
+                    </li>
+
+                    <div *ngIf="socket.isOwner; then isAdmin else isPlayer"></div>
+
+                    <ng-template #isAdmin>
+                        <div class="player-status">
+                            <i style="font-size: 20px;" class="fa-solid fa-circle-user"></i> Admin
+                        </div>
+
+                        <div class="story-points"> - </div>
                     </ng-template>
 
-                    <ng-template #uncheck>
-                        <div class="player-status incompleted-color" id="player-{{socket.user.id}}">
-                            <i class="fa-solid fa-xmark"></i> (hasn't voted)
-                        </div>
+                    <ng-template #isPlayer>
+
+                        <ng-template *ngIf="votationUSIsSelected; then showIcons else notShowIcons"></ng-template>
+
+                        <ng-template #notShowIcons>
+                            <div class="player-status"> - </div>
+                            <div class="story-points"> - </div>
+                        </ng-template>
+
+                        <ng-template #showIcons>
+
+                            <ng-template *ngIf="socket.votation.hasVote; then check else uncheck"></ng-template>
+
+                            <ng-template #check>
+                                <div class="player-status completed-color" id="player-{{socket.user.id}}">
+                                    <i class="fa-solid fa-check"></i>
+                                    <!--(has voted)-->
+                                </div>
+
+                                <div class="story-points">{{socket.votation.value}}</div>
+                            </ng-template>
+
+                            <ng-template #uncheck>
+                                <div class="player-status incompleted-color" id="player-{{socket.user.id}}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                    <!--(hasn't voted)-->
+                                </div>
+
+                                <div class="story-points"> - </div>
+                            </ng-template>
+
+                        </ng-template>
+
                     </ng-template>
-
                 </ng-container>
-
             </div>
         </ol>
     </div>
 </div>
+
+
+                

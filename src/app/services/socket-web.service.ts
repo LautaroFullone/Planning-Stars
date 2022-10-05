@@ -23,6 +23,8 @@ export class SocketWebService {
 
     selectedUS$ = this.socket.fromEvent<any>('selectedUS_socket');
     planningStarted$ = this.socket.fromEvent<any>('planningStarted_socket');
+    plannigConcluded$ = this.socket.fromEvent<any>('plannigConcluded_socket');
+
 
     playerVotation$ = this.socket.fromEvent<any>('playerVotation_socket');
     
@@ -55,6 +57,10 @@ export class SocketWebService {
 
     planningStarted(us: UserStory){
         this.socket.emit('planningStarted', { us })
+    }
+
+    plannigConcluded(interruptedByOwner){
+        this.socket.emit('plannigConcluded', { interruptedByOwner })
     }
 
     hasUserAccess (party: Party){

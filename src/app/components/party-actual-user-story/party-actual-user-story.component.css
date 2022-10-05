@@ -1,3 +1,55 @@
-.non-bottom-padding {
-    padding-bottom: 0;
+div.card-body {
+    height: 60%;
+}
+.actual-us-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-rows: 0.3fr 3fr 0.3fr;
+    
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    
+    grid-template-areas: "actual-title"
+                         "actual-body"
+                         "actual-footer";
+}
+
+div.actual-title {
+    grid-area: actual-title;
+    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+div.actual-body {
+    grid-area: actual-body;
+    height: 100%;
+    overflow: auto;
+    padding-right: 10px;
+}
+div.actual-footer {
+    height: 100%;
+    grid-area: actual-footer;       
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+}
+
+h5 {
+    margin: 0;
+}
+
+hr {
+    margin: 0 0 10px 0;
+}
+
+.actual-body::-webkit-scrollbar {
+    width: 8px;
+    margin-left: 10px;
+}
+
+.actual-body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .125);
 }

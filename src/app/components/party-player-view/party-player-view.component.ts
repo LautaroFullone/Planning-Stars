@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
-import { PartyCountdownTimerComponent } from '../party-countdown-timer/party-countdown-timer.component';
+import { PartyPlayerCardsComponent } from '../party-player-cards/party-player-cards.component';
 
 @Component({
     selector: 'app-party-player-view',
@@ -14,12 +14,12 @@ export class PartyPlayerViewComponent implements OnInit, OnDestroy {
 
     @Input() partyID: string;
 
-    @ViewChild(PartyCountdownTimerComponent) countdownTimerComponent: PartyCountdownTimerComponent;
+    @ViewChild(PartyPlayerCardsComponent) partyPlayerCardsComponent: PartyPlayerCardsComponent;
 
     actualUserStory: UserStory;
-    timeToPlanning;
 
     private planningStartedSub: Subscription;
+    private planningConcludedSub: Subscription;
 
     constructor(private socketService: SocketWebService,
                 private toast: NotificationService) { }
@@ -36,20 +36,30 @@ export class PartyPlayerViewComponent implements OnInit, OnDestroy {
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
             next: (us) => {
                 this.actualUserStory = us;
-
-                this.timeToPlanning = us.timeInSeconds;
-
-                this.countdownTimerComponent.startCountDown(this.timeToPlanning);
-
+                this.partyPlayerCardsComponent.refreshCards();
                 this.toast.infoToast({
                     title: "It's time to vote",
-                    description: `Item #${us.tag} votation Started`
+                    description: `Votation of item #${us.tag} has started`
                 })
+            }
+        })
+
+        this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
+            next: (data) => {
+                this.partyPlayerCardsComponent.refreshCards();
+                this.openPlanningDetailsModal();
+
             }
         })
     }
 
     removeAllSubscriptions() {
         this.planningStartedSub.unsubscribe();
+        this.planningConcludedSub.unsubscribe();
+    }
+
+    openPlanningDetailsModal() {
+        let modalButton = document.getElementById("openModalButton");
+        modalButton.click();
     }
 }

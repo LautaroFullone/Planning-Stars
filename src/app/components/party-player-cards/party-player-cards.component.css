@@ -46,3 +46,7 @@ button.my-card.active{
     -ms-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+.inactive {
+    background: linear-gradient(to bottom, #dedede, #d7d7d7, #d1d1d1, #cacaca, #c4c4c4, #bdbdbd, #b5b5b5, #aeaeae, #a4a4a4, #9a9a9a, #919191, #878787) !important;
+}

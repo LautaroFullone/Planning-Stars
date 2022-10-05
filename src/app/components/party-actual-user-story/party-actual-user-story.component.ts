@@ -4,7 +4,8 @@ import { UserStory } from 'src/app/models/user-story';
 @Component({
     selector: 'app-party-actual-user-story',
     templateUrl: './party-actual-user-story.component.html',
-    styleUrls: ['../party-admin-view/party-admin-view.component.css']
+    styleUrls: ['./party-actual-user-story.component.css',
+                '../party-admin-view/party-admin-view.component.css']
 })
 export class ActualUserStoryComponent implements OnInit {
 
@@ -16,7 +17,7 @@ export class ActualUserStoryComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        this.waitingMessage = (this.isOwner) ? 'Please select a item from the list' : 'Waiting admin item selection';
+        this.waitingMessage = (this.isOwner) ? 'Please select a item from the list' : 'Waiting for the item planning start';
     }
 
     get isOwner() {

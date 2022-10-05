@@ -1,7 +1,7 @@
 <div class="card">
     
     <div class="card-header text-align-center">
-        <i class="fa-solid fa-toolbox"></i> - Actions
+        <i class="fa-solid fa-screwdriver-wrench"></i> - Actions
     </div>
 
     <ng-template *ngIf="selectedUS; then isSelected else isNotSelected"></ng-template>
@@ -10,21 +10,12 @@
         <div class="card-body">
             <div class="actions-grid">
 
-                <div class="update-section">
-                    <button type="button" [disabled]="!showButtons" class="btn btn-outline-primary" (click)="updateUS()" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal">
-                        Update Item
-                    </button>
-                </div>
-                <div class="delete-section">
-                    <button type="button" [disabled]="!showButtons" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">
-                        Delete Item
-                    </button>
-                </div>
                 <div class="start-section">
-                    <button type="button" [disabled]="!showButtons || votingUS" class="btn btn-outline-tertiary" (click)="startPlanning()">Start Planning</button>
+                    <button type="button" [disabled]="!showButtons || votingUS" class="btn btn-outline-primary" (click)="startPlanning()">Start Planning</button>
                 </div>
-                <div class="end-section" *ngIf="votingUS && (votingUS.id == selectedUS.id)">
-                    <button type="button" class="btn btn-outline-danger" (click)="finishPlanning()">Conclude Planning</button>
+                
+                <div class="end-section" >
+                    <button type="button" [disabled]="!(votingUS && (votingUS.id == selectedUS.id))" class="btn btn-outline-secondary" (click)="finishPlanning()">Conclude Planning</button>
                 </div>
 
             </div>

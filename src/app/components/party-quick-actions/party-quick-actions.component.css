@@ -1,0 +1,27 @@
+div.actions-grid {
+    display: grid;
+    width: 80%;
+    margin: auto;
+    height: 100%;
+    gap: 10px;
+    align-content: center;
+
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+
+    grid-template-areas: "start-p start-p"
+                         "end-p   end-p";
+       
+}
+
+div.start-section {
+    grid-area: start-p;
+}
+
+div.end-section {
+    grid-area: end-p;
+}
+
+div.actions-grid>div>button {
+    width: 100%;
+}

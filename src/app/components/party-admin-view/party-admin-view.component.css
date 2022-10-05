@@ -15,17 +15,12 @@ html, body {
     width: 100%;
 
     grid-template-columns: repeat(3, minmax(200px,1fr));
-    grid-template-rows: repeat(2, minmax(400px,43.5vh));
+    grid-template-rows: repeat(4, 20.6vh);
 
-    grid-template-areas: "stories-list  actual-story    players "
-                         "actions       actual-story    players";
-}
-
-.card {
-    position: inherit;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    grid-template-areas: "stories-list  actual-story     players "
+                         "stories-list  actual-story     players"
+                         "actions       actual-story     details"
+                         "actions       timer-clock      details";
 }
 
 .main-grid .stories-list {
@@ -44,6 +39,14 @@ html, body {
 
 .main-grid .players {
     grid-area: players;
+}
+
+.main-grid .timer {
+    grid-area: timer-clock;
+}
+
+.main-grid .details {
+    grid-area: details;
 }
 
 div.title-box {
@@ -81,49 +84,10 @@ a.link:hover::before {
     width: 100%;
 }
 
-.list-container{
-    overflow: auto;
-    max-height: 80%;
-}
-
-li.list-group-item:hover{
-    background-color: #f27121af;
-    color: #FFF;
-    cursor: pointer;
-    margin: 0;
-}
-li.list-group-item {
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-li.list-group-item.active {
-    background: linear-gradient(to right, #F27121, #E94057, #8A2387);
-    border: 1px red;
-    font-weight: 100;
-}
-li.list-group-item.disabled {
-    background-color: unset;
-    color: gray;
-    text-decoration: line-through;
-    font-style: italic;
-}
-
-.text-align-center{
-    text-align: center;
-    vertical-align: middle;
-}
-
 div.card-header{
     position: sticky;
     top: 0;
     z-index: 10;
-}
-.card-title{
-    margin-bottom: 15px;
 }
 div.card-body.y-scroll{
     overflow-y: auto;
@@ -201,8 +165,8 @@ div.players-grid {
     gap: 5px;
     align-items: center;
 
-    grid-template-columns: minmax(200px, 2fr) minmax(200px, 1fr);
-    grid-auto-rows: minmax(50px, auto);
+    grid-template-columns: minmax(60px, 1.5fr) minmax(60px, 1fr) minmax(60px, 1fr);
+    grid-auto-rows: minmax(10px, auto);
 
 }
 
@@ -221,10 +185,13 @@ div.players-grid {
 @media screen and (max-width: 1450px) {
     .main-grid {
         grid-template-columns: repeat(2,minmax(200px, 1fr));
-        grid-template-rows: repeat(2, minmax(400px, 422px)) auto;
+        grid-template-rows: repeat(6, 190px);
 
         grid-template-areas: "stories-list  actual-story"
-                             "actions       actual-story"
+                             "stories-list  actual-story"
+                             "timer-clock   actual-story"
+                             "actions       details"
+                             "actions       details"
                              "players       players";
     }
 }
@@ -232,11 +199,13 @@ div.players-grid {
 @media screen and (max-width: 1200px) {
     .main-grid {
         grid-template-columns: minmax(200px, 1fr);
-        grid-template-rows: minmax(100px, auto) minmax(100px, 200px) minmax(600px, 422px) auto;
+        grid-template-rows: 550px repeat(2, 160px) 550px 342px 550px;
 
         grid-template-areas: "stories-list"
                              "actions"
+                             "timer-clock"
                              "actual-story"
+                             "details"
                              "players";
     }
 
