@@ -44,9 +44,4 @@ export class UserStoryService {
     updateUserStory(usID: number, newUS: UserStory): Observable<any> {
         return this.http.put<any>(`${environment.apiURL}/userStory/${usID}`, newUS, this.headers);
     }
-
-    //TODO: this method in api
-    saveFinalVotationResult(usID: number, storyPoints: number) {
-        return this.http.post<any>(`${environment.apiURL}/userStory/${usID}/planning-result`, storyPoints, this.headers);
-    }
 }
