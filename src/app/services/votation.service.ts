@@ -25,7 +25,6 @@ export class VotationService {
         return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/votations`, this.headers);
     }
 
-    //TODO: this method in api
     saveFinalVotationResult(userStoryID: number, storyPoints: number) {
         return this.http.post<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-result`, storyPoints, this.headers);
     }
