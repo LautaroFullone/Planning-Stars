@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UserStory } from 'src/app/models/user-story';
-import { UserStoryService } from 'src/app/services/user-story.service';
 import { PartyAddEditUsModalComponent } from '../party-add-edit-us-modal/party-add-edit-us-modal.component';
 import { PartyDeleteUsConfComponent } from '../party-delete-us-conf/party-delete-us-conf.component';
 import { PartyListPlayersComponent } from '../party-list-players/party-list-players.component';
@@ -23,7 +22,7 @@ export class PartyAdminViewComponent implements OnInit {
     selectedUS: UserStory;
     userStoryToDelete : UserStory = undefined;
 
-    constructor(private userStoryService: UserStoryService) { }
+    constructor() { }
 
     ngOnInit(): void { }
 
@@ -52,10 +51,7 @@ export class PartyAdminViewComponent implements OnInit {
     }
 
     handlePlanningFinished(data): void {
-        let userStory = data.userStory;
-        
-        this.userStoriesListComponent.handlePlanningFinished(userStory);
-        this.userStoryService.saveFinalVotationResult(userStory.id, data.storyPoints);
+        this.userStoriesListComponent.handlePlanningFinished(data.userStory);
     }
 
     beforeUpdatedAction(): void {  

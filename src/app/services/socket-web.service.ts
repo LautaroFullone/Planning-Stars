@@ -25,7 +25,6 @@ export class SocketWebService {
     planningStarted$ = this.socket.fromEvent<any>('planningStarted_socket');
     plannigConcluded$ = this.socket.fromEvent<any>('plannigConcluded_socket');
 
-
     playerVotation$ = this.socket.fromEvent<any>('playerVotation_socket');
     
     private userLogged: User;
@@ -59,8 +58,18 @@ export class SocketWebService {
         this.socket.emit('planningStarted', { us })
     }
 
-    plannigConcluded(interruptedByOwner){
-        this.socket.emit('plannigConcluded', { interruptedByOwner })
+    plannigConcluded(userStory:UserStory, interruptedByOwner: boolean){
+        this.socket.emit('plannigConcluded', { userStory, interruptedByOwner })
+    }
+
+    getnumberOfConnectedUsersIntoParty() {
+        this.socket.emit('partyPlayers')
+
+        return this.partyPlayers$.pipe(
+            map(listSockets => {
+                return listSockets.length;
+            })
+        );
     }
 
     hasUserAccess (party: Party){
