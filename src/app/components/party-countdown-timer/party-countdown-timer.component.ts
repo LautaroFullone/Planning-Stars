@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 
@@ -16,6 +17,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     protected minutes: number = 0;
     protected seconds: number = 0;
     protected intervalID: any;
+    protected usPlanning: UserStory;
 
     waiting: boolean = true;
     waitingMessage = "Waiting planning start"
@@ -60,7 +62,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
         this.seconds = 0; this.minutes = 0;
                 
         if(this.userType == 'owner'){
-            this.socketService.plannigConcluded(false); 
+            this.socketService.plannigConcluded(this.usPlanning, false); 
         } 
         
         this.toast.infoToast({
@@ -80,12 +82,13 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     listenServerEvents(){
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
             next: (us) => {
+                this.usPlanning = us;
                 this.startCountDown(us.timeInSeconds);
             }
         }) 
         this.planningConcludeSub = this.socketService.plannigConcluded$.subscribe({
-            next: (interruptedByOwner) => {
-                if(interruptedByOwner) 
+            next: (data) => {
+                if(data.interruptedByOwner) 
                     this.stopCountDown();
             }
         }) 

@@ -14,7 +14,7 @@ import { SocketWebService } from 'src/app/services/socket-web.service';
 export class PartyJoinModalComponent implements OnInit {
 
     partyForm = new FormGroup({
-        id: new FormControl('', [Validators.required]),
+        id: new FormControl('13ADFA', [Validators.required]),
     });
 
     private hasUserAccessSub: Subscription;

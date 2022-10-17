@@ -24,4 +24,12 @@ export class VotationService {
     getUserStoryVotations(userStoryID: number): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/votations`, this.headers);
     }
+
+    saveFinalVotationResult(userStoryID: number, storyPoints: number) {
+        return this.http.post<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-result`, storyPoints, this.headers);
+    }
+
+    getPlanningDetails(userStoryID: number, numberOfConnectedUsers: number) {
+        return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-details/${numberOfConnectedUsers}`, this.headers);
+    }
 }

@@ -29,10 +29,17 @@
                         <li class="list-group-item" [ngClass]="{'disabled': us.storyPoints}" (click)="handleClickItem(us)" id="us-{{us.id}}">
                             User Story #{{us.tag}}: {{us.name}}
                         </li>
-                        <div class="item-icons">                        
-                            <i class="fa-solid fa-pen-to-square" (click)="updateUS(us)" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal"></i> 
-                            <i class="fa-solid fa-trash" (click)="deleteUS(us)" data-bs-toggle="modal" data-bs-target="#deleteConfirmation"></i>
+
+                        <div *ngIf="us.storyPoints; else elseBlock">
+                            {{us.storyPoints}} SP
                         </div>
+                        
+                        <ng-template #elseBlock>
+                            <div class="item-icons">
+                                <i class="fa-solid fa-pen-to-square" (click)="updateUS(us)" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal"></i>
+                                <i class="fa-solid fa-trash" (click)="deleteUS(us)" data-bs-toggle="modal" data-bs-target="#deleteConfirmation"></i>
+                            </div>
+                        </ng-template>
                     </div>
                     
                 </ul>
