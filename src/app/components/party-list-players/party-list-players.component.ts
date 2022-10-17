@@ -57,6 +57,12 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
                 //then i retrive from api all votations
                 let userWhoVoted = this.socketsList.find(socket => socket.user.id == votationData.userID);
                 userWhoVoted.votation = votationData.votation;
+                
+                /*this.votationService.getUserStoryVotations(this.selectedUS.id).subscribe({
+                    next: (usVotations) => {
+                        this.votationsList = usVotations;
+                    }
+                })*/
             }
         })  
     }
@@ -77,6 +83,6 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
     */
 
     get votationUSIsSelected() {
-        return (this.votingUS && this.selectedUS && this.votingUS.id == this.selectedUS.id);
+        return (this.votingUS && this.votingUS.id == this.selectedUS.id);
     }
 }

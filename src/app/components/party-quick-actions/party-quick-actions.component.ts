@@ -24,7 +24,7 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
 
 	constructor(private socketService: SocketWebService,
                 private toast: NotificationService) { }
-                
+		
 	ngOnInit(): void { 
         this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
             next: (data) => {
@@ -65,9 +65,5 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
         //TODO: Here should be saved the story points with the api
 		this.socketService.plannigConcluded(this.selectedUS, true);
     }
-
-    get usWithStoryPoints() {
-        return (this.selectedUS && this.selectedUS.storyPoints) ? true : false;
-    } 
  
 }

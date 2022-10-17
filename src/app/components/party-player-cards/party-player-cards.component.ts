@@ -94,9 +94,12 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
     }
 
     inactivateRestOfCards() {
+        console.log('inactivateRestOfCards', this.cardSelected )
         this.cardsList.forEach(card => {
-            if(`card-${card.id}` != this.cardSelected.id) {
-                let cardToInactivate = document.getElementById(`card-${card.id}`);
+            console.log('card', card)
+            if (`card-${card.id}` != this.cardSelected.id) {
+               let cardToInactivate = document.getElementById(`card-${card.id}`);
+                console.log('cardToInactivate', cardToInactivate)
                 this.render.addClass(cardToInactivate, "inactive");
             }
         });

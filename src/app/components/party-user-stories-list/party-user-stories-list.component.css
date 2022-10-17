@@ -31,7 +31,6 @@ li.list-group-item.disabled {
     color: gray;
     text-decoration: line-through;
     font-style: italic;
-    pointer-events: unset;
 }
 .item-grid {
     display: grid;
