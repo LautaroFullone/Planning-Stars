@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { UserStory } from 'src/app/models/user-story';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { VotationService } from 'src/app/services/votation.service';
 
@@ -12,6 +13,7 @@ import { VotationService } from 'src/app/services/votation.service';
 export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
     
     @Input() userType: string;
+    @Input() selectedUS: UserStory;
 
     planningResults = undefined;
 
@@ -30,11 +32,10 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
                 this.numberOfUsersSub = this.socketService.getnumberOfConnectedUsersIntoParty().subscribe({
                     next: (numberOfUsers) => {
                         console.log('getnumberOfConnectedUsersIntoParty', numberOfUsers);
+                        this.numberOfUsersSub.unsubscribe();
 
-                        this.votationService.getPlanningDetails(userStory.id, numberOfUsers).subscribe({
+                        this.votationService.getPlanningDetails(userStory.id, (numberOfUsers-1)).subscribe({
                             next: (details) => {
-
-                                this.numberOfUsersSub.unsubscribe();
                                 console.log(details)
                                 
                                 this.planningResults = {
@@ -51,8 +52,6 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
                                     }
                                 }
                                 console.log('planningResults', this.planningResults);
-
-
                             } 
                         })
                     }
@@ -91,5 +90,9 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
     get votationsLeft() {
         return `${this.planningResults.votationsLeft} players`;
     }
+
+    get usWithStoryPoints() {
+        return (this.isOwner && this.selectedUS && this.selectedUS.storyPoints);
+    } 
 
 }
