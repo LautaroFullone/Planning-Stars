@@ -3,7 +3,7 @@
         <i class="fa-solid fa-circle-info"></i> - Planning Details
     </div>
 
-    <ng-template *ngIf="planningResults != undefined; then dataDetails else message"></ng-template>
+    <ng-template *ngIf="(planningResults != undefined) then dataDetails else message"></ng-template>
     
     <ng-template #message>
 
