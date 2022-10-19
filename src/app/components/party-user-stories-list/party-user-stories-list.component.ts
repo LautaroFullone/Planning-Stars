@@ -43,6 +43,9 @@ export class UserStoriesListComponent implements OnInit {
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
             next: (us) => {
                 this.handlePlanningStarted();
+
+                let usActions = document.getElementById(`actions-${us.id}`);
+                this.render.addClass(usActions, "visually-hidden");
             }
         })
         this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
@@ -109,6 +112,13 @@ export class UserStoriesListComponent implements OnInit {
         itemToSelect.isSelected = true;
 
         this.selectedUserStory.emit(itemToSelect.userStory);
+    }
+
+    handleUpdateUserStory(updatedUS: UserStory): void {
+        this.getPartyUserStories();
+
+        if(updatedUS.id == this.selectedItem.userStory.id) //if the selectedUS was updated, emit again the same iem to see the changes in the actualUS component
+            this.selectedUserStory.emit(updatedUS);
     }
 
     handleDeleteUserStory(userStory: UserStory): void {
