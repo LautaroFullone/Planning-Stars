@@ -14,8 +14,6 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
 	@Input() partyID: string;
 	@Input() selectedUS: UserStory
 	@Output() updatingUserStory = new EventEmitter<any>();
-    @Output() planningStarted = new EventEmitter<any>();
-    @Output() planningFinished = new EventEmitter<any>();
 
 	showButtons = true;
 	votingUS: UserStory;
@@ -30,7 +28,6 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
             next: (data) => {
                 this.votingUS = undefined
                 this.showButtons = true;
-                this.planningFinished.emit({ userStory: this.selectedUS });
             }
         })
     }
@@ -45,7 +42,6 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	startPlanning(): void {
-        this.planningStarted.emit(this.selectedUS);
 		this.votingUS = this.selectedUS;
 		this.showButtons = false;
 
@@ -60,9 +56,6 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
     finishPlanning(): void {
         this.votingUS = undefined
         this.showButtons = true;
-        //TODO: here should be called the logic to get the final story points of the US
-        this.planningFinished.emit( { userStory: this.selectedUS} );
-        //TODO: Here should be saved the story points with the api
 		this.socketService.plannigConcluded(this.selectedUS, true);
     }
 

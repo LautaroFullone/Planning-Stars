@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Renderer2, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PartyService } from 'src/app/services/party.service';
+import { SocketWebService } from 'src/app/services/socket-web.service';
 import { UserStoryService } from 'src/app/services/user-story.service';
 
 @Component({
@@ -19,34 +21,51 @@ export class UserStoriesListComponent implements OnInit {
     @Output() updatingUserStory = new EventEmitter<any>();
     @Output() deletingUserStory = new EventEmitter<any>();
 
+    private planningStartedSub: Subscription;
+    private planningConcludedSub: Subscription;
 
-    userStoriesList: Array<UserStory> = [];
-    itemSelected: HTMLElement;
-    selectedUS: UserStory;
+    iterableItemsList: Array<any> = [];
     applyClasses = false;
 
     constructor(private partyService: PartyService,
                 private userStoryService: UserStoryService,
                 private render: Renderer2,
-                private toast: NotificationService) { }
-
-    updateUS(us: UserStory): void {
-        this.updatingUserStory.emit(us);
-    }
-
-    deleteUS(us: UserStory): void {
-        this.deletingUserStory.emit(us);
-    }
+                private toast: NotificationService,
+                private socketService: SocketWebService) { }
 
     ngOnInit(): void {
         this.getPartyUserStories();
+
+        this.listenServerEvents();
+    }
+
+    listenServerEvents() {
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (us) => {
+                this.handlePlanningStarted();
+            }
+        })
+        this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
+            next: (data) => {
+                this.getPartyUserStories();
+
+                this.handlePlanningFinished(data.userStory);
+            }
+        })
     }
 
     getPartyUserStories(): void {
         this.partyService.getPartyUserStories(this.partyID).subscribe({
-            next: (response) => {
-                if(response)
-                    this.userStoriesList = response;             
+            next: (userStories) => {
+                if (userStories) {
+                    this.iterableItemsList = userStories.map( (us) => {
+                        return (this.selectedItem && us.id == this.selectedItem.userStory.id) 
+                                    ? { userStory: us, isSelected: true } 
+                                        : { userStory: us, isSelected: false };
+                    })
+
+                    console.log('iterableItemsList', this.iterableItemsList);                 
+                }                   
             },
             error: (apiError) => {
                 this.toast.errorToast({
@@ -57,21 +76,39 @@ export class UserStoriesListComponent implements OnInit {
         })
     }
 
-    resetSelectedUS(): void {
-        this.resetSelectedUserStory.emit();
+    handlePlanningStarted(): void {
+        console.log('selectedItem', this.selectedItem);
+
+        if (this.selectedItem)
+            this.render.removeClass(this.selectedItemHTML, "active");
         
-        if (this.itemSelected)
-            this.render.removeAttribute(this.itemSelected, 'style');
+        this.render.addClass(this.selectedItemHTML, "active");
+    }
+
+    handlePlanningFinished(us: UserStory): void {
+        this.render.removeClass(this.selectedItemHTML, "active");
+    }
+
+    get selectedItem() {
+        return this.iterableItemsList.find((item) => item.isSelected);
+    }
+
+    get selectedItemHTML() {
+        let item = this.selectedItem;
+        if(item) return document.getElementById(`us-${item.userStory.id}`);
+        return undefined;
     }
 
     handleClickItem(us: UserStory): void {
-        if(this.itemSelected)
-            this.render.removeAttribute(this.itemSelected, 'style');
-        
-        this.selectedUS = us;    
-        this.itemSelected = document.getElementById(`us-${us.id}`);     
-        this.render.setAttribute(this.itemSelected, 'style', 'font-weight: bolder')
-        this.selectedUserStory.emit(us);
+        if(this.selectedItem) {
+            this.render.removeAttribute(this.selectedItemHTML, 'style');
+            this.selectedItem.isSelected = false;
+        }
+
+        let itemToSelect = this.iterableItemsList.find((item) => item.userStory.id == us.id);
+        itemToSelect.isSelected = true;
+
+        this.selectedUserStory.emit(itemToSelect.userStory);
     }
 
     handleDeleteUserStory(userStory: UserStory): void {
@@ -96,36 +133,30 @@ export class UserStoriesListComponent implements OnInit {
     }
 
     handleUserStoryCreated(us: UserStory): void {
-        this.userStoriesList.push(us);
-    }
-
-    handlePlanningStarted(): void {
-        let usID = this.selectedUS.id;
-        if(this.itemSelected)
-            this.render.removeClass(this.itemSelected, "active");
-
-        this.itemSelected = document.getElementById(`us-${usID}`);
-        this.render.addClass(this.itemSelected, "active");
-    }
-    
-    handlePlanningFinished(us: UserStory): void {       
-        let usVoted = document.getElementById(`us-${us.id}`);
-        
-        this.resetSelectedUS();
-
-        this.render.removeClass(usVoted, "active");
-        this.render.addClass(usVoted, "disabled");
-    }
-
-    handleAddedUs(newUS): void {
-        this.userStoriesList.push(newUS);
+        this.iterableItemsList.push({ userStory: us, isSelected: false });
     }
 
     deleteUSFromList(usID: number): void {
-        this.userStoriesList.forEach((item, index) => {
-            if (item.id === usID) {
-                this.userStoriesList.splice(index, 1);
+        this.iterableItemsList.forEach((item, index) => {
+            if (item.userStory.id === usID) {
+                this.iterableItemsList.splice(index, 1);
             }
         });
     }
+
+    updateUS(us: UserStory): void {
+        this.updatingUserStory.emit(us);
+    }
+
+    deleteUS(us: UserStory): void {
+        this.deletingUserStory.emit(us);
+    }
+
+    resetSelectedUS(): void {
+        this.resetSelectedUserStory.emit();
+
+        if (this.selectedItem)
+            this.render.removeAttribute(this.selectedItemHTML, 'style');
+    }
+
 }

@@ -26,6 +26,10 @@ li.list-group-item.active {
     font-weight: 100;
 }
 
+li.list-group-item.clicked {
+    font-weight: bolder;
+}
+
 li.list-group-item.disabled {
     background-color: unset;
     color: gray;
@@ -67,4 +71,13 @@ button.large {
 
 .list-container::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, .125);
+}
+
+.story-points {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    color: #8A2387;
+    font-style: italic;
 }
