@@ -66,8 +66,6 @@ export class UserStoriesListComponent implements OnInit {
                                     ? { userStory: us, isSelected: true } 
                                         : { userStory: us, isSelected: false };
                     })
-
-                    console.log('iterableItemsList', this.iterableItemsList);                 
                 }                   
             },
             error: (apiError) => {
@@ -80,8 +78,6 @@ export class UserStoriesListComponent implements OnInit {
     }
 
     handlePlanningStarted(): void {
-        console.log('selectedItem', this.selectedItem);
-
         if (this.selectedItem)
             this.render.removeClass(this.selectedItemHTML, "active");
         

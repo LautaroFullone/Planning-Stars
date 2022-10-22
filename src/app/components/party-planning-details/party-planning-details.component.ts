@@ -39,18 +39,15 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
 
         this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
             next: (data) => {
-                // console.log('plannigConcluded',data)
                 let userStory = data.userStory;
                 this.planningGoing = false;
 
                 this.numberOfUsersSub = this.socketService.getnumberOfConnectedUsersIntoParty().subscribe({
                     next: (numberOfUsers) => {
-                        // console.log('getnumberOfConnectedUsersIntoParty', numberOfUsers);
                         this.numberOfUsersSub.unsubscribe();
 
                         this.votationService.getPlanningDetails(userStory.id, (numberOfUsers-1)).subscribe({
                             next: (details) => {
-                                console.log('getPlanningDetails',details);
                                 
                                 this.planningResults = {
                                     votationsReceived: details.userVotes.length,
@@ -65,7 +62,6 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
                                         user: details.minVote.name,
                                     }
                                 }
-                                // console.log('planningResults', this.planningResults);
                             },
                             error: (apiError) => {
                                 this.toast.errorToast({
