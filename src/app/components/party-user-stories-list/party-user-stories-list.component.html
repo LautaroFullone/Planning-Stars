@@ -35,7 +35,7 @@
                         </div>
                         
                         <ng-template #elseBlock>
-                            <div class="item-icons">
+                            <div class="item-icons" id="actions-{{item.userStory.id}}">
                                 <i class="fa-solid fa-pen-to-square" (click)="updateUS(item.userStory)" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal"></i>
                                 <i class="fa-solid fa-trash" (click)="deleteUS(item.userStory)" data-bs-toggle="modal" data-bs-target="#deleteConfirmation"></i>
                             </div>
