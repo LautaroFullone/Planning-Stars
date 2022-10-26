@@ -1,9 +1,9 @@
-<div class="card">
+<div class="card" (click)="showdata()">
     <div class="card-header text-align-center">
         <i class="fa-solid fa-circle-info"></i> - Planning Details
     </div>
 
-    <ng-template *ngIf="(planningResults != undefined) then dataDetails else message"></ng-template>
+    <ng-template *ngIf="(planningUSResults != undefined) then dataDetails else message"></ng-template>
     
     <ng-template #message>
 
@@ -19,7 +19,7 @@
         <ng-template #message>
             <div class="card-body p-0">
                 <div class="waiting-body text-muted">
-                    <p>Waiting planning end</p>
+                    <p>Waiting planning start/end</p>
                 </div>
             </div>
         </ng-template>
@@ -65,9 +65,9 @@
                     </form>
                 </div>
         
-                <div *ngIf="isOwner" class="all-line details-actions">
+                <div *ngIf="isOwner && planningUSResults.isFirstRound" class="all-line details-actions">
                     <div class="button-container">
-                        <button type="button" class="btn btn-outline-primary">Restart Planning</button>
+                        <button class="btn btn-outline-secondary" (click)="takeFirstStoryPoints(planningUSResults.storyPoints)">Take {{planningUSResults.storyPoints}} SP</button>
                     </div>
                 </div>
         

@@ -36,8 +36,8 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
     listenServerEvents(): void { 
 
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
-            next: (us) => {
-                this.handlePlanningStarted(us);
+            next: (data) => {
+                this.handlePlanningStarted(data.userStory);
             }
         })
 

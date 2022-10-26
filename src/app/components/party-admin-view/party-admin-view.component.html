@@ -43,7 +43,8 @@
             <div class="details">
                 <app-party-planning-details
                     userType="owner"
-                    [selectedUS] ="selectedUS">
+                    [selectedUS] ="selectedUS"
+                    (savedStoryPoints) = "beforeSaveStoryPointsIntoUS($event)">
                 </app-party-planning-details>
             </div>
         </div>

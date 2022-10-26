@@ -54,12 +54,12 @@ export class SocketWebService {
         this.userLogged = undefined;
     }
 
-    planningStarted(us: UserStory){
-        this.socket.emit('planningStarted', { us })
+    planningStarted(us: UserStory, isFirstRound: boolean){
+        this.socket.emit('planningStarted', { us, isFirstRound })
     }
 
-    plannigConcluded(userStory:UserStory, interruptedByOwner: boolean){
-        this.socket.emit('plannigConcluded', { userStory, interruptedByOwner })
+    plannigConcluded(userStory: UserStory, interruptedByOwner: boolean, isFirstRound: boolean){
+        this.socket.emit('plannigConcluded', { userStory, interruptedByOwner, isFirstRound })
     }
 
     getnumberOfConnectedUsersIntoParty() {

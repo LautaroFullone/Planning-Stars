@@ -50,6 +50,10 @@ export class PartyAdminViewComponent implements OnInit {
         this.userStoriesListComponent.getPartyUserStories();
     }
 
+    beforeSaveStoryPointsIntoUS(us: UserStory) {
+        this.userStoriesListComponent.getPartyUserStories()
+    }
+
     beforeDeleteConfimation(userStory: UserStory): void {
         this.userStoriesListComponent.handleDeleteUserStory(userStory);
     }
