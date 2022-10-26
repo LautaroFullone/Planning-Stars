@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiURL: 'http://www.planningstars.com'
+    apiURL: 'https://api-planning-stars.herokuapp.com',
+    serverURL: 'https://server-planning-stars.herokuapp.com'
 };
