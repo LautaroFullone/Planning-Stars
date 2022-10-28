@@ -50,8 +50,9 @@ export class PartyAdminViewComponent implements OnInit {
         this.userStoriesListComponent.getPartyUserStories();
     }
 
-    beforeSaveStoryPointsIntoUS(us: UserStory) {
+    beforeSaveStoryPointsIntoUS(userStoryWithNewSP: UserStory) {  //TODO: instead of reload the us list, add sp to the voted us only (already pass the item via parameter)
         this.userStoriesListComponent.getPartyUserStories()
+        this.selectedUS = userStoryWithNewSP;
     }
 
     beforeDeleteConfimation(userStory: UserStory): void {

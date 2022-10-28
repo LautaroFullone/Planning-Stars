@@ -1,9 +1,15 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
 import { VotationService } from 'src/app/services/votation.service';
+
+export class DetailsData {
+    storyPoints: number;
+    planningData: any;
+    infoToShow: string;
+}
 
 @Component({
     selector: 'app-party-planning-details',
@@ -11,17 +17,20 @@ import { VotationService } from 'src/app/services/votation.service';
     styleUrls: ['./party-planning-details.component.css',
                 '../party-player-view/party-player-view.component.css']
 })
-export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
+export class PartyPlanningDetailsComponent implements OnInit, OnDestroy, OnChanges {
     
     @Input() userType: string;
     @Input() selectedUS: UserStory;
     @Output() savedStoryPoints = new EventEmitter<UserStory>();
 
+    private content = {
+        showPlanningData: 'planning-data',
+        showStoryPoints: 'story-points',
+        showWaitingMessage: 'waiting-message'
+    }
 
-    usPlanning: UserStory
     planningGoing: boolean = false;
-    planningListResults = new Map<number, any>();
-    
+    planningMapResults = new Map<number, DetailsData>();
 
     private planningConcludedSub: Subscription;
     private planningStartedSub: Subscription;
@@ -35,24 +44,41 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
         this.listenServerEvents();
     }
 
+    get showTheStoryPoints() {
+        return (this.selectedUS && this.planningUSResults.infoToShow == this.content.showStoryPoints);
+    }
+
+    get showWaitingMessage() {
+        return (!this.selectedUS || this.planningUSResults.infoToShow == this.content.showWaitingMessage);
+    }
+
+    get showPlanningData() {
+        return (this.selectedUS && this.planningUSResults.infoToShow == this.content.showPlanningData);
+    }
+
+    ngOnChanges(changes: SimpleChanges): void { 
+        if (changes['selectedUS']?.currentValue && !this.planningMapResults.has(this.selectedUS.id)) {
+            let sp = changes['selectedUS'].currentValue.storyPoints;
+            this.planningMapResults.set(this.selectedUS.id, { storyPoints: sp, planningData: null, infoToShow: (sp ? this.content.showStoryPoints : this.content.showWaitingMessage) })
+        }
+    }
+
     ngOnDestroy(): void {
+        this.planningStartedSub.unsubscribe();
         this.planningConcludedSub.unsubscribe();
     }
 
     listenServerEvents(): void { 
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
             next: (data) => {
-                this.usPlanning = data.userStory;
+                let us = data.userStory;
                 this.planningGoing = true;
-
-                if(this.planningUSResults)
-                    this.planningListResults.delete(this.selectedUS.id)
+                this.planningMapResults.get(us.id).infoToShow = this.content.showWaitingMessage;                   
             }
         }) 
 
         this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
             next: (data) => {
-                console.log('PartyPlanningDetailsComponent planningConcludedSub', data)
                 let userStory = data.userStory;
                 let isFirstRound = data.isFirstRound;
                 this.planningGoing = false;
@@ -65,11 +91,9 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
 
                         this.votationService.getPlanningDetails(userStory.id, (numberOfUsers-1), saveStoryPoints).subscribe({
                             next: (details) => {     
-                                console.log('details',details)                          
                                 let planningResults = {
                                     votationsReceived: details.userVotes.length,
                                     votationsLeft: details.usersNotVote,
-                                    storyPoints: details.averageVote,
                                     highVotation: {
                                         value: details.maxVote.vote,
                                         user: details.maxVote.name,
@@ -81,16 +105,15 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
                                     isFirstRound: data.isFirstRound
                                 }
 
-                                this.planningListResults.set(userStory.id, planningResults)
-                                
-                                if(saveStoryPoints) {
-                                    this.savedStoryPoints.emit(userStory);
-                                }
-                                    
+                                let usResults = this.planningUSResults; 
+                                usResults.storyPoints = details.averageVote;
+                                usResults.planningData = planningResults;
+                                usResults.infoToShow = (data.isFirstRound) ? this.content.showPlanningData : this.content.showStoryPoints;
 
-                                    //TODO: CUNADO EL TIEMPO TERMINA / EL ADMIN TOMA LA US HASTA EL MOMENTO, MOSTRAR MENSAJE DE STORY POINTS
-                                    
-                                    
+                                if(saveStoryPoints) {
+                                    this.selectedUS.storyPoints = details.averageVote
+                                    this.savedStoryPoints.emit(this.selectedUS);
+                                }  
                             },
                             error: (apiError) => {
                                 this.toast.errorToast({
@@ -107,12 +130,14 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
     }
 
     takeFirstStoryPoints(storyPoints: number) {
-        console.log('story points', storyPoints)
         this.votationService.saveFinalVotationResult(this.selectedUS.id, storyPoints).subscribe({
             next: (data) => {
-                console.log('saveFinalVotationResult', data);
+                let usResults = this.planningUSResults;
+                usResults.storyPoints = storyPoints;
+                usResults.infoToShow = this.content.showStoryPoints;
+
+                this.selectedUS.storyPoints = storyPoints
                 this.savedStoryPoints.emit(this.selectedUS);
-                //this.selectedUS.storyPoints = storyPoints;
             },
             error: (apiError) => {
                 this.toast.errorToast({
@@ -129,37 +154,29 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy {
     }
 
     get highVotationInfo() {
-        let votation = this.planningListResults.get(this.selectedUS.id).highVotation;
+        let votation = this.planningUSResults.planningData.highVotation;
         return `${votation.user}: ${votation.value} SP` 
     }
 
     get lowVotationInfo() {
-        let votation = this.planningListResults.get(this.selectedUS.id).lowVotation;
+        let votation = this.planningUSResults.planningData.lowVotation;
         return `${votation.user}: ${votation.value} SP`
     }
 
     get storyPointsResult() {
-        return `The session has concluded with ${this.planningListResults.get(this.selectedUS.id).storyPoints} Story Points`
+        return `The session has concluded with ${this.planningUSResults.storyPoints} Story Points`
     }
 
     get votationsReceived() {
-        return `${this.planningListResults.get(this.selectedUS.id).votationsReceived} players`;
+        return `${this.planningUSResults.planningData.votationsReceived} players`;
     }
 
     get votationsLeft() {
-        return `${this.planningListResults.get(this.selectedUS.id).votationsLeft} players`;
-    }
-
-    get usWithStoryPoints() {
-        return (this.isOwner && this.selectedUS && this.selectedUS.storyPoints);
+        return `${this.planningUSResults.planningData.votationsLeft} players`;
     } 
 
     get planningUSResults() {
-        return (this.selectedUS) ? this.planningListResults.get(this.selectedUS.id) : undefined;
-    }
-
-    showdata() {
-        console.group(this.planningUSResults);
+        return (this.selectedUS) ? this.planningMapResults.get(this.selectedUS.id) : undefined;
     }
 
 }

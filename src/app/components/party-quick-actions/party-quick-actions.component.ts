@@ -12,8 +12,7 @@ import { SocketWebService } from 'src/app/services/socket-web.service';
 export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() partyID: string;
-	@Input() selectedUS: UserStory
-	@Output() updatingUserStory = new EventEmitter<any>();
+	@Input() selectedUS: UserStory;
 
 	showButtons = true;
 	votingUS: UserStory;
@@ -30,7 +29,6 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
                 if(data.isFirstRound)
                     this.planningListStatus.set(data.userStory.id, { isFirstRound: false})
                 
-                console.log('QuickActionsComponent planningConcludedSub', data);
                 this.votingUS = undefined
                 this.showButtons = true;      
             }
