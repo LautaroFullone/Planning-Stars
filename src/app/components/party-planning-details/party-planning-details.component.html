@@ -3,7 +3,6 @@
         <i class="fa-solid fa-circle-info"></i> - Planning Details
     </div>
 
-
     <ng-template [ngIf]="showTheStoryPoints">
         <div class="card-body p-0">
             <div class="waiting-body text-muted">
@@ -17,7 +16,15 @@
             <div class="waiting-body text-muted">
                 <p>Waiting planning start/end</p>
             </div>
-        </div>
+        </ng-template>
+        <ng-template #message>
+            <div class="card-body p-0">
+                <div class="waiting-body text-muted">
+                    <p>Waiting planning end</p>
+                </div>
+            </div>
+        </ng-template>
+
     </ng-template>
 
     

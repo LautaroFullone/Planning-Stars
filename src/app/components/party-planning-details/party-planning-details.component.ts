@@ -146,7 +146,6 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy, OnChang
                 })
             } 
         })
-
     }
     
     get isOwner() {
@@ -178,5 +177,9 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy, OnChang
     get planningUSResults() {
         return (this.selectedUS) ? this.planningMapResults.get(this.selectedUS.id) : undefined;
     }
+
+    get usWithStoryPoints() {
+        return (this.isOwner && this.selectedUS && this.selectedUS.storyPoints);
+    } 
 
 }

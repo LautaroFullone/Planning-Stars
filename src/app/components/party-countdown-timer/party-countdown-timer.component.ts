@@ -94,6 +94,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     get secondsValue() {
         return (this.seconds < 10) ? `0${this.seconds}` : this.seconds;
     }
+
     get isUserOwner() {
         return this.userType == 'owner';
     }
