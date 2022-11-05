@@ -26,10 +26,10 @@ export class VotationService {
     }
 
     saveFinalVotationResult(userStoryID: number, storyPoints: number) {
-        return this.http.post<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-result`, storyPoints, this.headers);
+        return this.http.post<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-result/${storyPoints}`, this.headers);
     }
 
-    getPlanningDetails(userStoryID: number, numberOfConnectedUsers: number) {
-        return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-details/${numberOfConnectedUsers}`, this.headers);
+    getPlanningDetails(userStoryID: number, numberOfConnectedUsers: number, saveStoryPoints: boolean) {
+        return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-details/${numberOfConnectedUsers}/${saveStoryPoints}`, this.headers);
     }
 }

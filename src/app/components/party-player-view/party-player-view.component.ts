@@ -34,12 +34,12 @@ export class PartyPlayerViewComponent implements OnInit, OnDestroy {
 
     listenServerEvents() {
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
-            next: (us) => {
-                this.actualUserStory = us;
+            next: (data) => {
+                this.actualUserStory = data.userStory;
                 this.partyPlayerCardsComponent.refreshCards();
                 this.toast.infoToast({
                     title: "It's time to vote",
-                    description: `Votation of item #${us.tag} has started`
+                    description: `Votation of item #${data.userStory.tag} has started`
                 })
             }
         })

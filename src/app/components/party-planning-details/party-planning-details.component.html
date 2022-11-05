@@ -3,32 +3,28 @@
         <i class="fa-solid fa-circle-info"></i> - Planning Details
     </div>
 
-    <ng-template *ngIf="(planningResults != undefined) then dataDetails else message"></ng-template>
-    
-    <ng-template #message>
 
-        <ng-template *ngIf="usWithStoryPoints; then storyPoints else message"></ng-template>
-
-        <ng-template #storyPoints>
-            <div class="card-body p-0">
-                <div class="waiting-body text-muted">
-                    <p> <b>{{selectedUS.storyPoints}} Story Points </b></p>
-                </div>
+    <ng-template [ngIf]="showTheStoryPoints">
+        <div class="card-body p-0">
+            <div class="waiting-body text-muted">
+                <p> <b>{{this.planningMapResults.get(this.selectedUS.id).storyPoints}} Story Points </b></p>
             </div>
-        </ng-template>
-        <ng-template #message>
-            <div class="card-body p-0">
-                <div class="waiting-body text-muted">
-                    <p>Waiting planning end</p>
-                </div>
-            </div>
-        </ng-template>
-
+        </div>
     </ng-template>
 
-    <ng-template #dataDetails>
+    <ng-template [ngIf]="showWaitingMessage">
+        <div class="card-body p-0">
+            <div class="waiting-body text-muted">
+                <p>Waiting planning start/end</p>
+            </div>
+        </div>
+    </ng-template>
+
+    
+
+    <ng-template [ngIf]="showPlanningData">
         <div class="card-body">
-        
+
             <div [ngClass]="isOwner ? 'owner-details-grid' : 'player-details-grid'">
                 <div class="p-1">
                     <form class="form-floating">
@@ -36,43 +32,45 @@
                         <label for="floatingInput">Highest Votation</label>
                     </form>
                 </div>
-        
+
                 <div class="p-1">
                     <form class="form-floating">
                         <input type="text" class="form-control" id="floatingInput" value={{lowVotationInfo}} readonly>
                         <label for="floatingInput">Lowest Votation</label>
                     </form>
                 </div>
-        
+
                 <div class="p-1">
                     <form class="form-floating">
                         <input type="text" class="form-control" id="floatingInput" value={{votationsReceived}} readonly>
                         <label for="floatingInput">Votations received</label>
                     </form>
                 </div>
-        
+
                 <div class="p-1">
                     <form class="form-floating">
-                        <input type="text" class="form-control result" id="floatingInput" value={{votationsLeft}} readonly>
+                        <input type="text" class="form-control result" id="floatingInput" value={{votationsLeft}}
+                            readonly>
                         <label for="floatingInput">Votations left</label>
                     </form>
                 </div>
-        
+
                 <div class="p-1 all-line details-actions">
                     <form class="form-floating">
                         <input type="text" class="form-control" id="floatingInput" value={{storyPointsResult}} readonly>
                         <label for="floatingInput">Planning Result</label>
                     </form>
                 </div>
-        
-                <div *ngIf="isOwner" class="all-line details-actions">
+
+                <div *ngIf="isOwner && planningUSResults.planningData.isFirstRound" class="all-line details-actions">
                     <div class="button-container">
-                        <button type="button" class="btn btn-outline-primary">Restart Planning</button>
+                        <button class="btn btn-outline-secondary" (click)="takeFirstStoryPoints(this.planningMapResults.get(this.selectedUS.id).storyPoints)">
+                            Take {{this.planningMapResults.get(this.selectedUS.id).storyPoints}} SP</button>
                     </div>
                 </div>
-        
+
             </div>
         </div>
-    </ng-template>
-    
+    </ng-template> 
+
 </div>

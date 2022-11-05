@@ -18,6 +18,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     protected seconds: number = 0;
     protected intervalID: any;
     protected usPlanning: UserStory;
+    protected isFirstRound: boolean;
 
     waiting: boolean = true;
     waitingMessage = "Waiting planning start"
@@ -30,6 +31,22 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
 
     ngOnInit(): void {
         this.listenServerEvents();
+    }
+
+    listenServerEvents() {
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (data) => {
+                this.usPlanning = data.userStory;
+                this.isFirstRound = data.isFirstRound;
+                this.startCountDown(data.userStory.timeInSeconds);
+            }
+        })
+        this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
+            next: (data) => {              
+                if (data.interruptedByOwner)
+                    this.stopCountDown(true);
+            }
+        })
     }
 
     ngOnDestroy(){
@@ -56,15 +73,14 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
         }
     }
 
-    stopCountDown() {
+    stopCountDown(comeFromSubscriber: boolean = false) {
         clearInterval(this.intervalID);
         this.intervalID = undefined;
         this.seconds = 0; this.minutes = 0;
-                
-        if(this.userType == 'owner'){
-            this.socketService.plannigConcluded(this.usPlanning, false); 
-        } 
-        
+
+        if(!comeFromSubscriber && this.isUserOwner)
+            this.socketService.plannigConcluded(this.usPlanning, false, this.isFirstRound); 
+         
         this.toast.infoToast({
             title: "Time Out",
             description: `The estimation has been stopped.`
@@ -78,20 +94,8 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     get secondsValue() {
         return (this.seconds < 10) ? `0${this.seconds}` : this.seconds;
     }
-
-    listenServerEvents(){
-        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
-            next: (us) => {
-                this.usPlanning = us;
-                this.startCountDown(us.timeInSeconds);
-            }
-        }) 
-        this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
-            next: (data) => {
-                if(data.interruptedByOwner) 
-                    this.stopCountDown();
-            }
-        }) 
+    get isUserOwner() {
+        return this.userType == 'owner';
     }
 
     removeAllSuscription() {
