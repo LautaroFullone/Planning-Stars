@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" >
     
     <div class="card-header text-align-center">
         <i class="fa-solid fa-screwdriver-wrench"></i> - Actions
@@ -23,7 +23,7 @@
                 <div class="actions-grid">
 
                     <div class="start-section">
-                        <button type="button" [disabled]="!showButtons || votingUS" class="btn btn-outline-primary" (click)="startPlanning()">Start Planning</button>
+                        <button type="button" [disabled]="!showButtons || votingUS" class="btn btn-outline-primary" (click)="startPlanning()">{{initialButtonText}}</button>
                     </div>
                     
                     <div class="end-section" >

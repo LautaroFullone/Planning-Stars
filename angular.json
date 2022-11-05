@@ -107,5 +107,8 @@
       }
     }
   },
-  "defaultProject": "Planning-Stars"
+  "defaultProject": "Planning-Stars",
+  "cli": {
+    "analytics": false
+  }
 }

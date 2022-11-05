@@ -41,10 +41,10 @@ export class UserStoriesListComponent implements OnInit {
 
     listenServerEvents() {
         this.planningStartedSub = this.socketService.planningStarted$.subscribe({
-            next: (us) => {
+            next: (data) => {
                 this.handlePlanningStarted();
 
-                let usActions = document.getElementById(`actions-${us.id}`);
+                let usActions = document.getElementById(`actions-${data.userStory.id}`);
                 this.render.addClass(usActions, "visually-hidden");
             }
         })
