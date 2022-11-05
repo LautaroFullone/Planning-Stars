@@ -45,15 +45,6 @@ export class PartyAdminViewComponent implements OnInit {
         this.userStoryToDelete = us;
     }
 
-    handlePlanningStarted(us): void {
-        this.userStoriesListComponent.handlePlanningStarted();
-        this.partyListPlayersComponent.handlePlanningStarted(us);
-    }
-
-    handlePlanningFinished(data): void {
-        this.userStoriesListComponent.handlePlanningFinished(data.userStory);
-    }
-
     beforeUpdatedAction(): void {  
         this.userStoriesListComponent.resetSelectedUS();
         this.userStoriesListComponent.getPartyUserStories();

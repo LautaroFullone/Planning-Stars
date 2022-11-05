@@ -3,14 +3,27 @@
         <i class="fa-solid fa-circle-info"></i> - Planning Details
     </div>
 
-    <ng-template *ngIf="planningResults != undefined; then dataDetails else waitingMessage"></ng-template>
+    <ng-template *ngIf="(planningResults != undefined) then dataDetails else message"></ng-template>
     
-    <ng-template #waitingMessage>
-        <div class="card-body p-0">
-            <div class="waiting-body text-muted">
-                <p>Waiting planning end</p>
+    <ng-template #message>
+
+        <ng-template *ngIf="usWithStoryPoints; then storyPoints else message"></ng-template>
+
+        <ng-template #storyPoints>
+            <div class="card-body p-0">
+                <div class="waiting-body text-muted">
+                    <p> <b>{{selectedUS.storyPoints}} Story Points </b></p>
+                </div>
             </div>
-        </div>
+        </ng-template>
+        <ng-template #message>
+            <div class="card-body p-0">
+                <div class="waiting-body text-muted">
+                    <p>Waiting planning end</p>
+                </div>
+            </div>
+        </ng-template>
+
     </ng-template>
 
     <ng-template #dataDetails>

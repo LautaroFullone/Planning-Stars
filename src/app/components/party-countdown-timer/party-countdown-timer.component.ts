@@ -23,7 +23,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
     waitingMessage = "Waiting planning start"
 
     private planningStartedSub: Subscription;
-    private planningConcludeSub: Subscription;
+    private planningConcludedSub: Subscription;
    
     constructor(private socketService: SocketWebService,
                 private toast: NotificationService) { }
@@ -86,7 +86,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
                 this.startCountDown(us.timeInSeconds);
             }
         }) 
-        this.planningConcludeSub = this.socketService.plannigConcluded$.subscribe({
+        this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
             next: (data) => {
                 if(data.interruptedByOwner) 
                     this.stopCountDown();
@@ -96,7 +96,7 @@ export class PartyCountdownTimerComponent implements OnInit,OnDestroy {
 
     removeAllSuscription() {
         this.planningStartedSub.unsubscribe();
-        this.planningConcludeSub.unsubscribe();
+        this.planningConcludedSub.unsubscribe();
     }
 
 }

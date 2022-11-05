@@ -29,9 +29,7 @@
             <div class="actions">
                 <app-party-quick-actions
                     [partyID]= "partyID"
-                    [selectedUS] ="selectedUS"
-                    (planningStarted) = "handlePlanningStarted($event)"
-                    (planningFinished) = "handlePlanningFinished($event)">
+                    [selectedUS] ="selectedUS">
                 </app-party-quick-actions>
             </div>
 
@@ -44,7 +42,8 @@
 
             <div class="details">
                 <app-party-planning-details
-                    userType="owner">
+                    userType="owner"
+                    [selectedUS] ="selectedUS">
                 </app-party-planning-details>
             </div>
         </div>

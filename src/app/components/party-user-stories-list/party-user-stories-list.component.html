@@ -4,7 +4,7 @@
         <i class="fa-solid fa-list-check"></i> - User Stories List
     </div>
 
-    <ng-template *ngIf="userStoriesList.length == 0; then thenBlock else elseBlock"></ng-template>
+    <ng-template *ngIf="(iterableItemsList.length == 0); then thenBlock else elseBlock"></ng-template>
     
     <ng-template #thenBlock>
         <div class="card-body p-0">
@@ -23,21 +23,21 @@
             </p>
         
             <div class="list-container">        
-                <ul class="list-group" *ngFor="let us of userStoriesList">
+                <ul class="list-group" *ngFor="let item of iterableItemsList">
         
                     <div class="item-grid">
-                        <li class="list-group-item" [ngClass]="{'disabled': us.storyPoints}" (click)="handleClickItem(us)" id="us-{{us.id}}">
-                            User Story #{{us.tag}}: {{us.name}}
+                        <li class="list-group-item" [ngClass]="{'clicked': item.isSelected, 'disabled': item.userStory.storyPoints}" (click)="handleClickItem(item.userStory)" id="us-{{item.userStory.id}}">
+                            User Story #{{item.userStory.tag}}: {{item.userStory.name}}
                         </li>
 
-                        <div *ngIf="us.storyPoints; else elseBlock">
-                            {{us.storyPoints}} SP
+                        <div *ngIf="item.userStory.storyPoints; else elseBlock" class="story-points">
+                            {{item.userStory.storyPoints}} SP
                         </div>
                         
                         <ng-template #elseBlock>
-                            <div class="item-icons">
-                                <i class="fa-solid fa-pen-to-square" (click)="updateUS(us)" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal"></i>
-                                <i class="fa-solid fa-trash" (click)="deleteUS(us)" data-bs-toggle="modal" data-bs-target="#deleteConfirmation"></i>
+                            <div class="item-icons" id="actions-{{item.userStory.id}}">
+                                <i class="fa-solid fa-pen-to-square" (click)="updateUS(item.userStory)" data-bs-toggle="modal" data-bs-target="#createUpdateUsModal"></i>
+                                <i class="fa-solid fa-trash" (click)="deleteUS(item.userStory)" data-bs-toggle="modal" data-bs-target="#deleteConfirmation"></i>
                             </div>
                         </ng-template>
                     </div>

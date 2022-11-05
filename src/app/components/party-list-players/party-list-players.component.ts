@@ -23,12 +23,37 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
 
     private partyPlayersSub: Subscription;
     private playersVotationSub: Subscription;
+    private planningStartedSub: Subscription;
 
     constructor(private socketService: SocketWebService,
                 private votationService: VotationService) { }
                
     ngOnInit(): void {
         this.listenServerEvents();
+    }
+
+
+    listenServerEvents(): void { 
+
+        this.planningStartedSub = this.socketService.planningStarted$.subscribe({
+            next: (us) => {
+                this.handlePlanningStarted(us);
+            }
+        })
+
+        this.partyPlayersSub = this.socketService.partyPlayers$.subscribe({
+            next: (sockets) => {
+                this.socketsList = sockets;
+            }
+        })
+
+        this.playersVotationSub = this.socketService.playerVotation$.subscribe({  //WHEN USER VOTE
+            next: (votationData) => {
+                //then i retrive from api all votations
+                let userWhoVoted = this.socketsList.find(socket => socket.user.id == votationData.userID);
+                userWhoVoted.votation = votationData.votation;
+            }
+        })  
     }
 
     ngOnDestroy(): void {
@@ -43,28 +68,6 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
     handlePlanningStarted(us: UserStory): void {
         this.votingUS = us;
         this.showIcons = true;
-    }
-
-    listenServerEvents(): void { 
-        this.partyPlayersSub = this.socketService.partyPlayers$.subscribe({
-            next: (sockets) => {
-                this.socketsList = sockets;
-            }
-        })
-
-        this.playersVotationSub = this.socketService.playerVotation$.subscribe({  //WHEN USER VOTE
-            next: (votationData) => {
-                //then i retrive from api all votations
-                let userWhoVoted = this.socketsList.find(socket => socket.user.id == votationData.userID);
-                userWhoVoted.votation = votationData.votation;
-                
-                /*this.votationService.getUserStoryVotations(this.selectedUS.id).subscribe({
-                    next: (usVotations) => {
-                        this.votationsList = usVotations;
-                    }
-                })*/
-            }
-        })  
     }
 
     /*
@@ -83,6 +86,6 @@ export class PartyListPlayersComponent implements OnInit, OnDestroy{
     */
 
     get votationUSIsSelected() {
-        return (this.votingUS && this.votingUS.id == this.selectedUS.id);
+        return (this.votingUS && this.selectedUS && this.votingUS.id == this.selectedUS.id);
     }
 }
