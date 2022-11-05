@@ -111,7 +111,6 @@ export class UserStoriesListComponent implements OnInit {
     }
 
     handleUpdateUserStory(updatedUS: UserStory): void {
-        console.log('handleUpdateUserStory');
         this.getPartyUserStories();
 
         if(updatedUS.id == this.selectedItem.userStory.id) //if the selectedUS was updated, emit again the same item to see the changes in the actualUS component
