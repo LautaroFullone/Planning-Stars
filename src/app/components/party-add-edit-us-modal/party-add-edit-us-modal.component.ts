@@ -13,7 +13,7 @@ export class PartyAddEditUsModalComponent implements OnInit {
 
     @Input() partyID: string;
     @Output() addedUserStory = new EventEmitter<UserStory>();
-    @Output() updatedUserStory = new EventEmitter<any>();
+    @Output() updatedUserStory = new EventEmitter<UserStory>();
 
     private actions = {
         CREATE: 'Create',
@@ -24,7 +24,7 @@ export class PartyAddEditUsModalComponent implements OnInit {
     actionUserStory: UserStory;
 
     userStoryForm = new FormGroup({
-        tag: new FormControl('', [Validators.required, Validators.maxLength(6)]),
+        tag: new FormControl('', [Validators.required, Validators.maxLength(8)]),
         name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
         sprint: new FormControl('', [Validators.required, Validators.maxLength(20)]),
         description: new FormControl('', [Validators.required]),
@@ -72,12 +72,12 @@ export class PartyAddEditUsModalComponent implements OnInit {
             usData.id = this.actionUserStory.id;
 
             this.userStoryService.updateUserStory(this.actionUserStory.id, usData).subscribe({
-                next: (response) => {
-                    this.updatedUserStory.emit();
+                next: (us) => {
+                    this.updatedUserStory.emit(us);
 
                     this.toast.infoToast({
                         title: "User Story Updated",
-                        description: `Item #${response.tag} was successfully updated`
+                        description: `Item #${us.tag} was successfully updated`
                     })
                 },
                 error: (apiError) => {

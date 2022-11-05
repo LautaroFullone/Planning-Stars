@@ -45,9 +45,8 @@ export class PartyAdminViewComponent implements OnInit {
         this.userStoryToDelete = us;
     }
 
-    beforeUpdatedAction(): void {  
-        this.userStoriesListComponent.resetSelectedUS();
-        this.userStoriesListComponent.getPartyUserStories();
+    beforeUpdatedAction(us: UserStory): void {  
+        this.userStoriesListComponent.handleUpdateUserStory(us);
     }
 
     beforeSaveStoryPointsIntoUS(userStoryWithNewSP: UserStory) {  //TODO: instead of reload the us list, add sp to the voted us only (already pass the item via parameter)
