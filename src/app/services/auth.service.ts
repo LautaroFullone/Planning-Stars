@@ -27,20 +27,22 @@ export class AuthService {
         let observable = this.http.post(`${environment.apiURL}/user/login`, userLoginInfo, this.headers);
 
         return observable.pipe(
-            catchError(() => of(false)),
+            catchError((err) => of(err)),
             map(response => {
+                //console.log('auth', response)
                 
-                if(response) {
+                if(response.status != 401) {
                     this.token = response['token'];
                     this.user = response['userDetails'];
 
                     sessionStorage.setItem('token', this.token);
                     sessionStorage.setItem('user-id', this.user.id.toString());
-                    return true;
+                    //return true;
                 } 
-                else {
+                /*else {
                     return false;
-                }
+                }*/
+                return response;
             })
         );
     }

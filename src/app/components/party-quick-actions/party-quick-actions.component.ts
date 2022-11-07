@@ -56,8 +56,8 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
         this.socketService.planningStarted(this.selectedUS, this.usPlanningStatus.isFirstRound);
        
         this.toast.infoToast({
-            title: 'New Item selected',
-            description: 'Players have received the selected US'
+            title: 'New UserStory selected',
+            description: 'Players now can vote the item.'
         })
 	}
 
