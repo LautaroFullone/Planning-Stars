@@ -20,7 +20,7 @@
 
                 <div class="actual-title">   
                     <h5>
-                        <a href="{{selectedUS.fileLink}}" class="link">User Story #{{selectedUS.tag}}: </a>
+                        <a class="link" (click)="goToLink(selectedUS.fileLink)">User Story #{{selectedUS.tag}}: </a>
                         {{selectedUS.name}}
                     </h5>
                 </div>
@@ -43,7 +43,7 @@
                             <b>Work Area: </b> {{selectedUS.workArea}}
                         </div>
                         <div>
-                            <b>Item Link: </b> <a class='link item-link' href="{{selectedUS.fileLink}}">CLICK HERE</a>
+                            <b>Item Link: </b> <a class='link item-link' (click)="goToLink(selectedUS.fileLink)">CLICK HERE</a>
                         </div>
                     </div>
                 </div> 
