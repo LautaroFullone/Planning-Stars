@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { first, Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
+import { VotationService } from 'src/app/services/votation.service';
 
 @Component({
 	selector: 'app-party-quick-actions',
@@ -21,6 +22,7 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
     planningConcludedSub: Subscription;
 
 	constructor(private socketService: SocketWebService,
+                private votationService: VotationService,
                 private toast: NotificationService) { }
                 
 	ngOnInit(): void { 
@@ -51,6 +53,17 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
         
         if (!this.planningListStatus.has(this.selectedUS.id)) {
             this.planningListStatus.set(this.selectedUS.id, { isFirstRound: true })
+        }
+        else{
+            console.log('isRestart',this.selectedUS.id)
+            this.votationService.restartPlanning(this.selectedUS.id).subscribe({
+                next: (response) => {
+                    console.log('votation restarted', response);
+                },
+                error: (apiError) => {
+                    console.log('votation error', apiError);
+                }
+            })
         }
         
         this.socketService.planningStarted(this.selectedUS, this.usPlanningStatus.isFirstRound);
