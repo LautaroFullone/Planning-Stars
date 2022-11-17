@@ -23,4 +23,8 @@ export class ActualUserStoryComponent implements OnInit {
     get isOwner() {
         return this.messageType == 'owner';
     }
+
+    goToLink(url: string) {
+        window.open(url, '_blank');
+    }
 }
