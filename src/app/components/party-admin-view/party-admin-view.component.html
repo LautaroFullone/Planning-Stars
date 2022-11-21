@@ -29,7 +29,8 @@
             <div class="actions">
                 <app-party-quick-actions
                     [partyID]= "partyID"
-                    [selectedUS] ="selectedUS">
+                    [selectedUS] ="selectedUS"
+                    (votationRestarted)= "handleVotationRestarted($event)">
                 </app-party-quick-actions>
             </div>
 

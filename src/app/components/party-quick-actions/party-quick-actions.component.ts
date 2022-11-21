@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
-import { first, Subscription } from 'rxjs';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UserStory } from 'src/app/models/user-story';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SocketWebService } from 'src/app/services/socket-web.service';
@@ -14,11 +14,12 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() partyID: string;
 	@Input() selectedUS: UserStory;
+    @Output() votationRestarted = new EventEmitter<UserStory>();
 
 	showButtons = true;
 	votingUS: UserStory;
 
-    planningListStatus = new Map<number, any>();
+    planningStatusMap = new Map<number, any>();
     planningConcludedSub: Subscription;
 
 	constructor(private socketService: SocketWebService,
@@ -29,7 +30,7 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
         this.planningConcludedSub = this.socketService.plannigConcluded$.subscribe({
             next: (data) => {
                 if(data.isFirstRound)
-                    this.planningListStatus.set(data.userStory.id, { isFirstRound: false})
+                    this.planningStatusMap.set(data.userStory.id, { isFirstRound: false})
                 
                 this.votingUS = undefined
                 this.showButtons = true;      
@@ -51,25 +52,23 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
         this.votingUS = this.selectedUS;
         this.showButtons = false;
         
-        if (!this.planningListStatus.has(this.selectedUS.id)) {
-            this.planningListStatus.set(this.selectedUS.id, { isFirstRound: true })
+        if (!this.planningStatusMap.has(this.selectedUS.id)) {
+            this.planningStatusMap.set(this.selectedUS.id, { isFirstRound: true })
         }
         else{
-            console.log('isRestart',this.selectedUS.id)
             this.votationService.restartPlanning(this.selectedUS.id).subscribe({
-                next: (response) => {
-                    console.log('votation restarted', response);
+                next: (userStory) => {
+                    this.votationRestarted.emit(userStory);
                 },
                 error: (apiError) => {
-                    console.log('votation error', apiError);
+                    console.error('votation error', apiError);
                 }
             })
         }
-        
         this.socketService.planningStarted(this.selectedUS, this.usPlanningStatus.isFirstRound);
-       
+
         this.toast.infoToast({
-            title: 'New UserStory selected',
+            title: 'Votation time started',
             description: 'Players now can vote the item.'
         })
 	}
@@ -77,12 +76,12 @@ export class QuickActionsComponent implements OnInit, OnChanges, OnDestroy {
     finishPlanning(): void {
         this.votingUS = undefined
         this.showButtons = true;
-        let isFirstRound = this.planningListStatus.get(this.selectedUS.id).isFirstRound;
+        let isFirstRound = this.planningStatusMap.get(this.selectedUS.id).isFirstRound;
 		    this.socketService.plannigConcluded(this.selectedUS, true, isFirstRound);
     }
 
     get usPlanningStatus() {
-        return this.planningListStatus.get(this.selectedUS.id);
+        return this.planningStatusMap.get(this.selectedUS.id);
     }
 
     get usWithStoryPoints() {
