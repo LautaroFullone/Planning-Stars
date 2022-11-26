@@ -73,6 +73,10 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy, OnChang
             next: (data) => {
                 let us = data.userStory;
                 this.planningGoing = true;
+
+                if(!this.planningMapResults.has(us.id))
+                    this.planningMapResults.set(us.id, { storyPoints: us.storyPoints, planningData: null, infoToShow: this.content.showWaitingMessage })
+
                 this.planningMapResults.get(us.id).infoToShow = this.content.showWaitingMessage;                   
             }
         }) 
@@ -105,11 +109,13 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy, OnChang
                                     isFirstRound: data.isFirstRound
                                 }
 
-                                let usResults = this.planningUSResults; 
+                                let usResults = this.planningMapResults.get(userStory.id); 
                                 usResults.storyPoints = details.averageVote;
                                 usResults.planningData = planningResults;
                                 usResults.infoToShow = (data.isFirstRound) ? this.content.showPlanningData : this.content.showStoryPoints;
 
+                                this.selectedUS = userStory;
+                                
                                 if(saveStoryPoints) {
                                     this.selectedUS.storyPoints = details.averageVote
                                     this.savedStoryPoints.emit(this.selectedUS);
@@ -163,7 +169,7 @@ export class PartyPlanningDetailsComponent implements OnInit, OnDestroy, OnChang
     }
 
     get storyPointsResult() {
-        return `The session has concluded with ${this.planningUSResults.storyPoints} Story Points`
+        return `The average result was ${this.planningUSResults.storyPoints} story points`
     }
 
     get votationsReceived() {
