@@ -41,15 +41,20 @@ export class PartyAdminViewComponent implements OnInit {
     handleUpdatingUS(us: UserStory): void {
         this.partyAddEditUsModalComponent.initUpdateAction(us);//when user clicks on 'Update' button, is needed to populate all the fields into modal form
     }
+
     handleDeletingUS(us: UserStory): void {
         this.userStoryToDelete = us;
+    }
+
+    handleVotationRestarted(us: UserStory): void {
+        this.partyListPlayersComponent.restartData(us);
     }
 
     beforeUpdatedAction(us: UserStory): void {  
         this.userStoriesListComponent.handleUpdateUserStory(us);
     }
 
-    beforeSaveStoryPointsIntoUS(userStoryWithNewSP: UserStory) {  //TODO: instead of reload the us list, add sp to the voted us only (already pass the item via parameter)
+    beforeSaveStoryPointsIntoUS(userStoryWithNewSP: UserStory): void {  //TODO: instead of reload the us list, add sp to the voted us only (already pass the item via parameter)
         this.userStoriesListComponent.getPartyUserStories()
         this.selectedUS = userStoryWithNewSP;
     }

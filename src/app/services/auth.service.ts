@@ -31,7 +31,7 @@ export class AuthService {
             map(response => {
                 //console.log('auth', response)
                 
-                if(response.status != 401) {
+                if (response.status != 401 && response.status != 403) {
                     this.token = response['token'];
                     this.user = response['userDetails'];
 
@@ -39,9 +39,7 @@ export class AuthService {
                     sessionStorage.setItem('user-id', this.user.id.toString());
                     //return true;
                 } 
-                /*else {
-                    return false;
-                }*/
+
                 return response;
             })
         );

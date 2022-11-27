@@ -55,28 +55,28 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
         let actualUserID = sessionStorage.getItem('user-id');
 
         this.playerJoinSub = this.socketService.playerJoin$.subscribe({
-            next: (user) => {
+            next: (data) => {
 
-                if(user.id == actualUserID) {
+                if (data.user.id == actualUserID) {
                     this.toast.successToast({
                         title: "You are in!",
                         description: `Welcome to the party.`
                     })
                 }
                 else {
-                    this.toast.successToast({
+                    this.toast.infoToast({
                         title: "Player Joined",
-                        description: `${user.name} has just arrived to the party.`
+                        description: `${data.user.name} has just arrived to the party.`
                     })
                 } 
             }
         })
 
         this.playerLeaveSub = this.socketService.playerLeave$.subscribe({
-            next: (response) => {                               
+            next: (data) => {                               
                 this.toast.infoToast({
                     title: "Player Leave",
-                    description: `${response.user.name} has leave the party.`
+                    description: `${data.user.name} has leave the party.`
                 })
             }
         })
@@ -84,15 +84,13 @@ export class PartySwitchComponent implements OnInit, OnDestroy {
         this.adminLeaveSub = this.socketService.adminLeave$.subscribe({
             next: (response) => {
 
-                //TODO: Navigate do not works
-                this.router.navigateByUrl('/dashboard')
-
                 this.toast.infoToast({
                     title: 'Admin left the party',
                     description: 'You just got redirected to dashboard'
                 })
 
                 this.socketService.leaveParty();
+                this.router.navigate(['/dashboard'])
             }
         })
     }

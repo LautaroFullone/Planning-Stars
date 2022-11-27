@@ -11,6 +11,7 @@ div.story-points {
 div.grid-title {
     font-weight: bolder;
     justify-self: center;
+    text-align: center;
 }
 
 .completed-color {
