@@ -67,7 +67,7 @@ export class LoginRegisterComponent implements OnInit{
         this.authService.login(this.userToLogIn).subscribe({
             next: (response) => {
                 
-                if (response.status != 401){
+                if (response.status != 401 && response.status != 403){
                     console.log('login ok', response)
                     if (this.authService.getToken())
                         this.router.navigateByUrl('/dashboard');
