@@ -67,7 +67,8 @@ export class LoginRegisterComponent implements OnInit{
         this.authService.login(this.userToLogIn).subscribe({
             next: (response) => {
                 
-                if(response){
+                if (response.status != 401 && response.status != 403){
+                    console.log('login ok', response)
                     if (this.authService.getToken())
                         this.router.navigateByUrl('/dashboard');
 
@@ -80,8 +81,8 @@ export class LoginRegisterComponent implements OnInit{
                 }
                 else {
                     this.toast.errorToast({
-                        title: 'Login Error',
-                        description: 'There is a problem with the data.'
+                        title: response.error.message,
+                        description: response.error.errors[0]
                     })
                 }
             }

@@ -25,11 +25,15 @@ export class VotationService {
         return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/votations`, this.headers);
     }
 
-    saveFinalVotationResult(userStoryID: number, storyPoints: number) {
+    saveFinalVotationResult(userStoryID: number, storyPoints: number): Observable<any> {
         return this.http.post<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-result/${storyPoints}`, this.headers);
     }
 
-    getPlanningDetails(userStoryID: number, numberOfConnectedUsers: number, saveStoryPoints: boolean) {
+    getPlanningDetails(userStoryID: number, numberOfConnectedUsers: number, saveStoryPoints: boolean): Observable<any> {
         return this.http.get<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-details/${numberOfConnectedUsers}/${saveStoryPoints}`, this.headers);
+    }
+
+    restartPlanning(userStoryID: number): Observable<any> {
+        return this.http.post<any>(`${environment.apiURL}/userStory/${userStoryID}/planning-restart`, this.headers);
     }
 }

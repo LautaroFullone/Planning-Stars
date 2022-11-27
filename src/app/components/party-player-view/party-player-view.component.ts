@@ -39,7 +39,7 @@ export class PartyPlayerViewComponent implements OnInit, OnDestroy {
                 this.partyPlayerCardsComponent.refreshCards();
                 this.toast.infoToast({
                     title: "It's time to vote",
-                    description: `Votation of item #${data.userStory.tag} has started`
+                    description: `Votation of item #${data.userStory.tag} has started.`
                 })
             }
         })

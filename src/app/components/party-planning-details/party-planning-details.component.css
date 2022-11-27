@@ -6,7 +6,7 @@ div.owner-details-grid {
     align-items: center;
 
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 0.25fr) repeat(2, 0.5fr);
+    grid-template-rows: repeat(4, 1fr);
 }
 
 div.player-details-grid {

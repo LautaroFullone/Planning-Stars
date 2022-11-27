@@ -13,7 +13,7 @@
                 <div class="grid-title">STORY POINTS</div>
 
                 <ng-container *ngFor="let socket of socketsList">
-
+                
                     <li>
                         <div class="player-name">
                             {{socket.user.name}} <br>
@@ -33,43 +33,28 @@
 
                     <ng-template #isPlayer>
 
-                        <ng-template *ngIf="votationUSIsSelected; then showIcons else notShowIcons"></ng-template>
+                        <ng-template *ngIf="userHasVotedUS(socket); then check else uncheck"></ng-template>
 
-                        <ng-template #notShowIcons>
-                            <div class="player-status"> - </div>
+                        <ng-template #check>
+                            <div class="player-status completed-color" id="player-{{socket.user.id}}">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+
+                            <div class="story-points">{{userVotationUS(socket)}}</div>
+                        </ng-template>
+
+                        <ng-template #uncheck>
+                            <div class="player-status incompleted-color" id="player-{{socket.user.id}}">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+
                             <div class="story-points"> - </div>
                         </ng-template>
-
-                        <ng-template #showIcons>
-
-                            <ng-template *ngIf="socket.votation.hasVote; then check else uncheck"></ng-template>
-
-                            <ng-template #check>
-                                <div class="player-status completed-color" id="player-{{socket.user.id}}">
-                                    <i class="fa-solid fa-check"></i>
-                                    <!--(has voted)-->
-                                </div>
-
-                                <div class="story-points">{{socket.votation.value}}</div>
-                            </ng-template>
-
-                            <ng-template #uncheck>
-                                <div class="player-status incompleted-color" id="player-{{socket.user.id}}">
-                                    <i class="fa-solid fa-xmark"></i>
-                                    <!--(hasn't voted)-->
-                                </div>
-
-                                <div class="story-points"> - </div>
-                            </ng-template>
-
-                        </ng-template>
-
                     </ng-template>
+
                 </ng-container>
+
             </div>
         </ol>
     </div>
 </div>
-
-
-                

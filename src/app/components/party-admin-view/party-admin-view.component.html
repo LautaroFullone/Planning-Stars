@@ -29,7 +29,8 @@
             <div class="actions">
                 <app-party-quick-actions
                     [partyID]= "partyID"
-                    [selectedUS] ="selectedUS">
+                    [selectedUS] ="selectedUS"
+                    (votationRestarted)= "handleVotationRestarted($event)">
                 </app-party-quick-actions>
             </div>
 
@@ -54,7 +55,7 @@
 <app-party-add-edit-us-modal
     [partyID] = "partyID"
     (addedUserStory) = "handleAddedUs($event)"
-    (updatedUserStory) = "beforeUpdatedAction()">
+    (updatedUserStory) = "beforeUpdatedAction($event)">
 </app-party-add-edit-us-modal>
 
 <app-party-delete-us-conf 
