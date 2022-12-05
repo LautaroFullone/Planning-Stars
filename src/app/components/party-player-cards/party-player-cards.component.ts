@@ -66,9 +66,9 @@ export class PartyPlayerCardsComponent implements OnInit, OnChanges {
             let votation = new Votation;
             votation.userID = sessionStorage.getItem('user-id');
             
-            if (this.cardSelected.innerHTML == '\u221e')
+            if(this.cardSelected.innerHTML == '\u221e')
                 votation.value = '-1';
-            else if (this.cardSelected.innerHTML == '½')
+            else if(this.cardSelected.innerHTML == '½')
                 votation.value = '0.5';
             else
                 votation.value = this.cardSelected.innerHTML;
